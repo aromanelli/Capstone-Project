@@ -50,7 +50,7 @@ public class TestUtil {
         }
 
         try {
-            Thread.sleep(delay); // TODO A better way than just delaying/sleeping?
+            Thread.sleep(delay); // TODO AOR A better way than just delaying/sleeping?
         } catch (InterruptedException ie) {
             Log.w(TAG, "executeShellCommand: ", ie);
         }

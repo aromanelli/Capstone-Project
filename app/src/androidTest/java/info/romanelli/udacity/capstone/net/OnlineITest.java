@@ -23,24 +23,27 @@ public class OnlineITest {
     final static private String TAG = OnlineITest.class.getSimpleName();
 
     @Test
-    public void isOnline() {
+    public void isConnected() {
 
         TestUtil.setNetworkAccess(true);
 
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("info.romanelli.udacity.capstone", appContext.getPackageName());
 
-        Assert.assertTrue(NetUtil.isOnline(appContext));
+        NetUtil.registerForNetworkMonitoring(appContext);
+
+        Assert.assertTrue(NetUtil.isConnected());
 
         TestUtil.setNetworkAccess(false);
 
-        Assert.assertFalse(NetUtil.isOnline(appContext));
+        Assert.assertFalse(NetUtil.isConnected());
 
-        // NetUtil.ifOffline(appContext, null); // TODO CODE THIS!
+        // TODO AOR Code Intent broadcast receiving
+        // NetUtil.ifConnected // TODO AOR CODE THIS!
 
         TestUtil.setNetworkAccess(true);
 
-        Assert.assertTrue(NetUtil.isOnline(appContext));
+        Assert.assertTrue(NetUtil.isConnected());
     }
 
 }
