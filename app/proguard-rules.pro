@@ -20,8 +20,11 @@
 # hide the original source file name.
 #-renamesourcefileattribute SourceFile
 
+-dontskipnonpubliclibraryclassmembers
+
 ##############################################################################
 # Glide ...
+
 -keep public class * implements com.bumptech.glide.module.GlideModule
 -keep public class * extends com.bumptech.glide.module.AppGlideModule
 -keep public enum com.bumptech.glide.load.ImageHeaderParser$** {
@@ -32,4 +35,39 @@
 # If you're targeting any API level less than Android API 27, also include:
 # ```pro
 -dontwarn com.bumptech.glide.load.resource.bitmap.VideoDecoder
+##############################################################################
+
+##############################################################################
+# Retrofit & Gson ...
+# https://stackoverflow.com/a/24178851/435519
+
+# OkHttp3  https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-okhttp3.pro
+-keepattributes Signature
+-keepattributes *Annotation*
+-keep class okhttp3.** { *; }
+-keep interface okhttp3.** { *; }
+-dontwarn okhttp3.**
+
+#-dontwarn okio.**
+#-dontwarn com.squareup.okhttp3.**
+#-dontwarn javax.annotation.Nullable
+#-dontwarn javax.annotation.ParametersAreNonnullByDefault
+
+# Retrofit2  https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-square-retrofit2.pro
+-dontwarn retrofit2.**
+-keep class retrofit2.** { *; }
+-keepattributes Signature
+-keepattributes Exceptions
+-keepclasseswithmembers class * {
+    @retrofit2.http.* <methods>;
+}
+
+# Gson  https://github.com/krschultz/android-proguard-snippets/blob/master/libraries/proguard-gson.pro
+-keepattributes Signature
+-keepattributes *Annotation*
+-keepattributes EnclosingMethod
+-keep class sun.misc.Unsafe { *; }
+-keep class com.google.gson.stream.** { *; }
+# Your package paths where your gson models are stored ...
+-keep class info.romanelli.udacity.capstone.net.reddit.subreddits.model.** { *; }
 ##############################################################################
