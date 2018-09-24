@@ -11,13 +11,34 @@ android {
         testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
     }
     buildTypes {
-        release {
+        debug {
             minifyEnabled false
+            useProguard false
+
+            // Reddit Client/App id ...
+            buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
+            resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
+            // Reddit Client/App name ...
+            buildConfigField 'String', "Reddit_App_Name_Capstone", Reddit_App_Name_Capstone
+            resValue 'string', "reddit_app_name_capstone", Reddit_App_Name_Capstone
+            // Reddit Client/App redirect uri ...
+            buildConfigField 'String', "Reddit_Redirect_URI_Capstone", Reddit_Redirect_URI_Capstone
+            resValue 'string', "reddit_redirect_uri_capstone", Reddit_Redirect_URI_Capstone
+        }
+        release {
+            minifyEnabled true
+            useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
             // Reddit Client/App id ...
-            buildConfigField 'String', "Reddit_Client_Id", Reddit_Client_Id
-            resValue 'string', "reddit_client_id", Reddit_Client_Id
+            buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
+            resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
+            // Reddit Client/App name ...
+            buildConfigField 'String', "Reddit_App_Name_Capstone", Reddit_App_Name_Capstone
+            resValue 'string', "reddit_app_name_capstone", Reddit_App_Name_Capstone
+            // Reddit Client/App redirect uri ...
+            buildConfigField 'String', "Reddit_Redirect_URI_Capstone", Reddit_Redirect_URI_Capstone
+            resValue 'string', "reddit_redirect_uri_capstone", Reddit_Redirect_URI_Capstone
         }
     }
     compileOptions {
@@ -37,6 +58,7 @@ dependencies {
     //////////////////////////////////////////////////////////////////////////////////////
     implementation 'com.squareup.retrofit2:retrofit:2.4.0'
     implementation 'com.squareup.retrofit2:converter-gson:2.4.0' /* :latest.version */
+    implementation 'com.squareup.okhttp3:logging-interceptor:3.8.0'
     //////////////////////////////////////////////////////////////////////////////////////
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
