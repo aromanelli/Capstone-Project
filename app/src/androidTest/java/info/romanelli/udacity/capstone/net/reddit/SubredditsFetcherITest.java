@@ -3,6 +3,7 @@ package info.romanelli.udacity.capstone.net.reddit;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.support.test.runner.AndroidJUnit4;
+import android.util.Log;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -11,6 +12,8 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import info.romanelli.udacity.capstone.TestUtil;
+import info.romanelli.udacity.capstone.net.NetUtil;
+import info.romanelli.udacity.capstone.net.reddit.oauth.AuthStateManager;
 import info.romanelli.udacity.capstone.net.reddit.subreddits.SubredditsFetcher;
 import info.romanelli.udacity.capstone.net.reddit.subreddits.model.Subreddits;
 
@@ -34,35 +37,55 @@ public class SubredditsFetcherITest {
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("info.romanelli.udacity.capstone", appContext.getPackageName());
 
+        NetUtil.registerForNetworkMonitoring(appContext);
+        Assert.assertTrue(NetUtil.isConnected());
+
         final AtomicBoolean flag = new AtomicBoolean(false);
         try {
 
+            Log.d(TAG, "fetchSubreddits: isAuthorized? " + AuthStateManager.$(appContext).getAuthState().isAuthorized());
+
             SubredditsFetcher.fetchSubscribed(
+                    appContext,
                     new SubredditsFetcher.Listener() {
                         @Override
-                        public void fetched(Subreddits subbreddits) {
-                            System.out.println(subbreddits);
+                        public void fetched(Subreddits subreddits) {
+                            int size = 0;
+                            if (subreddits != null && subreddits.getData() != null && subreddits.getData().getSubreddits() != null) {
+                                Log.d(TAG, "fetched: Number of subreddits: " + subreddits.getData().getSubreddits().size());
+                                size = subreddits.getData().getSubreddits().size();
+                                subreddits.getData().getSubreddits().forEach(subreddit -> {
+                                    if (subreddit.getData() != null) {
+                                        Log.d(TAG, "accept: fetched Subreddit: " + subreddit.getData().getTitle());
+                                    } else {
+                                        Log.d(TAG, "accept: fetched Subreddit: UNKNOWN");
+                                    }
+                                });
+                            } else {
+                                Log.d(TAG, "fetched: Number of subreddits: 0");
+                            }
                             flag.set(true);
+                            Assert.assertTrue(size > 0);
                         }
-
                         @Override
                         public void failed(Throwable t) {
-                            System.err.println(t);
+                            Log.e(TAG, "failed: ", t);
                             flag.set(true);
                             Assert.fail(t.getLocalizedMessage());
                         }
                     }
             );
 
-            int waitcounter = 0;
+            int waitCounter = 0;
             while (!flag.get()) {
-                Thread.sleep(125);
-                waitcounter++;
-                if (waitcounter > 80) { // 125 * 80 = 10,000ms == 10 seconds
+                Thread.sleep(250);
+                waitCounter++;
+                if (waitCounter > 160) { // 250 * 160 = 40,000ms == 40 seconds
                     Assert.fail("Interrupted while waiting for response back!");
                     break;
                 }
             }
+
         } catch (Throwable t) {
             Assert.fail(t.getLocalizedMessage());
         }

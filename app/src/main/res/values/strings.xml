@@ -1,4 +1,13 @@
 <resources>
     <string name="app_name">Capstone</string>
+
+    <string name="reddit_app_name">Udacity Capstone Reddit Viewer</string>
+    <string name="reddit_about_url">http://romanelli.info/capstone/about</string>
+    <string name="reddit_redirect_uri_scheme">http</string>
+    <string name="reddit_redirect_uri_host">romanelli.info</string>
+    <string name="reddit_redirect_uri_path">/capstone/redirect</string>
+
     <string name="msg_offline">Offline</string>
+    <string name="title_post_list">Posts</string>
+    <string name="title_post_detail">Post Detail</string>
 </resources>
