@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone.reddit.data;
+package info.romanelli.udacity.capstone.reddit.data.net;
 
 import com.google.gson.GsonBuilder;
 

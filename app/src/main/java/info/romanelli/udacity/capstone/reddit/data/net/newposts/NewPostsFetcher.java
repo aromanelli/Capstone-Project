@@ -3,7 +3,7 @@ package info.romanelli.udacity.capstone.reddit.data.net.newposts;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import info.romanelli.udacity.capstone.reddit.data.AbstractRedditFetcher;
+import info.romanelli.udacity.capstone.reddit.data.net.AbstractRedditFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPosts;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.reddit.data.util.NetUtil;
