@@ -51,15 +51,15 @@ public class Subreddit {
         return this;
     }
 
-    public SubredditData getData() {
+    public SubredditData getSubredditData() {
         return data;
     }
 
-    public void setData(SubredditData data) {
+    public void setSubredditData(SubredditData data) {
         this.data = data;
     }
 
-    public Subreddit withData(SubredditData data) {
+    public Subreddit withSubredditData(SubredditData data) {
         this.data = data;
         return this;
     }

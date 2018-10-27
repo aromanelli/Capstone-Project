@@ -55,12 +55,12 @@ public class SubredditsFetcherITest {
                         @Override
                         public void fetched(Subreddits subreddits) {
                             int size = 0;
-                            if (subreddits != null && subreddits.getData() != null && subreddits.getData().getSubreddits() != null) {
-                                Log.d(TAG, "fetched: Number of subreddits: " + subreddits.getData().getSubreddits().size());
-                                size = subreddits.getData().getSubreddits().size();
-                                subreddits.getData().getSubreddits().forEach(subreddit -> {
-                                    if (subreddit.getData() != null) {
-                                        Log.d(TAG, "accept: fetched Subreddit: " + subreddit.getData().getTitle());
+                            if (subreddits != null && subreddits.getSubredditsData() != null && subreddits.getSubredditsData().getSubreddits() != null) {
+                                Log.d(TAG, "fetched: Number of subreddits: " + subreddits.getSubredditsData().getSubreddits().size());
+                                size = subreddits.getSubredditsData().getSubreddits().size();
+                                subreddits.getSubredditsData().getSubreddits().forEach(subreddit -> {
+                                    if (subreddit.getSubredditData() != null) {
+                                        Log.d(TAG, "accept: fetched Subreddit: " + subreddit.getSubredditData().getTitle());
                                     } else {
                                         Log.d(TAG, "accept: fetched Subreddit: UNKNOWN");
                                     }
