@@ -21,12 +21,14 @@ import java.util.AbstractMap.SimpleEntry;
 import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
-import info.romanelli.udacity.capstone.AppExecutors;
 import info.romanelli.udacity.capstone.BuildConfig;
+import info.romanelli.udacity.capstone.net.reddit.util.AppExecutors;
 
 public class RedditAuthManager {
 
     final static private String TAG = RedditAuthManager.class.getSimpleName();
+
+    final static public int RC_AUTH = 200;
 
     final static public String STATE = "info.romanelli.udacity.capstone";
 
@@ -209,6 +211,14 @@ public class RedditAuthManager {
             AuthorizationService authService = null;
             try {
                 authService = new AuthorizationService(context);
+                /*
+                Note that performActionWithFreshTokens can fail with
+                    AuthorizationException: {"type":1,"code":1007}
+                        at net.openid.appauth.AuthState.performActionWithFreshTokens(AuthState.java:541)
+                    Caused by: java.lang.IllegalStateException: No refresh token available and token have expired
+                        at net.openid.appauth.AuthState.performActionWithFreshTokens(AuthState.java:541) 
+                When this happens, the XXXFetcher.Listener.failed(Throwable t) will get called.
+                 */
                 AuthStateManager.$(context).getAuthState().performActionWithFreshTokens(
                         authService,
                         new ClientSecretBasic( BuildConfig.Reddit_Client_Secret_Capstone ),

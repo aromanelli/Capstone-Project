@@ -3,10 +3,10 @@ package info.romanelli.udacity.capstone.net.reddit.subreddits;
 import android.content.Context;
 import android.support.annotation.NonNull;
 
-import info.romanelli.udacity.capstone.net.NetUtil;
 import info.romanelli.udacity.capstone.net.reddit.AbstractRedditFetcher;
 import info.romanelli.udacity.capstone.net.reddit.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.net.reddit.subreddits.model.Subreddits;
+import info.romanelli.udacity.capstone.net.reddit.util.NetUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.GET;

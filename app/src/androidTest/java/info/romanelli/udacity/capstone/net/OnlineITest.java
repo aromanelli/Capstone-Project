@@ -9,6 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import info.romanelli.udacity.capstone.TestUtil;
+import info.romanelli.udacity.capstone.net.reddit.util.NetUtil;
 
 import static org.junit.Assert.assertEquals;
 

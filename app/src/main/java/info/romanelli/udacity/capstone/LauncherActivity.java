@@ -10,11 +10,11 @@ import net.openid.appauth.AuthorizationResponse;
 
 import info.romanelli.udacity.capstone.net.reddit.oauth.RedditAuthManager;
 
+import static info.romanelli.udacity.capstone.net.reddit.oauth.RedditAuthManager.RC_AUTH;
+
 public class LauncherActivity extends AppCompatActivity {
 
     final static private String TAG = LauncherActivity.class.getSimpleName();
-
-    final static public int RC_AUTH = 200;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

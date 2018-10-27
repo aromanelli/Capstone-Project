@@ -12,10 +12,11 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import info.romanelli.udacity.capstone.TestUtil;
-import info.romanelli.udacity.capstone.net.NetUtil;
 import info.romanelli.udacity.capstone.net.reddit.oauth.AuthStateManager;
+import info.romanelli.udacity.capstone.net.reddit.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.net.reddit.subreddits.SubredditsFetcher;
 import info.romanelli.udacity.capstone.net.reddit.subreddits.model.Subreddits;
+import info.romanelli.udacity.capstone.net.reddit.util.NetUtil;
 
 import static org.junit.Assert.assertEquals;
 
@@ -39,6 +40,9 @@ public class SubredditsFetcherITest {
 
         NetUtil.registerForNetworkMonitoring(appContext);
         Assert.assertTrue(NetUtil.isConnected());
+
+        // If below fails, try running LauncherActivity to authorize app by user!
+        Assert.assertTrue(RedditAuthManager.isAuthorized(appContext));
 
         final AtomicBoolean flag = new AtomicBoolean(false);
         try {

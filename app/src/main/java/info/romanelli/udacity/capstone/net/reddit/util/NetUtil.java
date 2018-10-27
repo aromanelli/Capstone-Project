@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone.net;
+package info.romanelli.udacity.capstone.net.reddit.util;
 
 import android.content.Context;
 import android.content.Intent;

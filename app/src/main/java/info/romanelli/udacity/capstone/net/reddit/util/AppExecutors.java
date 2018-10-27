@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone;
+package info.romanelli.udacity.capstone.net.reddit.util;
 
 import android.os.Handler;
 import android.os.Looper;
