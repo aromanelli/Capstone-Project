@@ -8,9 +8,9 @@ import android.util.Log;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
 
-import info.romanelli.udacity.capstone.net.reddit.oauth.RedditAuthManager;
+import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 
-import static info.romanelli.udacity.capstone.net.reddit.oauth.RedditAuthManager.RC_AUTH;
+import static info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager.RC_AUTH;
 
 public class LauncherActivity extends AppCompatActivity {
 
