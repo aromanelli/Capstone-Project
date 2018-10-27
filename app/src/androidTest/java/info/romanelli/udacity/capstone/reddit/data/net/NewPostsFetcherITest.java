@@ -56,15 +56,15 @@ public class NewPostsFetcherITest {
                         @Override
                         public void fetched(NewPosts newposts) {
                             int size = 0;
-                            if (newposts != null && newposts.getData() != null && newposts.getData().getChildren() != null) {
-                                Log.d(TAG, "fetched: Number of newposts: " + newposts.getData().getChildren().size());
-                                size = newposts.getData().getChildren().size();
-                                newposts.getData().getChildren().forEach(newpost -> {
-                                    if (newpost.getData() != null) {
-                                        Log.d(TAG, "accept: fetched newpost 1: " + newpost.getData().getTitle());
+                            if (newposts != null && newposts.getNewPostsData() != null && newposts.getNewPostsData().getNewPosts() != null) {
+                                Log.d(TAG, "fetched: Number of newposts: " + newposts.getNewPostsData().getNewPosts().size());
+                                size = newposts.getNewPostsData().getNewPosts().size();
+                                newposts.getNewPostsData().getNewPosts().forEach(newpost -> {
+                                    if (newpost.getNewPostData() != null) {
+                                        Log.d(TAG, "accept: fetched newpost 1: " + newpost.getNewPostData().getTitle());
                                         //////////////////////////////////////////////////
                                         // Field 'edited' can be either a boolean or double!
-                                        Object edited = newpost.getData().getEdited();
+                                        Object edited = newpost.getNewPostData().getEdited();
                                         String className = ((edited != null) ? edited.getClass().getSimpleName() : "null");
                                         //////////////////////////////////////////////////
                                         Log.d(TAG, "accept: fetched newpost 2: " + edited + "|" + className);

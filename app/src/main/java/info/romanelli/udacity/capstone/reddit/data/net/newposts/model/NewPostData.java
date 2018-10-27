@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data_ {
+public class NewPostData {
 
     @SerializedName("approved_at_utc")
     @Expose
@@ -38,7 +38,7 @@ public class Data_ {
     private String title;
     @SerializedName("link_flair_richtext")
     @Expose
-    private List<Object> linkFlairRichtext = new ArrayList<Object>();
+    private List<Object> linkFlairRichtext = new ArrayList<>();
     @SerializedName("subreddit_name_prefixed")
     @Expose
     private String subredditNamePrefixed;
@@ -83,7 +83,7 @@ public class Data_ {
     private String domain;
     @SerializedName("media_embed")
     @Expose
-    private MediaEmbed mediaEmbed;
+    private NewPostDataMediaEmbed newPostDataMediaEmbed;
     @SerializedName("thumbnail_width")
     @Expose
     private Object thumbnailWidth;
@@ -95,7 +95,7 @@ public class Data_ {
     private boolean isOriginalContent;
     @SerializedName("user_reports")
     @Expose
-    private List<Object> userReports = new ArrayList<Object>();
+    private List<Object> userReports = new ArrayList<>();
     @SerializedName("secure_media")
     @Expose
     private Object secureMedia;
@@ -110,7 +110,7 @@ public class Data_ {
     private Object category;
     @SerializedName("secure_media_embed")
     @Expose
-    private SecureMediaEmbed secureMediaEmbed;
+    private NewPostDataSecureMediaEmbed newPostDataSecureMediaEmbed;
     @SerializedName("link_flair_text")
     @Expose
     private Object linkFlairText;
@@ -136,10 +136,10 @@ public class Data_ {
     private Object authorFlairCssClass;
     @SerializedName("author_flair_richtext")
     @Expose
-    private List<Object> authorFlairRichtext = new ArrayList<Object>();
+    private List<Object> authorFlairRichtext = new ArrayList<>();
     @SerializedName("gildings")
     @Expose
-    private Gildings gildings;
+    private NewPostDataGildings newPostDataGildings;
     @SerializedName("post_hint")
     @Expose
     private String postHint;
@@ -202,7 +202,7 @@ public class Data_ {
     private boolean over18;
     @SerializedName("preview")
     @Expose
-    private Preview preview;
+    private NewPostDataPreview newPostDataPreview;
     @SerializedName("media_only")
     @Expose
     private boolean mediaOnly;
@@ -268,7 +268,7 @@ public class Data_ {
     private String whitelistStatus;
     @SerializedName("mod_reports")
     @Expose
-    private List<Object> modReports = new ArrayList<Object>();
+    private List<Object> modReports = new ArrayList<>();
     @SerializedName("author_patreon_flair")
     @Expose
     private boolean authorPatreonFlair;
@@ -304,7 +304,7 @@ public class Data_ {
      * No args constructor for use in serialization
      * 
      */
-    public Data_() {
+    public NewPostData() {
     }
 
     /**
@@ -317,7 +317,7 @@ public class Data_ {
      * @param subredditId
      * @param authorFlairType
      * @param authorFlairCssClass
-     * @param secureMediaEmbed
+     * @param newPostDataSecureMediaEmbed
      * @param modReports
      * @param clicked
      * @param numComments
@@ -340,7 +340,7 @@ public class Data_ {
      * @param noFollow
      * @param saved
      * @param distinguished
-     * @param mediaEmbed
+     * @param newPostDataMediaEmbed
      * @param linkFlairTextColor
      * @param url
      * @param authorFlairText
@@ -351,9 +351,9 @@ public class Data_ {
      * @param parentWhitelistStatus
      * @param thumbnail
      * @param permalink
-     * @param preview
+     * @param newPostDataPreview
      * @param likes
-     * @param gildings
+     * @param newPostDataGildings
      * @param isRedditMediaDomain
      * @param locked
      * @param thumbnailWidth
@@ -406,7 +406,7 @@ public class Data_ {
      * @param selftext
      * @param bannedAtUtc
      */
-    public Data_(Object approvedAtUtc, String subreddit, String selftext, String authorFullname, boolean saved, Object modReasonTitle, int gilded, boolean clicked, String title, List<Object> linkFlairRichtext, String subredditNamePrefixed, boolean hidden, int pwls, Object linkFlairCssClass, int downs, Object thumbnailHeight, boolean hideScore, String name, boolean quarantine, String linkFlairTextColor, Object authorFlairBackgroundColor, String subredditType, int ups, String domain, MediaEmbed mediaEmbed, Object thumbnailWidth, Object authorFlairTemplateId, boolean isOriginalContent, List<Object> userReports, Object secureMedia, boolean isRedditMediaDomain, boolean isMeta, Object category, SecureMediaEmbed secureMediaEmbed, Object linkFlairText, boolean canModPost, int score, Object approvedBy, String thumbnail, Object edited, Object authorFlairCssClass, List<Object> authorFlairRichtext, Gildings gildings, String postHint, Object contentCategories, boolean isSelf, Object modNote, double created, String linkFlairType, int wls, Object bannedBy, String authorFlairType, boolean contestMode, String selftextHtml, Object likes, Object suggestedSort, Object bannedAtUtc, Object viewCount, boolean archived, boolean noFollow, boolean isCrosspostable, boolean pinned, boolean over18, Preview preview, boolean mediaOnly, Object linkFlairTemplateId, boolean canGild, boolean spoiler, boolean locked, Object authorFlairText, boolean visited, Object numReports, Object distinguished, String subredditId, Object modReasonBy, Object removalReason, String linkFlairBackgroundColor, String id, boolean isRobotIndexable, Object reportReasons, String author, int numCrossposts, int numComments, boolean sendReplies, String whitelistStatus, List<Object> modReports, boolean authorPatreonFlair, Object authorFlairTextColor, String permalink, String parentWhitelistStatus, boolean stickied, String url, int subredditSubscribers, double createdUtc, Object media, boolean isVideo) {
+    public NewPostData(Object approvedAtUtc, String subreddit, String selftext, String authorFullname, boolean saved, Object modReasonTitle, int gilded, boolean clicked, String title, List<Object> linkFlairRichtext, String subredditNamePrefixed, boolean hidden, int pwls, Object linkFlairCssClass, int downs, Object thumbnailHeight, boolean hideScore, String name, boolean quarantine, String linkFlairTextColor, Object authorFlairBackgroundColor, String subredditType, int ups, String domain, NewPostDataMediaEmbed newPostDataMediaEmbed, Object thumbnailWidth, Object authorFlairTemplateId, boolean isOriginalContent, List<Object> userReports, Object secureMedia, boolean isRedditMediaDomain, boolean isMeta, Object category, NewPostDataSecureMediaEmbed newPostDataSecureMediaEmbed, Object linkFlairText, boolean canModPost, int score, Object approvedBy, String thumbnail, Object edited, Object authorFlairCssClass, List<Object> authorFlairRichtext, NewPostDataGildings newPostDataGildings, String postHint, Object contentCategories, boolean isSelf, Object modNote, double created, String linkFlairType, int wls, Object bannedBy, String authorFlairType, boolean contestMode, String selftextHtml, Object likes, Object suggestedSort, Object bannedAtUtc, Object viewCount, boolean archived, boolean noFollow, boolean isCrosspostable, boolean pinned, boolean over18, NewPostDataPreview newPostDataPreview, boolean mediaOnly, Object linkFlairTemplateId, boolean canGild, boolean spoiler, boolean locked, Object authorFlairText, boolean visited, Object numReports, Object distinguished, String subredditId, Object modReasonBy, Object removalReason, String linkFlairBackgroundColor, String id, boolean isRobotIndexable, Object reportReasons, String author, int numCrossposts, int numComments, boolean sendReplies, String whitelistStatus, List<Object> modReports, boolean authorPatreonFlair, Object authorFlairTextColor, String permalink, String parentWhitelistStatus, boolean stickied, String url, int subredditSubscribers, double createdUtc, Object media, boolean isVideo) {
         super();
         this.approvedAtUtc = approvedAtUtc;
         this.subreddit = subreddit;
@@ -432,7 +432,7 @@ public class Data_ {
         this.subredditType = subredditType;
         this.ups = ups;
         this.domain = domain;
-        this.mediaEmbed = mediaEmbed;
+        this.newPostDataMediaEmbed = newPostDataMediaEmbed;
         this.thumbnailWidth = thumbnailWidth;
         this.authorFlairTemplateId = authorFlairTemplateId;
         this.isOriginalContent = isOriginalContent;
@@ -441,7 +441,7 @@ public class Data_ {
         this.isRedditMediaDomain = isRedditMediaDomain;
         this.isMeta = isMeta;
         this.category = category;
-        this.secureMediaEmbed = secureMediaEmbed;
+        this.newPostDataSecureMediaEmbed = newPostDataSecureMediaEmbed;
         this.linkFlairText = linkFlairText;
         this.canModPost = canModPost;
         this.score = score;
@@ -450,7 +450,7 @@ public class Data_ {
         this.edited = edited;
         this.authorFlairCssClass = authorFlairCssClass;
         this.authorFlairRichtext = authorFlairRichtext;
-        this.gildings = gildings;
+        this.newPostDataGildings = newPostDataGildings;
         this.postHint = postHint;
         this.contentCategories = contentCategories;
         this.isSelf = isSelf;
@@ -471,7 +471,7 @@ public class Data_ {
         this.isCrosspostable = isCrosspostable;
         this.pinned = pinned;
         this.over18 = over18;
-        this.preview = preview;
+        this.newPostDataPreview = newPostDataPreview;
         this.mediaOnly = mediaOnly;
         this.linkFlairTemplateId = linkFlairTemplateId;
         this.canGild = canGild;
@@ -514,7 +514,7 @@ public class Data_ {
         this.approvedAtUtc = approvedAtUtc;
     }
 
-    public Data_ withApprovedAtUtc(Object approvedAtUtc) {
+    public NewPostData withApprovedAtUtc(Object approvedAtUtc) {
         this.approvedAtUtc = approvedAtUtc;
         return this;
     }
@@ -527,7 +527,7 @@ public class Data_ {
         this.subreddit = subreddit;
     }
 
-    public Data_ withSubreddit(String subreddit) {
+    public NewPostData withSubreddit(String subreddit) {
         this.subreddit = subreddit;
         return this;
     }
@@ -540,7 +540,7 @@ public class Data_ {
         this.selftext = selftext;
     }
 
-    public Data_ withSelftext(String selftext) {
+    public NewPostData withSelftext(String selftext) {
         this.selftext = selftext;
         return this;
     }
@@ -553,7 +553,7 @@ public class Data_ {
         this.authorFullname = authorFullname;
     }
 
-    public Data_ withAuthorFullname(String authorFullname) {
+    public NewPostData withAuthorFullname(String authorFullname) {
         this.authorFullname = authorFullname;
         return this;
     }
@@ -566,7 +566,7 @@ public class Data_ {
         this.saved = saved;
     }
 
-    public Data_ withSaved(boolean saved) {
+    public NewPostData withSaved(boolean saved) {
         this.saved = saved;
         return this;
     }
@@ -579,7 +579,7 @@ public class Data_ {
         this.modReasonTitle = modReasonTitle;
     }
 
-    public Data_ withModReasonTitle(Object modReasonTitle) {
+    public NewPostData withModReasonTitle(Object modReasonTitle) {
         this.modReasonTitle = modReasonTitle;
         return this;
     }
@@ -592,7 +592,7 @@ public class Data_ {
         this.gilded = gilded;
     }
 
-    public Data_ withGilded(int gilded) {
+    public NewPostData withNewPostDataGilded(int gilded) {
         this.gilded = gilded;
         return this;
     }
@@ -605,7 +605,7 @@ public class Data_ {
         this.clicked = clicked;
     }
 
-    public Data_ withClicked(boolean clicked) {
+    public NewPostData withClicked(boolean clicked) {
         this.clicked = clicked;
         return this;
     }
@@ -618,7 +618,7 @@ public class Data_ {
         this.title = title;
     }
 
-    public Data_ withTitle(String title) {
+    public NewPostData withTitle(String title) {
         this.title = title;
         return this;
     }
@@ -631,7 +631,7 @@ public class Data_ {
         this.linkFlairRichtext = linkFlairRichtext;
     }
 
-    public Data_ withLinkFlairRichtext(List<Object> linkFlairRichtext) {
+    public NewPostData withLinkFlairRichtext(List<Object> linkFlairRichtext) {
         this.linkFlairRichtext = linkFlairRichtext;
         return this;
     }
@@ -644,7 +644,7 @@ public class Data_ {
         this.subredditNamePrefixed = subredditNamePrefixed;
     }
 
-    public Data_ withSubredditNamePrefixed(String subredditNamePrefixed) {
+    public NewPostData withSubredditNamePrefixed(String subredditNamePrefixed) {
         this.subredditNamePrefixed = subredditNamePrefixed;
         return this;
     }
@@ -657,7 +657,7 @@ public class Data_ {
         this.hidden = hidden;
     }
 
-    public Data_ withHidden(boolean hidden) {
+    public NewPostData withHidden(boolean hidden) {
         this.hidden = hidden;
         return this;
     }
@@ -670,7 +670,7 @@ public class Data_ {
         this.pwls = pwls;
     }
 
-    public Data_ withPwls(int pwls) {
+    public NewPostData withPwls(int pwls) {
         this.pwls = pwls;
         return this;
     }
@@ -683,7 +683,7 @@ public class Data_ {
         this.linkFlairCssClass = linkFlairCssClass;
     }
 
-    public Data_ withLinkFlairCssClass(Object linkFlairCssClass) {
+    public NewPostData withLinkFlairCssClass(Object linkFlairCssClass) {
         this.linkFlairCssClass = linkFlairCssClass;
         return this;
     }
@@ -696,7 +696,7 @@ public class Data_ {
         this.downs = downs;
     }
 
-    public Data_ withDowns(int downs) {
+    public NewPostData withDowns(int downs) {
         this.downs = downs;
         return this;
     }
@@ -709,7 +709,7 @@ public class Data_ {
         this.thumbnailHeight = thumbnailHeight;
     }
 
-    public Data_ withThumbnailHeight(Object thumbnailHeight) {
+    public NewPostData withThumbnailHeight(Object thumbnailHeight) {
         this.thumbnailHeight = thumbnailHeight;
         return this;
     }
@@ -722,7 +722,7 @@ public class Data_ {
         this.hideScore = hideScore;
     }
 
-    public Data_ withHideScore(boolean hideScore) {
+    public NewPostData withHideScore(boolean hideScore) {
         this.hideScore = hideScore;
         return this;
     }
@@ -735,7 +735,7 @@ public class Data_ {
         this.name = name;
     }
 
-    public Data_ withName(String name) {
+    public NewPostData withName(String name) {
         this.name = name;
         return this;
     }
@@ -748,7 +748,7 @@ public class Data_ {
         this.quarantine = quarantine;
     }
 
-    public Data_ withQuarantine(boolean quarantine) {
+    public NewPostData withQuarantine(boolean quarantine) {
         this.quarantine = quarantine;
         return this;
     }
@@ -761,7 +761,7 @@ public class Data_ {
         this.linkFlairTextColor = linkFlairTextColor;
     }
 
-    public Data_ withLinkFlairTextColor(String linkFlairTextColor) {
+    public NewPostData withLinkFlairTextColor(String linkFlairTextColor) {
         this.linkFlairTextColor = linkFlairTextColor;
         return this;
     }
@@ -774,7 +774,7 @@ public class Data_ {
         this.authorFlairBackgroundColor = authorFlairBackgroundColor;
     }
 
-    public Data_ withAuthorFlairBackgroundColor(Object authorFlairBackgroundColor) {
+    public NewPostData withAuthorFlairBackgroundColor(Object authorFlairBackgroundColor) {
         this.authorFlairBackgroundColor = authorFlairBackgroundColor;
         return this;
     }
@@ -787,7 +787,7 @@ public class Data_ {
         this.subredditType = subredditType;
     }
 
-    public Data_ withSubredditType(String subredditType) {
+    public NewPostData withSubredditType(String subredditType) {
         this.subredditType = subredditType;
         return this;
     }
@@ -800,7 +800,7 @@ public class Data_ {
         this.ups = ups;
     }
 
-    public Data_ withUps(int ups) {
+    public NewPostData withUps(int ups) {
         this.ups = ups;
         return this;
     }
@@ -813,21 +813,21 @@ public class Data_ {
         this.domain = domain;
     }
 
-    public Data_ withDomain(String domain) {
+    public NewPostData withDomain(String domain) {
         this.domain = domain;
         return this;
     }
 
-    public MediaEmbed getMediaEmbed() {
-        return mediaEmbed;
+    public NewPostDataMediaEmbed getNewPostDataMediaEmbed() {
+        return newPostDataMediaEmbed;
     }
 
-    public void setMediaEmbed(MediaEmbed mediaEmbed) {
-        this.mediaEmbed = mediaEmbed;
+    public void setNewPostDataMediaEmbed(NewPostDataMediaEmbed newPostDataMediaEmbed) {
+        this.newPostDataMediaEmbed = newPostDataMediaEmbed;
     }
 
-    public Data_ withMediaEmbed(MediaEmbed mediaEmbed) {
-        this.mediaEmbed = mediaEmbed;
+    public NewPostData withNewPostDataMediaEmbed(NewPostDataMediaEmbed newPostDataMediaEmbed) {
+        this.newPostDataMediaEmbed = newPostDataMediaEmbed;
         return this;
     }
 
@@ -839,7 +839,7 @@ public class Data_ {
         this.thumbnailWidth = thumbnailWidth;
     }
 
-    public Data_ withThumbnailWidth(Object thumbnailWidth) {
+    public NewPostData withThumbnailWidth(Object thumbnailWidth) {
         this.thumbnailWidth = thumbnailWidth;
         return this;
     }
@@ -852,7 +852,7 @@ public class Data_ {
         this.authorFlairTemplateId = authorFlairTemplateId;
     }
 
-    public Data_ withAuthorFlairTemplateId(Object authorFlairTemplateId) {
+    public NewPostData withAuthorFlairTemplateId(Object authorFlairTemplateId) {
         this.authorFlairTemplateId = authorFlairTemplateId;
         return this;
     }
@@ -865,7 +865,7 @@ public class Data_ {
         this.isOriginalContent = isOriginalContent;
     }
 
-    public Data_ withIsOriginalContent(boolean isOriginalContent) {
+    public NewPostData withIsOriginalContent(boolean isOriginalContent) {
         this.isOriginalContent = isOriginalContent;
         return this;
     }
@@ -878,20 +878,20 @@ public class Data_ {
         this.userReports = userReports;
     }
 
-    public Data_ withUserReports(List<Object> userReports) {
+    public NewPostData withUserReports(List<Object> userReports) {
         this.userReports = userReports;
         return this;
     }
 
-    public Object getSecureMedia() {
+    public Object getNewPostDataSecureMedia() {
         return secureMedia;
     }
 
-    public void setSecureMedia(Object secureMedia) {
+    public void setNewPostDataSecureMedia(Object secureMedia) {
         this.secureMedia = secureMedia;
     }
 
-    public Data_ withSecureMedia(Object secureMedia) {
+    public NewPostData withNewPostDataSecureMedia(Object secureMedia) {
         this.secureMedia = secureMedia;
         return this;
     }
@@ -904,7 +904,7 @@ public class Data_ {
         this.isRedditMediaDomain = isRedditMediaDomain;
     }
 
-    public Data_ withIsRedditMediaDomain(boolean isRedditMediaDomain) {
+    public NewPostData withIsRedditMediaDomain(boolean isRedditMediaDomain) {
         this.isRedditMediaDomain = isRedditMediaDomain;
         return this;
     }
@@ -917,7 +917,7 @@ public class Data_ {
         this.isMeta = isMeta;
     }
 
-    public Data_ withIsMeta(boolean isMeta) {
+    public NewPostData withIsMeta(boolean isMeta) {
         this.isMeta = isMeta;
         return this;
     }
@@ -930,21 +930,21 @@ public class Data_ {
         this.category = category;
     }
 
-    public Data_ withCategory(Object category) {
+    public NewPostData withCategory(Object category) {
         this.category = category;
         return this;
     }
 
-    public SecureMediaEmbed getSecureMediaEmbed() {
-        return secureMediaEmbed;
+    public NewPostDataSecureMediaEmbed getNewPostDataSecureMediaEmbed() {
+        return newPostDataSecureMediaEmbed;
     }
 
-    public void setSecureMediaEmbed(SecureMediaEmbed secureMediaEmbed) {
-        this.secureMediaEmbed = secureMediaEmbed;
+    public void setNewPostDataSecureMediaEmbed(NewPostDataSecureMediaEmbed newPostDataSecureMediaEmbed) {
+        this.newPostDataSecureMediaEmbed = newPostDataSecureMediaEmbed;
     }
 
-    public Data_ withSecureMediaEmbed(SecureMediaEmbed secureMediaEmbed) {
-        this.secureMediaEmbed = secureMediaEmbed;
+    public NewPostData withNewPostDataSecureMediaEmbed(NewPostDataSecureMediaEmbed newPostDataSecureMediaEmbed) {
+        this.newPostDataSecureMediaEmbed = newPostDataSecureMediaEmbed;
         return this;
     }
 
@@ -956,7 +956,7 @@ public class Data_ {
         this.linkFlairText = linkFlairText;
     }
 
-    public Data_ withLinkFlairText(Object linkFlairText) {
+    public NewPostData withLinkFlairText(Object linkFlairText) {
         this.linkFlairText = linkFlairText;
         return this;
     }
@@ -969,7 +969,7 @@ public class Data_ {
         this.canModPost = canModPost;
     }
 
-    public Data_ withCanModPost(boolean canModPost) {
+    public NewPostData withCanModPost(boolean canModPost) {
         this.canModPost = canModPost;
         return this;
     }
@@ -982,7 +982,7 @@ public class Data_ {
         this.score = score;
     }
 
-    public Data_ withScore(int score) {
+    public NewPostData withScore(int score) {
         this.score = score;
         return this;
     }
@@ -995,7 +995,7 @@ public class Data_ {
         this.approvedBy = approvedBy;
     }
 
-    public Data_ withApprovedBy(Object approvedBy) {
+    public NewPostData withApprovedBy(Object approvedBy) {
         this.approvedBy = approvedBy;
         return this;
     }
@@ -1008,7 +1008,7 @@ public class Data_ {
         this.thumbnail = thumbnail;
     }
 
-    public Data_ withThumbnail(String thumbnail) {
+    public NewPostData withThumbnail(String thumbnail) {
         this.thumbnail = thumbnail;
         return this;
     }
@@ -1021,7 +1021,7 @@ public class Data_ {
         this.edited = edited;
     }
 
-    public Data_ withEdited(Object edited) {
+    public NewPostData withEdited(Object edited) {
         this.edited = edited;
         return this;
     }
@@ -1034,7 +1034,7 @@ public class Data_ {
         this.authorFlairCssClass = authorFlairCssClass;
     }
 
-    public Data_ withAuthorFlairCssClass(Object authorFlairCssClass) {
+    public NewPostData withAuthorFlairCssClass(Object authorFlairCssClass) {
         this.authorFlairCssClass = authorFlairCssClass;
         return this;
     }
@@ -1047,21 +1047,21 @@ public class Data_ {
         this.authorFlairRichtext = authorFlairRichtext;
     }
 
-    public Data_ withAuthorFlairRichtext(List<Object> authorFlairRichtext) {
+    public NewPostData withAuthorFlairRichtext(List<Object> authorFlairRichtext) {
         this.authorFlairRichtext = authorFlairRichtext;
         return this;
     }
 
-    public Gildings getGildings() {
-        return gildings;
+    public NewPostDataGildings getNewPostDataGildings() {
+        return newPostDataGildings;
     }
 
-    public void setGildings(Gildings gildings) {
-        this.gildings = gildings;
+    public void setNewPostDataGildings(NewPostDataGildings newPostDataGildings) {
+        this.newPostDataGildings = newPostDataGildings;
     }
 
-    public Data_ withGildings(Gildings gildings) {
-        this.gildings = gildings;
+    public NewPostData withNewPostDataGildings(NewPostDataGildings newPostDataGildings) {
+        this.newPostDataGildings = newPostDataGildings;
         return this;
     }
 
@@ -1073,7 +1073,7 @@ public class Data_ {
         this.postHint = postHint;
     }
 
-    public Data_ withPostHint(String postHint) {
+    public NewPostData withPostHint(String postHint) {
         this.postHint = postHint;
         return this;
     }
@@ -1086,7 +1086,7 @@ public class Data_ {
         this.contentCategories = contentCategories;
     }
 
-    public Data_ withContentCategories(Object contentCategories) {
+    public NewPostData withContentCategories(Object contentCategories) {
         this.contentCategories = contentCategories;
         return this;
     }
@@ -1099,7 +1099,7 @@ public class Data_ {
         this.isSelf = isSelf;
     }
 
-    public Data_ withIsSelf(boolean isSelf) {
+    public NewPostData withIsSelf(boolean isSelf) {
         this.isSelf = isSelf;
         return this;
     }
@@ -1112,7 +1112,7 @@ public class Data_ {
         this.modNote = modNote;
     }
 
-    public Data_ withModNote(Object modNote) {
+    public NewPostData withModNote(Object modNote) {
         this.modNote = modNote;
         return this;
     }
@@ -1125,7 +1125,7 @@ public class Data_ {
         this.created = created;
     }
 
-    public Data_ withCreated(double created) {
+    public NewPostData withCreated(double created) {
         this.created = created;
         return this;
     }
@@ -1138,7 +1138,7 @@ public class Data_ {
         this.linkFlairType = linkFlairType;
     }
 
-    public Data_ withLinkFlairType(String linkFlairType) {
+    public NewPostData withLinkFlairType(String linkFlairType) {
         this.linkFlairType = linkFlairType;
         return this;
     }
@@ -1151,7 +1151,7 @@ public class Data_ {
         this.wls = wls;
     }
 
-    public Data_ withWls(int wls) {
+    public NewPostData withWls(int wls) {
         this.wls = wls;
         return this;
     }
@@ -1164,7 +1164,7 @@ public class Data_ {
         this.bannedBy = bannedBy;
     }
 
-    public Data_ withBannedBy(Object bannedBy) {
+    public NewPostData withBannedBy(Object bannedBy) {
         this.bannedBy = bannedBy;
         return this;
     }
@@ -1177,7 +1177,7 @@ public class Data_ {
         this.authorFlairType = authorFlairType;
     }
 
-    public Data_ withAuthorFlairType(String authorFlairType) {
+    public NewPostData withAuthorFlairType(String authorFlairType) {
         this.authorFlairType = authorFlairType;
         return this;
     }
@@ -1190,7 +1190,7 @@ public class Data_ {
         this.contestMode = contestMode;
     }
 
-    public Data_ withContestMode(boolean contestMode) {
+    public NewPostData withContestMode(boolean contestMode) {
         this.contestMode = contestMode;
         return this;
     }
@@ -1203,7 +1203,7 @@ public class Data_ {
         this.selftextHtml = selftextHtml;
     }
 
-    public Data_ withSelftextHtml(String selftextHtml) {
+    public NewPostData withSelftextHtml(String selftextHtml) {
         this.selftextHtml = selftextHtml;
         return this;
     }
@@ -1216,7 +1216,7 @@ public class Data_ {
         this.likes = likes;
     }
 
-    public Data_ withLikes(Object likes) {
+    public NewPostData withLikes(Object likes) {
         this.likes = likes;
         return this;
     }
@@ -1229,7 +1229,7 @@ public class Data_ {
         this.suggestedSort = suggestedSort;
     }
 
-    public Data_ withSuggestedSort(Object suggestedSort) {
+    public NewPostData withSuggestedSort(Object suggestedSort) {
         this.suggestedSort = suggestedSort;
         return this;
     }
@@ -1242,7 +1242,7 @@ public class Data_ {
         this.bannedAtUtc = bannedAtUtc;
     }
 
-    public Data_ withBannedAtUtc(Object bannedAtUtc) {
+    public NewPostData withBannedAtUtc(Object bannedAtUtc) {
         this.bannedAtUtc = bannedAtUtc;
         return this;
     }
@@ -1255,7 +1255,7 @@ public class Data_ {
         this.viewCount = viewCount;
     }
 
-    public Data_ withViewCount(Object viewCount) {
+    public NewPostData withViewCount(Object viewCount) {
         this.viewCount = viewCount;
         return this;
     }
@@ -1268,7 +1268,7 @@ public class Data_ {
         this.archived = archived;
     }
 
-    public Data_ withArchived(boolean archived) {
+    public NewPostData withArchived(boolean archived) {
         this.archived = archived;
         return this;
     }
@@ -1281,7 +1281,7 @@ public class Data_ {
         this.noFollow = noFollow;
     }
 
-    public Data_ withNoFollow(boolean noFollow) {
+    public NewPostData withNoFollow(boolean noFollow) {
         this.noFollow = noFollow;
         return this;
     }
@@ -1294,7 +1294,7 @@ public class Data_ {
         this.isCrosspostable = isCrosspostable;
     }
 
-    public Data_ withIsCrosspostable(boolean isCrosspostable) {
+    public NewPostData withIsCrosspostable(boolean isCrosspostable) {
         this.isCrosspostable = isCrosspostable;
         return this;
     }
@@ -1307,7 +1307,7 @@ public class Data_ {
         this.pinned = pinned;
     }
 
-    public Data_ withPinned(boolean pinned) {
+    public NewPostData withPinned(boolean pinned) {
         this.pinned = pinned;
         return this;
     }
@@ -1320,21 +1320,21 @@ public class Data_ {
         this.over18 = over18;
     }
 
-    public Data_ withOver18(boolean over18) {
+    public NewPostData withOver18(boolean over18) {
         this.over18 = over18;
         return this;
     }
 
-    public Preview getPreview() {
-        return preview;
+    public NewPostDataPreview getNewPostDataPreview() {
+        return newPostDataPreview;
     }
 
-    public void setPreview(Preview preview) {
-        this.preview = preview;
+    public void setNewPostDataPreview(NewPostDataPreview newPostDataPreview) {
+        this.newPostDataPreview = newPostDataPreview;
     }
 
-    public Data_ withPreview(Preview preview) {
-        this.preview = preview;
+    public NewPostData withNewPostDataPreview(NewPostDataPreview newPostDataPreview) {
+        this.newPostDataPreview = newPostDataPreview;
         return this;
     }
 
@@ -1346,7 +1346,7 @@ public class Data_ {
         this.mediaOnly = mediaOnly;
     }
 
-    public Data_ withMediaOnly(boolean mediaOnly) {
+    public NewPostData withMediaOnly(boolean mediaOnly) {
         this.mediaOnly = mediaOnly;
         return this;
     }
@@ -1359,7 +1359,7 @@ public class Data_ {
         this.linkFlairTemplateId = linkFlairTemplateId;
     }
 
-    public Data_ withLinkFlairTemplateId(Object linkFlairTemplateId) {
+    public NewPostData withLinkFlairTemplateId(Object linkFlairTemplateId) {
         this.linkFlairTemplateId = linkFlairTemplateId;
         return this;
     }
@@ -1372,7 +1372,7 @@ public class Data_ {
         this.canGild = canGild;
     }
 
-    public Data_ withCanGild(boolean canGild) {
+    public NewPostData withCanGild(boolean canGild) {
         this.canGild = canGild;
         return this;
     }
@@ -1385,7 +1385,7 @@ public class Data_ {
         this.spoiler = spoiler;
     }
 
-    public Data_ withSpoiler(boolean spoiler) {
+    public NewPostData withSpoiler(boolean spoiler) {
         this.spoiler = spoiler;
         return this;
     }
@@ -1398,7 +1398,7 @@ public class Data_ {
         this.locked = locked;
     }
 
-    public Data_ withLocked(boolean locked) {
+    public NewPostData withLocked(boolean locked) {
         this.locked = locked;
         return this;
     }
@@ -1411,7 +1411,7 @@ public class Data_ {
         this.authorFlairText = authorFlairText;
     }
 
-    public Data_ withAuthorFlairText(Object authorFlairText) {
+    public NewPostData withAuthorFlairText(Object authorFlairText) {
         this.authorFlairText = authorFlairText;
         return this;
     }
@@ -1424,7 +1424,7 @@ public class Data_ {
         this.visited = visited;
     }
 
-    public Data_ withVisited(boolean visited) {
+    public NewPostData withVisited(boolean visited) {
         this.visited = visited;
         return this;
     }
@@ -1437,7 +1437,7 @@ public class Data_ {
         this.numReports = numReports;
     }
 
-    public Data_ withNumReports(Object numReports) {
+    public NewPostData withNumReports(Object numReports) {
         this.numReports = numReports;
         return this;
     }
@@ -1450,7 +1450,7 @@ public class Data_ {
         this.distinguished = distinguished;
     }
 
-    public Data_ withDistinguished(Object distinguished) {
+    public NewPostData withDistinguished(Object distinguished) {
         this.distinguished = distinguished;
         return this;
     }
@@ -1463,7 +1463,7 @@ public class Data_ {
         this.subredditId = subredditId;
     }
 
-    public Data_ withSubredditId(String subredditId) {
+    public NewPostData withSubredditId(String subredditId) {
         this.subredditId = subredditId;
         return this;
     }
@@ -1476,7 +1476,7 @@ public class Data_ {
         this.modReasonBy = modReasonBy;
     }
 
-    public Data_ withModReasonBy(Object modReasonBy) {
+    public NewPostData withModReasonBy(Object modReasonBy) {
         this.modReasonBy = modReasonBy;
         return this;
     }
@@ -1489,7 +1489,7 @@ public class Data_ {
         this.removalReason = removalReason;
     }
 
-    public Data_ withRemovalReason(Object removalReason) {
+    public NewPostData withRemovalReason(Object removalReason) {
         this.removalReason = removalReason;
         return this;
     }
@@ -1502,7 +1502,7 @@ public class Data_ {
         this.linkFlairBackgroundColor = linkFlairBackgroundColor;
     }
 
-    public Data_ withLinkFlairBackgroundColor(String linkFlairBackgroundColor) {
+    public NewPostData withLinkFlairBackgroundColor(String linkFlairBackgroundColor) {
         this.linkFlairBackgroundColor = linkFlairBackgroundColor;
         return this;
     }
@@ -1515,7 +1515,7 @@ public class Data_ {
         this.id = id;
     }
 
-    public Data_ withId(String id) {
+    public NewPostData withId(String id) {
         this.id = id;
         return this;
     }
@@ -1528,7 +1528,7 @@ public class Data_ {
         this.isRobotIndexable = isRobotIndexable;
     }
 
-    public Data_ withIsRobotIndexable(boolean isRobotIndexable) {
+    public NewPostData withIsRobotIndexable(boolean isRobotIndexable) {
         this.isRobotIndexable = isRobotIndexable;
         return this;
     }
@@ -1541,7 +1541,7 @@ public class Data_ {
         this.reportReasons = reportReasons;
     }
 
-    public Data_ withReportReasons(Object reportReasons) {
+    public NewPostData withReportReasons(Object reportReasons) {
         this.reportReasons = reportReasons;
         return this;
     }
@@ -1554,7 +1554,7 @@ public class Data_ {
         this.author = author;
     }
 
-    public Data_ withAuthor(String author) {
+    public NewPostData withAuthor(String author) {
         this.author = author;
         return this;
     }
@@ -1567,7 +1567,7 @@ public class Data_ {
         this.numCrossposts = numCrossposts;
     }
 
-    public Data_ withNumCrossposts(int numCrossposts) {
+    public NewPostData withNumCrossposts(int numCrossposts) {
         this.numCrossposts = numCrossposts;
         return this;
     }
@@ -1580,7 +1580,7 @@ public class Data_ {
         this.numComments = numComments;
     }
 
-    public Data_ withNumComments(int numComments) {
+    public NewPostData withNumComments(int numComments) {
         this.numComments = numComments;
         return this;
     }
@@ -1593,7 +1593,7 @@ public class Data_ {
         this.sendReplies = sendReplies;
     }
 
-    public Data_ withSendReplies(boolean sendReplies) {
+    public NewPostData withSendReplies(boolean sendReplies) {
         this.sendReplies = sendReplies;
         return this;
     }
@@ -1606,7 +1606,7 @@ public class Data_ {
         this.whitelistStatus = whitelistStatus;
     }
 
-    public Data_ withWhitelistStatus(String whitelistStatus) {
+    public NewPostData withWhitelistStatus(String whitelistStatus) {
         this.whitelistStatus = whitelistStatus;
         return this;
     }
@@ -1619,7 +1619,7 @@ public class Data_ {
         this.modReports = modReports;
     }
 
-    public Data_ withModReports(List<Object> modReports) {
+    public NewPostData withModReports(List<Object> modReports) {
         this.modReports = modReports;
         return this;
     }
@@ -1632,7 +1632,7 @@ public class Data_ {
         this.authorPatreonFlair = authorPatreonFlair;
     }
 
-    public Data_ withAuthorPatreonFlair(boolean authorPatreonFlair) {
+    public NewPostData withAuthorPatreonFlair(boolean authorPatreonFlair) {
         this.authorPatreonFlair = authorPatreonFlair;
         return this;
     }
@@ -1645,7 +1645,7 @@ public class Data_ {
         this.authorFlairTextColor = authorFlairTextColor;
     }
 
-    public Data_ withAuthorFlairTextColor(Object authorFlairTextColor) {
+    public NewPostData withAuthorFlairTextColor(Object authorFlairTextColor) {
         this.authorFlairTextColor = authorFlairTextColor;
         return this;
     }
@@ -1658,7 +1658,7 @@ public class Data_ {
         this.permalink = permalink;
     }
 
-    public Data_ withPermalink(String permalink) {
+    public NewPostData withPermalink(String permalink) {
         this.permalink = permalink;
         return this;
     }
@@ -1671,7 +1671,7 @@ public class Data_ {
         this.parentWhitelistStatus = parentWhitelistStatus;
     }
 
-    public Data_ withParentWhitelistStatus(String parentWhitelistStatus) {
+    public NewPostData withParentWhitelistStatus(String parentWhitelistStatus) {
         this.parentWhitelistStatus = parentWhitelistStatus;
         return this;
     }
@@ -1684,7 +1684,7 @@ public class Data_ {
         this.stickied = stickied;
     }
 
-    public Data_ withStickied(boolean stickied) {
+    public NewPostData withStickied(boolean stickied) {
         this.stickied = stickied;
         return this;
     }
@@ -1697,7 +1697,7 @@ public class Data_ {
         this.url = url;
     }
 
-    public Data_ withUrl(String url) {
+    public NewPostData withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -1710,7 +1710,7 @@ public class Data_ {
         this.subredditSubscribers = subredditSubscribers;
     }
 
-    public Data_ withSubredditSubscribers(int subredditSubscribers) {
+    public NewPostData withSubredditSubscribers(int subredditSubscribers) {
         this.subredditSubscribers = subredditSubscribers;
         return this;
     }
@@ -1723,7 +1723,7 @@ public class Data_ {
         this.createdUtc = createdUtc;
     }
 
-    public Data_ withCreatedUtc(double createdUtc) {
+    public NewPostData withCreatedUtc(double createdUtc) {
         this.createdUtc = createdUtc;
         return this;
     }
@@ -1736,7 +1736,7 @@ public class Data_ {
         this.media = media;
     }
 
-    public Data_ withMedia(Object media) {
+    public NewPostData withMedia(Object media) {
         this.media = media;
         return this;
     }
@@ -1749,7 +1749,7 @@ public class Data_ {
         this.isVideo = isVideo;
     }
 
-    public Data_ withIsVideo(boolean isVideo) {
+    public NewPostData withIsVideo(boolean isVideo) {
         this.isVideo = isVideo;
         return this;
     }

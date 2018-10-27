@@ -4,7 +4,7 @@ package info.romanelli.udacity.capstone.reddit.data.net.newposts.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Resolution {
+public class NewPostDataPreviewImageSource {
 
     @SerializedName("url")
     @Expose
@@ -20,7 +20,7 @@ public class Resolution {
      * No args constructor for use in serialization
      * 
      */
-    public Resolution() {
+    public NewPostDataPreviewImageSource() {
     }
 
     /**
@@ -29,7 +29,7 @@ public class Resolution {
      * @param width
      * @param url
      */
-    public Resolution(String url, int width, int height) {
+    public NewPostDataPreviewImageSource(String url, int width, int height) {
         super();
         this.url = url;
         this.width = width;
@@ -44,7 +44,7 @@ public class Resolution {
         this.url = url;
     }
 
-    public Resolution withUrl(String url) {
+    public NewPostDataPreviewImageSource withUrl(String url) {
         this.url = url;
         return this;
     }
@@ -57,7 +57,7 @@ public class Resolution {
         this.width = width;
     }
 
-    public Resolution withWidth(int width) {
+    public NewPostDataPreviewImageSource withWidth(int width) {
         this.width = width;
         return this;
     }
@@ -70,7 +70,7 @@ public class Resolution {
         this.height = height;
     }
 
-    public Resolution withHeight(int height) {
+    public NewPostDataPreviewImageSource withHeight(int height) {
         this.height = height;
         return this;
     }

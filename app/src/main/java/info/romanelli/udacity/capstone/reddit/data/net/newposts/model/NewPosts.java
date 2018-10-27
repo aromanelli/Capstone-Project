@@ -11,7 +11,7 @@ public class NewPosts {
     private String kind;
     @SerializedName("data")
     @Expose
-    private Data data;
+    private NewPostsData newPostsData;
 
     /**
      * No args constructor for use in serialization
@@ -22,13 +22,13 @@ public class NewPosts {
 
     /**
      * 
-     * @param data
+     * @param newPostsData
      * @param kind
      */
-    public NewPosts(String kind, Data data) {
+    public NewPosts(String kind, NewPostsData newPostsData) {
         super();
         this.kind = kind;
-        this.data = data;
+        this.newPostsData = newPostsData;
     }
 
     public String getKind() {
@@ -44,16 +44,16 @@ public class NewPosts {
         return this;
     }
 
-    public Data getData() {
-        return data;
+    public NewPostsData getNewPostsData() {
+        return newPostsData;
     }
 
-    public void setData(Data data) {
-        this.data = data;
+    public void setNewPostsData(NewPostsData newPostsData) {
+        this.newPostsData = newPostsData;
     }
 
-    public NewPosts withData(Data data) {
-        this.data = data;
+    public NewPosts withData(NewPostsData newPostsData) {
+        this.newPostsData = newPostsData;
         return this;
     }
 

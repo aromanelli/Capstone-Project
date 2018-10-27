@@ -4,31 +4,31 @@ package info.romanelli.udacity.capstone.reddit.data.net.newposts.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Child {
+public class NewPost {
 
     @SerializedName("kind")
     @Expose
     private String kind;
     @SerializedName("data")
     @Expose
-    private Data_ data;
+    private NewPostData newPostData;
 
     /**
      * No args constructor for use in serialization
      * 
      */
-    public Child() {
+    public NewPost() {
     }
 
     /**
      * 
-     * @param data
+     * @param newPostData
      * @param kind
      */
-    public Child(String kind, Data_ data) {
+    public NewPost(String kind, NewPostData newPostData) {
         super();
         this.kind = kind;
-        this.data = data;
+        this.newPostData = newPostData;
     }
 
     public String getKind() {
@@ -39,21 +39,21 @@ public class Child {
         this.kind = kind;
     }
 
-    public Child withKind(String kind) {
+    public NewPost withKind(String kind) {
         this.kind = kind;
         return this;
     }
 
-    public Data_ getData() {
-        return data;
+    public NewPostData getNewPostData() {
+        return newPostData;
     }
 
-    public void setData(Data_ data) {
-        this.data = data;
+    public void setNewPostData(NewPostData newPostData) {
+        this.newPostData = newPostData;
     }
 
-    public Child withData(Data_ data) {
-        this.data = data;
+    public NewPost withNewPostData(NewPostData newPostData) {
+        this.newPostData = newPostData;
         return this;
     }
 

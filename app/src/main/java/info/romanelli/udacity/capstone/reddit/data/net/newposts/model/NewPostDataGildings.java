@@ -4,7 +4,7 @@ package info.romanelli.udacity.capstone.reddit.data.net.newposts.model;
 import com.google.gson.annotations.Expose;
 import com.google.gson.annotations.SerializedName;
 
-public class Gildings {
+public class NewPostDataGildings {
 
     @SerializedName("gid_1")
     @Expose
@@ -20,7 +20,7 @@ public class Gildings {
      * No args constructor for use in serialization
      * 
      */
-    public Gildings() {
+    public NewPostDataGildings() {
     }
 
     /**
@@ -29,7 +29,7 @@ public class Gildings {
      * @param gid3
      * @param gid2
      */
-    public Gildings(int gid1, int gid2, int gid3) {
+    public NewPostDataGildings(int gid1, int gid2, int gid3) {
         super();
         this.gid1 = gid1;
         this.gid2 = gid2;
@@ -44,7 +44,7 @@ public class Gildings {
         this.gid1 = gid1;
     }
 
-    public Gildings withGid1(int gid1) {
+    public NewPostDataGildings withGid1(int gid1) {
         this.gid1 = gid1;
         return this;
     }
@@ -57,7 +57,7 @@ public class Gildings {
         this.gid2 = gid2;
     }
 
-    public Gildings withGid2(int gid2) {
+    public NewPostDataGildings withGid2(int gid2) {
         this.gid2 = gid2;
         return this;
     }
@@ -70,7 +70,7 @@ public class Gildings {
         this.gid3 = gid3;
     }
 
-    public Gildings withGid3(int gid3) {
+    public NewPostDataGildings withGid3(int gid3) {
         this.gid3 = gid3;
         return this;
     }

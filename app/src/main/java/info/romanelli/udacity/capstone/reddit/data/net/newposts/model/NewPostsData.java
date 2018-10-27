@@ -7,7 +7,7 @@ import com.google.gson.annotations.SerializedName;
 import java.util.ArrayList;
 import java.util.List;
 
-public class Data {
+public class NewPostsData {
 
     @SerializedName("modhash")
     @Expose
@@ -17,7 +17,7 @@ public class Data {
     private int dist;
     @SerializedName("children")
     @Expose
-    private List<Child> children = new ArrayList<Child>();
+    private List<NewPost> children = new ArrayList<>();
     @SerializedName("after")
     @Expose
     private String after;
@@ -29,7 +29,7 @@ public class Data {
      * No args constructor for use in serialization
      * 
      */
-    public Data() {
+    public NewPostsData() {
     }
 
     /**
@@ -40,7 +40,7 @@ public class Data {
      * @param modhash
      * @param dist
      */
-    public Data(String modhash, int dist, List<Child> children, String after, Object before) {
+    public NewPostsData(String modhash, int dist, List<NewPost> children, String after, Object before) {
         super();
         this.modhash = modhash;
         this.dist = dist;
@@ -57,7 +57,7 @@ public class Data {
         this.modhash = modhash;
     }
 
-    public Data withModhash(String modhash) {
+    public NewPostsData withModhash(String modhash) {
         this.modhash = modhash;
         return this;
     }
@@ -70,20 +70,20 @@ public class Data {
         this.dist = dist;
     }
 
-    public Data withDist(int dist) {
+    public NewPostsData withDist(int dist) {
         this.dist = dist;
         return this;
     }
 
-    public List<Child> getChildren() {
+    public List<NewPost> getNewPosts() {
         return children;
     }
 
-    public void setChildren(List<Child> children) {
+    public void setNewPosts(List<NewPost> children) {
         this.children = children;
     }
 
-    public Data withChildren(List<Child> children) {
+    public NewPostsData withNewPosts(List<NewPost> children) {
         this.children = children;
         return this;
     }
@@ -96,7 +96,7 @@ public class Data {
         this.after = after;
     }
 
-    public Data withAfter(String after) {
+    public NewPostsData withAfter(String after) {
         this.after = after;
         return this;
     }
@@ -109,7 +109,7 @@ public class Data {
         this.before = before;
     }
 
-    public Data withBefore(Object before) {
+    public NewPostsData withBefore(Object before) {
         this.before = before;
         return this;
     }
