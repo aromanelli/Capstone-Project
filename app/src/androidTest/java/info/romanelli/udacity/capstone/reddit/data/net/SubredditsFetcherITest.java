@@ -12,7 +12,6 @@ import org.junit.runner.RunWith;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import info.romanelli.udacity.capstone.TestUtil;
-import info.romanelli.udacity.capstone.reddit.data.net.oauth.AuthStateManager;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.SubredditsFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.Subreddits;
@@ -46,8 +45,6 @@ public class SubredditsFetcherITest {
 
         final AtomicBoolean flag = new AtomicBoolean(false);
         try {
-
-            Log.d(TAG, "fetchSubreddits: isAuthorized? " + AuthStateManager.$(appContext).getAuthState().isAuthorized());
 
             SubredditsFetcher.fetchSubscribed(
                     appContext,
