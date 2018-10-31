@@ -26,4 +26,7 @@ public interface NewPostDao {
     @Query("DELETE FROM new_posts")
     void deleteNewPosts();
 
+    @Query("DELETE FROM new_posts WHERE created < 0") // TODO CODE THIS REPLACE 0 WITH ?
+    void pruneNewPosts();
+
 }

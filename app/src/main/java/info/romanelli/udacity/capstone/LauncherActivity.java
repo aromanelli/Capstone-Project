@@ -8,6 +8,7 @@ import android.util.Log;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
 
+import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 
 import static info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager.RC_AUTH;
@@ -26,6 +27,7 @@ public class LauncherActivity extends AppCompatActivity {
         } else {
             Log.d(TAG, "onCreate: Authorized");
             // TODO AOR LAUNCH MainActivity and fetch data
+            populateDatabase(); // TODO Move this to right location
         }
 
     }
@@ -45,15 +47,15 @@ public class LauncherActivity extends AppCompatActivity {
                             // negotiation for fresh tokens failed, check ex for more details
                             Log.e(TAG, "performTokenRequest: ex", ex);
                         } else {
-                            // AuthStateManager.getInstance(appContext).getCurrent().getAccessToken()
-                            // TODO AOR CODE THIS
-                            Log.d(TAG, "performTokenRequest: accessToken: " + accessToken);
-                            Log.d(TAG, "performTokenRequest: idToken: " + idToken);
-
+                            populateDatabase(); // TODO Move this to right location
                         }
                     }
             );
         }
+    }
+
+    private void populateDatabase() {
+        DataRepository.$(this).populateDatabase(this);
     }
 
 }

@@ -10,4 +10,10 @@
     <string name="msg_offline">Offline</string>
     <string name="title_post_list">Posts</string>
     <string name="title_post_detail">Post Detail</string>
+
+    <string name="exit">Exit</string>
+
+    <string name="fetch_error_title">Error fetching data</string>
+    <string name="fetch_error_text">An error prevented the fetching of the Reddit information.</string>
+
 </resources>

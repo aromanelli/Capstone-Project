@@ -3,6 +3,7 @@ package info.romanelli.udacity.capstone.reddit.data.net;
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
 import android.util.Log;
+import android.util.Pair;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -13,6 +14,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 import info.romanelli.udacity.capstone.TestUtil;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPostData;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
+import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.SubredditData;
 import info.romanelli.udacity.capstone.reddit.data.util.NetUtil;
 
 import static org.junit.Assert.assertEquals;
@@ -46,14 +48,20 @@ public class RedditDataManagerITest {
                     this.size = size;
                 }
                 @Override
-                public void fetched(List<NewPostData> listNewPostData) {
+                public void fetched(List<Pair<NewPostData,SubredditData>> listPairData) {
                     Log.d(TAG, "fetched:Thread: " + Thread.currentThread().getName());
                     counter++;
                     if (counter >= size) {
                         done.set(true);
                     }
+
                     // TODO Too arbitrary of a test value, always assumes at least one new post in subreddit!
-                    Assert.assertTrue(listNewPostData.size() > 0);
+                    Assert.assertTrue(listPairData.size() > 0);
+
+                    listPairData.forEach(newPairData -> {
+                        Assert.assertNotNull(newPairData.first);
+                        Assert.assertNotNull(newPairData.second);
+                    });
                 }
                 @Override
                 public void failed(Throwable t) {

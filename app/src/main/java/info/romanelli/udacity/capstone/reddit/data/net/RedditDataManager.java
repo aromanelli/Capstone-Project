@@ -2,6 +2,7 @@ package info.romanelli.udacity.capstone.reddit.data.net;
 
 import android.content.Context;
 import android.util.Log;
+import android.util.Pair;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -91,14 +92,22 @@ public class RedditDataManager {
                             new NewPostsFetcher.Listener() {
                                 @Override
                                 public void fetched(NewPosts newposts) {
-                                    final List<NewPostData> listNewPostsData = new ArrayList<>();
+                                    final List<Pair<NewPostData,SubredditData>> listNewPostsData = new ArrayList<>();
                                     if (newposts != null &&
                                             newposts.getNewPostsData() != null &&
                                             newposts.getNewPostsData().getNewPosts() != null) {
+                                        // For each new post, add it to the collection that will be returned,
+                                        // also adding to the collection the subreddit data for the new post ...
                                         newposts.getNewPostsData().getNewPosts().forEach(newpost -> {
                                             if (newpost.getNewPostData() != null) {
                                                 Log.d(TAG, "fetchNewPosts|NewPostData: [" + newpost.getNewPostData().getSubreddit() + "][" + newpost.getNewPostData().getTitle() + "]");
-                                                listNewPostsData.add(newpost.getNewPostData());
+                                                listNewPostsData.add(
+                                                        new Pair<>(
+                                                                newpost.getNewPostData(),
+                                                                subredditData
+                                                        )
+
+                                                );
                                             }
                                         });
                                     }
@@ -125,9 +134,10 @@ public class RedditDataManager {
 
         /**
          * <p>Will be called on the 'main' thread!</p>
-         * @param listNewPostData
+         * @param listPairData Containing both the new post data, but as well
+         *                     the subreddit data the new post was posted to
          */
-        void fetched(final List<NewPostData> listNewPostData);
+        void fetched(final List<Pair<NewPostData,SubredditData>> listPairData);
 
         /**
          * <p>Called when an error occurs on any of the fetches.</p>
