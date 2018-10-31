@@ -22,7 +22,7 @@ import java.util.stream.Collectors;
 import java.util.stream.Stream;
 
 import info.romanelli.udacity.capstone.BuildConfig;
-import info.romanelli.udacity.capstone.reddit.data.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.AppExecutors;
 
 public class RedditAuthManager {
 

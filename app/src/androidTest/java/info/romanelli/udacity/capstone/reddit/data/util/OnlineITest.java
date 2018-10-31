@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone.reddit;
+package info.romanelli.udacity.capstone.reddit.data.util;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
@@ -9,7 +9,7 @@ import org.junit.Test;
 import org.junit.runner.RunWith;
 
 import info.romanelli.udacity.capstone.TestUtil;
-import info.romanelli.udacity.capstone.reddit.data.util.NetUtil;
+import info.romanelli.udacity.capstone.util.NetUtil;
 
 import static org.junit.Assert.assertEquals;
 

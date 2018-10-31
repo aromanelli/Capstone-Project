@@ -11,7 +11,7 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import info.romanelli.udacity.capstone.reddit.OnlineITest;
+import info.romanelli.udacity.capstone.reddit.data.util.OnlineITest;
 
 public class TestUtil {
 

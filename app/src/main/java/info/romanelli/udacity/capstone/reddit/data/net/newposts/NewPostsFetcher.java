@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 import info.romanelli.udacity.capstone.reddit.data.net.AbstractRedditFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPosts;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
-import info.romanelli.udacity.capstone.reddit.data.util.NetUtil;
+import info.romanelli.udacity.capstone.util.NetUtil;
 import retrofit2.Call;
 import retrofit2.Callback;
 import retrofit2.http.GET;

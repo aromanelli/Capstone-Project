@@ -14,8 +14,8 @@ import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.SubredditsFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.SubredditData;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.Subreddits;
-import info.romanelli.udacity.capstone.reddit.data.util.AppExecutors;
-import info.romanelli.udacity.capstone.reddit.data.util.NetUtil;
+import info.romanelli.udacity.capstone.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.NetUtil;
 
 public class RedditDataManager {
 

@@ -15,7 +15,7 @@ import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
 import info.romanelli.udacity.capstone.reddit.data.net.RedditDataManager;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPostData;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.SubredditData;
-import info.romanelli.udacity.capstone.reddit.data.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.AppExecutors;
 
 public class DataRepository {
 

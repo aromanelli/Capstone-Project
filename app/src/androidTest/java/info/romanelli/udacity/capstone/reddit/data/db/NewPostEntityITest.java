@@ -15,7 +15,7 @@ import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
-import info.romanelli.udacity.capstone.reddit.data.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.AppExecutors;
 
 import static org.junit.Assert.assertEquals;
 

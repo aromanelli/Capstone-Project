@@ -15,7 +15,7 @@ import info.romanelli.udacity.capstone.TestUtil;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.NewPostsFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPosts;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
-import info.romanelli.udacity.capstone.reddit.data.util.NetUtil;
+import info.romanelli.udacity.capstone.util.NetUtil;
 
 import static org.junit.Assert.assertEquals;
 
