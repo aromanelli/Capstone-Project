@@ -11,11 +11,9 @@ import java.io.FileInputStream;
 import java.io.IOException;
 import java.io.InputStreamReader;
 
-import info.romanelli.udacity.capstone.reddit.data.util.OnlineITest;
-
 public class TestUtil {
 
-    final static private String TAG = OnlineITest.class.getSimpleName();
+    final static private String TAG = TestUtil.class.getSimpleName();
 
     static public void setNetworkAccess(final boolean enabled) {
         final String cmd = enabled ? "enable" : "disable";

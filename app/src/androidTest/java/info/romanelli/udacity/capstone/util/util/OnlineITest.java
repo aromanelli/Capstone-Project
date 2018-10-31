@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone.reddit.data.util;
+package info.romanelli.udacity.capstone.util.util;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
