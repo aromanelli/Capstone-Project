@@ -12,7 +12,23 @@ public class AppExecutors {
 
     final static private String TAG = AppExecutors.class.getSimpleName();
 
-    static private AppExecutors REF;
+    static private volatile AppExecutors INSTANCE;
+
+    static public AppExecutors $() {
+        if (INSTANCE == null) {
+            synchronized (AppExecutors.class) {
+                if (INSTANCE == null) {
+                    Log.d(TAG, "$: Creating Executors!");
+                    INSTANCE = new AppExecutors(
+                            Executors.newSingleThreadExecutor(),
+                            Executors.newFixedThreadPool(3),
+                            new MainThreadExecutor()
+                    );
+                }
+            }
+        }
+        return INSTANCE;
+    }
 
     final private Executor diskIO;
     private final Executor mainThread;
@@ -22,22 +38,6 @@ public class AppExecutors {
         this.diskIO = diskIO;
         this.networkIO = networkIO;
         this.mainThread = mainThread;
-    }
-
-    static public AppExecutors $() {
-        if (REF == null) {
-            synchronized (TAG) {
-                if (REF == null) {
-                    Log.d(TAG, "$: Creating Executors!");
-                    REF = new AppExecutors(
-                            Executors.newSingleThreadExecutor(),
-                            Executors.newFixedThreadPool(3),
-                            new MainThreadExecutor()
-                    );
-                }
-            }
-        }
-        return REF;
     }
 
     public Executor diskIO() {
