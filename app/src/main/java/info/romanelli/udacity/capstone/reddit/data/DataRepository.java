@@ -13,6 +13,7 @@ import java.util.List;
 import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
@@ -42,7 +43,7 @@ public class DataRepository {
 
     private NewPostDao daoNewPost;
     private LiveData<List<NewPostEntity>> ldNewPosts;
-    private SortedSet<SubredditInfo> subredditsInfo;
+    private SortedSet<SubredditInfo> subredditsInfo = new TreeSet<>();
 
     private DataRepository(final Context context) {
 
