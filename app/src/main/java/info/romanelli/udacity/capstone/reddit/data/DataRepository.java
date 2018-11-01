@@ -2,11 +2,17 @@ package info.romanelli.udacity.capstone.reddit.data;
 
 import android.app.AlertDialog;
 import android.arch.lifecycle.LiveData;
+import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
 
+import java.util.Collections;
 import java.util.List;
+import java.util.Objects;
+import java.util.Set;
+import java.util.SortedSet;
 
 import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
@@ -36,11 +42,42 @@ public class DataRepository {
 
     private NewPostDao daoNewPost;
     private LiveData<List<NewPostEntity>> ldNewPosts;
+    private SortedSet<SubredditInfo> subredditsInfo;
 
     private DataRepository(final Context context) {
+
         NewPostDatabase db = NewPostDatabase.$(context.getApplicationContext());
+
         daoNewPost = db.daoNewPost();
         ldNewPosts = daoNewPost.getNewPosts();
+
+        createSubredditsInfo();
+        final Observer<List<NewPostEntity>> obs1 = newPostEntities -> {
+            Log.d(TAG, "DataRepository: Observed changing new posts data");
+            createSubredditsInfo();
+        };
+        ldNewPosts.observeForever(obs1); // TODO Need to removeObserver for a singleton class?
+    }
+
+    synchronized private void createSubredditsInfo() {
+        Log.d(TAG, "createSubredditsInfo() called");
+        // Create the sorted Set of Subreddits ...
+        if (ldNewPosts.getValue() != null) {
+            subredditsInfo.clear();
+            ldNewPosts.getValue().forEach(newPostEntity ->
+                    subredditsInfo.add(
+                            new SubredditInfo(
+                                    newPostEntity.getSubreddit_pre(),
+                                    newPostEntity.getSubreddit(),
+                                    newPostEntity.getSubreddit_icon()
+                            )
+                    )
+            );
+        }
+    }
+
+    synchronized public Set<SubredditInfo> getSubredditsInfo() {
+        return Collections.unmodifiableSet(subredditsInfo);
     }
 
     public LiveData<List<NewPostEntity>> getNewPosts() {
@@ -119,6 +156,69 @@ public class DataRepository {
                 });
             }
         });
+
+    }
+
+    static class SubredditInfo {
+
+        private String subreddit_pre;
+        private String subreddit;
+        private String subreddit_icon;
+
+        public SubredditInfo(@NonNull final String subreddit_pre,
+                             @NonNull final String subreddit,
+                             final String subreddit_icon) {
+            setPrefixedSubreddit(subreddit_pre);
+            setSubreddit(subreddit);
+            setSubredditIcon(subreddit_icon);
+        }
+
+        public String getPrefixedSubreddit() {
+            return subreddit_pre;
+        }
+
+        public void setPrefixedSubreddit(String subreddit_pre) {
+            this.subreddit_pre = subreddit_pre;
+        }
+
+        public String getSubreddit() {
+            return subreddit;
+        }
+
+        public void setSubreddit(String subreddit) {
+            this.subreddit = subreddit;
+        }
+
+        public String getSubredditIcon() {
+            return subreddit_icon;
+        }
+
+        public void setSubredditIcon(String subreddit_icon) {
+            this.subreddit_icon = subreddit_icon;
+        }
+
+        @Override
+        public boolean equals(Object o) {
+            if (this == o) return true;
+            if (o == null || getClass() != o.getClass()) return false;
+            SubredditInfo that = (SubredditInfo) o;
+            return Objects.equals(subreddit_pre, that.subreddit_pre);
+        }
+
+        @Override
+        public int hashCode() {
+
+            return Objects.hash(subreddit_pre);
+        }
+
+        @Override
+        public String toString() {
+            return "SubredditInfo{" +
+                    "subreddit_pre='" + subreddit_pre + '\'' +
+                    ", subreddit='" + subreddit + '\'' +
+                    ", subreddit_icon='" + subreddit_icon + '\'' +
+                    '}';
+        }
 
     }
 
