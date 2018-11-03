@@ -160,7 +160,7 @@ public class DataRepository {
 
     }
 
-    static class SubredditInfo {
+    static class SubredditInfo implements Comparable<SubredditInfo> {
 
         private String subreddit_pre;
         private String subreddit;
@@ -221,6 +221,10 @@ public class DataRepository {
                     '}';
         }
 
+        @Override
+        public int compareTo(SubredditInfo o) {
+            return this.subreddit_pre.compareTo(o.subreddit_pre);
+        }
     }
 
 }

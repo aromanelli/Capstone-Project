@@ -28,12 +28,31 @@
                     android:scheme="@string/reddit_redirect_uri_scheme" />
             </intent-filter>
         </activity>
-        <activity android:name=".LauncherActivity">
+        <!--<activity android:name=".LauncherActivity">-->
+            <!--<intent-filter>-->
+                <!--<action android:name="android.intent.action.MAIN" />-->
+
+                <!--<category android:name="android.intent.category.LAUNCHER" />-->
+            <!--</intent-filter>-->
+        <!--</activity>-->
+        <activity
+            android:name=".reddit.view.NewPostListActivity"
+            android:label="@string/title_newpost_list"
+            android:theme="@style/AppTheme.NoActionBar">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
+        </activity>
+        <activity
+            android:name=".reddit.view.NewPostDetailActivity"
+            android:label="@string/title_newpost_detail"
+            android:parentActivityName=".reddit.view.NewPostListActivity"
+            android:theme="@style/AppTheme.NoActionBar">
+            <meta-data
+                android:name="android.support.PARENT_ACTIVITY"
+                android:value="info.romanelli.udacity.capstone.reddit.view.NewPostListActivity" />
         </activity>
     </application>
 
