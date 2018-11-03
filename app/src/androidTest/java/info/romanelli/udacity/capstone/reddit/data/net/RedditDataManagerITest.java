@@ -34,7 +34,7 @@ public class RedditDataManagerITest {
         NetUtil.registerForNetworkMonitoring(appContext);
         Assert.assertTrue(NetUtil.isConnected());
 
-        // If below fails, try running LauncherActivity to authorize app by user!
+        // If below fails, try running the app to authorize app by user!
         Assert.assertTrue(RedditAuthManager.isAuthorized(appContext));
 
         final AtomicBoolean done = new AtomicBoolean(false);

@@ -28,13 +28,6 @@
                     android:scheme="@string/reddit_redirect_uri_scheme" />
             </intent-filter>
         </activity>
-        <!--<activity android:name=".LauncherActivity">-->
-            <!--<intent-filter>-->
-                <!--<action android:name="android.intent.action.MAIN" />-->
-
-                <!--<category android:name="android.intent.category.LAUNCHER" />-->
-            <!--</intent-filter>-->
-        <!--</activity>-->
         <activity
             android:name=".reddit.view.NewPostListActivity"
             android:label="@string/title_newpost_list"
