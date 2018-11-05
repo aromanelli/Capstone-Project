@@ -24,7 +24,8 @@
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/newpost_list"
         android:name="info.romanelli.udacity.capstone.reddit.view.NewPostListFragment"
-        android:layout_width="@dimen/item_width"
+        android:layout_weight="0.3"
+        android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:context="info.romanelli.udacity.capstone.reddit.view.NewPostListActivity"
@@ -34,6 +35,6 @@
         android:id="@+id/newpost_detail_container"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        android:layout_weight="3" />
+        android:layout_weight="0.7" />
 
 </LinearLayout>
