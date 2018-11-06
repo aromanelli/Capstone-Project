@@ -22,6 +22,8 @@
     <string name="auth_fail_req_title">Authorization Failed</string>
     <string name="auth_fail_req_text">Unable to authorize this app with Reddit.  This app will now exit.\n\n</string>
 
+    <string name="fetching_data">Fetching new posts, please wait …</string>
+
     <string name="fetch_error_title">Error fetching data</string>
     <string name="fetch_error_text">An error prevented the fetching of the Reddit information.</string>
 

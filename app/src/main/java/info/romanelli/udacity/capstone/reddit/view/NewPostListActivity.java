@@ -68,9 +68,10 @@ public class NewPostListActivity extends AppCompatActivity {
         toolbar.setTitle(getTitle());
 
         FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view ->
-                Snackbar.make(view, "Replace with your own action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show()); // TODO CODE THIS!
+        fab.setOnClickListener(view -> {
+            Snackbar.make(view, getString(R.string.fetching_data), Snackbar.LENGTH_LONG).show();
+            populateDatabase(true);
+        });
 
         if (findViewById(R.id.newpost_detail_container) != null) {
             // The detail container view will be present only in the
@@ -121,7 +122,7 @@ public class NewPostListActivity extends AppCompatActivity {
             if (savedInstanceState == null) {
                 // App is authorized, so populate the database with data from Reddit ...
                 Log.d(TAG, "onCreate: Authorized");
-                populateDatabase();
+                populateDatabase(false);
             }
         }
 
@@ -164,15 +165,15 @@ public class NewPostListActivity extends AppCompatActivity {
                             );
                             adb.show();
                         } else {
-                            populateDatabase();
+                            populateDatabase(true);
                         }
                     }
             );
         }
     }
 
-    private void populateDatabase() {
-        DataRepository.$(this).populateDatabase(this);
+    private void populateDatabase(boolean force) {
+        DataRepository.$(this).populateDatabase(this, force);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
