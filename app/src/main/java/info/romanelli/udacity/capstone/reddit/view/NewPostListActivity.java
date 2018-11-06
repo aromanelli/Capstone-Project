@@ -118,7 +118,7 @@ public class NewPostListActivity extends AppCompatActivity {
             adb.show();
         } else {
             // Only populate db on start and auth'd, not on rotation ...
-            if (savedInstanceState != null) {
+            if (savedInstanceState == null) {
                 // App is authorized, so populate the database with data from Reddit ...
                 Log.d(TAG, "onCreate: Authorized");
                 populateDatabase();
