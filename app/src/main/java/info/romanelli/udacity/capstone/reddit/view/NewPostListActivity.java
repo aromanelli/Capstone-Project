@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
@@ -18,6 +19,10 @@ import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import com.bumptech.glide.Glide;
+import com.bumptech.glide.Priority;
+import com.bumptech.glide.request.RequestOptions;
 
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
@@ -243,14 +248,25 @@ public class NewPostListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-            // TODO CODE BELOW!
-//            holder.ivSubreddit.setImageURI(
-//                    Uri.parse( mValues.get(position).getSubreddit_icon() )
-//            );
-//            holder.ivSubreddit.setImageDrawable(null);
-//            holder.ivSubreddit.setImageBitmap(null);
+            Object loadTarget;
+            String url = mValues.get(position).getSubreddit_icon();
+            if (url == null || url.trim().length() <= 0) {
+                loadTarget = R.drawable.ic_reddit_default;
+            } else {
+                loadTarget = Uri.parse( mValues.get(position).getSubreddit_icon() );
+            }
+            // https://bumptech.github.io/glide/doc/getting-started.html#listview-and-recyclerview
+            Glide.with(mParentActivity)
+                    .load(loadTarget)
+                    .apply(new RequestOptions()
+                            .centerInside()
+                            .priority(Priority.HIGH)
+                            .placeholder(R.drawable.ic_reddit_default)
+                            .error(R.drawable.ic_reddit_default)
+                    )
+                    .into(holder.ivSubreddit);
 
-            holder.tvSubreddit.setText(mValues.get(position).getSubreddit());
+            holder.tvSubreddit.setText(mValues.get(position).getSubreddit_pre());
             holder.tvPoster.setText(mValues.get(position).getAuthor());
             holder.tvPostTitle.setText(mValues.get(position).getTitle());
 
