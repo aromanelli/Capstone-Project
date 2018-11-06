@@ -4,6 +4,7 @@ import android.app.AlertDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
+import android.content.SharedPreferences;
 import android.support.annotation.NonNull;
 import android.util.Log;
 import android.util.Pair;
@@ -14,6 +15,7 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
+import java.util.concurrent.TimeUnit;
 
 import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
@@ -41,14 +43,22 @@ public class DataRepository {
         return INSTANCE;
     }
 
+    private static final String STORE_NAME = DataRepository.class.getSimpleName();
+    private static final String KEY_STATE = "last_populate_time";
+    private final SharedPreferences prefs;
+
+    @SuppressWarnings("FieldCanBeLocal")
+    private final int fetchWaitMinutes = 10;
+
     private NewPostDao daoNewPost;
     private LiveData<List<NewPostEntity>> ldNewPosts;
     private SortedSet<SubredditInfo> subredditsInfo = new TreeSet<>();
 
     private DataRepository(final Context context) {
 
-        NewPostDatabase db = NewPostDatabase.$(context.getApplicationContext());
+        prefs = context.getSharedPreferences(STORE_NAME, Context.MODE_PRIVATE);
 
+        NewPostDatabase db = NewPostDatabase.$(context.getApplicationContext());
         daoNewPost = db.daoNewPost();
         ldNewPosts = daoNewPost.getNewPosts();
 
@@ -98,10 +108,36 @@ public class DataRepository {
     }
 
     /**
-     * <p>Will move the network calls and database populating off to other threads for you.</p>
+     * <p>Will move the network calls and database populating off to other threads for you.</p><br>
+     *
+     * <p>Note that if two populate requests are done, one right after another, the latter call
+     * will be ignored, as not enough time has elapsed yet.</p>
+     *
      * @param context
      */
     public void populateDatabase(final Context context) {
+        populateDatabase(context, false);
+    }
+
+    /**
+     * <p>Will move the network calls and database populating off to other threads for you.</p>
+     *
+     * @param context
+     * @param forcePopulate if {@code true} then a fetch/insert will be done even if one was just done recently.
+     */
+    synchronized public void populateDatabase(final Context context, boolean forcePopulate) {
+
+        if (!forcePopulate) {
+            long timeCurrent = TimeUnit.NANOSECONDS.toMinutes(System.nanoTime());
+            long timeLastFetch = TimeUnit.NANOSECONDS.toMinutes(prefs.getLong(KEY_STATE, 0));
+            if ((timeLastFetch != 0) && (timeLastFetch + fetchWaitMinutes) > timeCurrent) {
+                Log.i(TAG, "populateDatabase: Not enough time has elapsed to do another data populate. (L["+ timeLastFetch +"] + W["+ fetchWaitMinutes +"]) > C["+ timeCurrent +"]");
+                return;
+            }
+        }
+        else {
+            Log.i(TAG, "populateDatabase: Forcing a data populate; ignoring time elapsed since last time.");
+        }
 
         final Context appContext = context.getApplicationContext();
         RedditDataManager.getRedditData(appContext, new RedditDataManager.Listener() {
@@ -134,9 +170,20 @@ public class DataRepository {
                         entity.setCreated( (long) newPostData.getCreatedUtc() ); // DOUBLE vs LONG ?
                         entity.setAuthor(newPostData.getAuthor());
                         // Write NewPostEntity to the database ...
-                        Log.d(TAG, "fetched: Adding: " + entity);
+                        Log.d(TAG, "fetched: Adding: " +
+                                entity.getId() + "|" +
+                                entity.getSubreddit_pre() + "|" +
+                                entity.getAuthor() // + "|" +
+                                // entity.getTitle()
+                        );
                         daoNewPost.insert(entity);
                     });
+
+                    // Remember the time the successful populate was done ...
+                    SharedPreferences.Editor editor = prefs.edit();
+                    editor.putLong(KEY_STATE, System.nanoTime());
+                    editor.apply();
+
                 });
             }
             @Override
