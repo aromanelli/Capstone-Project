@@ -1,9 +1,12 @@
 package info.romanelli.udacity.capstone.reddit.view;
 
+import android.app.Activity;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
+import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
+import android.content.IntentFilter;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
@@ -27,13 +30,16 @@ import com.bumptech.glide.request.RequestOptions;
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
 
+import java.io.Serializable;
 import java.util.ArrayList;
 import java.util.List;
 
 import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
+import info.romanelli.udacity.capstone.reddit.data.net.RedditDataService;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
+import info.romanelli.udacity.capstone.util.AppExecutors;
 import info.romanelli.udacity.capstone.util.Assert;
 
 import static info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager.RC_AUTH;
@@ -57,6 +63,8 @@ public class NewPostListActivity extends AppCompatActivity {
     private boolean mTwoPane;
 
     private NewPostsViewModel mNewPostsViewModel;
+
+    private RecyclerView recyclerView;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -82,7 +90,7 @@ public class NewPostListActivity extends AppCompatActivity {
 
         mNewPostsViewModel = ViewModelProviders.of(this).get(NewPostsViewModel.class);
 
-        RecyclerView recyclerView = findViewById(R.id.newpost_list);
+        recyclerView = findViewById(R.id.newpost_list);
         Assert.that(recyclerView != null);
         setupRecyclerView(recyclerView);
 
@@ -173,7 +181,70 @@ public class NewPostListActivity extends AppCompatActivity {
     }
 
     private void populateDatabase(boolean force) {
+        showInfo(false);
         DataRepository.$(this).populateDatabase(this, force);
+    }
+
+    private BroadcastReceiver receiverRedditDataService = new BroadcastReceiver() {
+        @Override
+        public void onReceive(Context context, Intent intent) {
+            Log.d(TAG, "onReceive() called with: context = [" + context + "], intent = [" + intent + "], thread = [" + Thread.currentThread() + "]");
+
+            if (RedditDataService.KEY_NOTIFICATION.equals(intent.getAction())) {
+
+                Bundle bundle = intent.getExtras();
+                if (bundle != null) {
+
+                    int canceled = bundle.getInt(RedditDataService.KEY_RESULT_CANCELLED, Integer.MIN_VALUE);
+                    int fetched = bundle.getInt(RedditDataService.KEY_RESULT_FETCHED, Integer.MIN_VALUE);
+                    Serializable throwable = bundle.getSerializable(RedditDataService.KEY_RESULT_FAILED);
+
+                    if (throwable instanceof Throwable) {
+                        Log.e(TAG, "onReceive: ", (Throwable) throwable);
+                        AlertDialog.Builder adb = new AlertDialog.Builder(NewPostListActivity.this); // NOT appContext !
+                        adb.setTitle(getString(R.string.fetch_error_title));
+                        adb.setMessage(getString(R.string.fetch_error_text));
+                        adb.setPositiveButton(
+                                getString(R.string.close),
+                                (dialog, idBtn) -> {
+                                    dialog.dismiss();
+                                    showInfo(true);
+                                }
+                        );
+                        adb.show();
+                    } else if (fetched == Activity.RESULT_OK) {
+                        Snackbar.make(
+                                recyclerView,
+                                getString(R.string.fetching_data_completed),
+                                Snackbar.LENGTH_LONG
+                        ).show();
+                        showInfo(true);
+                    } else if (canceled == Activity.RESULT_CANCELED) {
+                        showInfo(true);
+                    }
+
+                }
+
+            }
+        }
+    };
+
+    private void showInfo(final boolean visible) {
+        AppExecutors.$().mainUI().execute(() -> {
+            int show = (!visible) ? View.INVISIBLE : View.VISIBLE;
+            recyclerView.setVisibility(show);
+        });
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiverRedditDataService, new IntentFilter(RedditDataService.KEY_NOTIFICATION));
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiverRedditDataService);
     }
 
     private void setupRecyclerView(@NonNull RecyclerView recyclerView) {

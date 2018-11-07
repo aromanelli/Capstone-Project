@@ -1,13 +1,11 @@
 package info.romanelli.udacity.capstone.reddit.data;
 
-import android.app.AlertDialog;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.content.SharedPreferences;
+import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
-import android.util.Pair;
 
 import java.util.Collections;
 import java.util.List;
@@ -15,15 +13,11 @@ import java.util.Objects;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
-import java.util.concurrent.TimeUnit;
 
-import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDatabase;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
-import info.romanelli.udacity.capstone.reddit.data.net.RedditDataManager;
-import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPostData;
-import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.SubredditData;
+import info.romanelli.udacity.capstone.reddit.data.net.RedditDataService;
 import info.romanelli.udacity.capstone.util.AppExecutors;
 
 public class DataRepository {
@@ -43,23 +37,13 @@ public class DataRepository {
         return INSTANCE;
     }
 
-    private static final String STORE_NAME = DataRepository.class.getSimpleName();
-    private static final String KEY_STATE = "last_populate_time";
-    private final SharedPreferences prefs;
-
-    @SuppressWarnings("FieldCanBeLocal")
-    private final int fetchWaitMinutes = 10;
-
     private NewPostDao daoNewPost;
     private LiveData<List<NewPostEntity>> ldNewPosts;
     private SortedSet<SubredditInfo> subredditsInfo = new TreeSet<>();
 
     private DataRepository(final Context context) {
 
-        prefs = context.getSharedPreferences(STORE_NAME, Context.MODE_PRIVATE);
-
-        NewPostDatabase db = NewPostDatabase.$(context.getApplicationContext());
-        daoNewPost = db.daoNewPost();
+        daoNewPost = NewPostDatabase.$(context.getApplicationContext()).daoNewPost();
         ldNewPosts = daoNewPost.getNewPosts();
 
         createSubredditsInfo();
@@ -126,85 +110,10 @@ public class DataRepository {
      * @param forcePopulate if {@code true} then a fetch/insert will be done even if one was just done recently.
      */
     synchronized public void populateDatabase(final Context context, boolean forcePopulate) {
-
-        if (!forcePopulate) {
-            long timeCurrent = TimeUnit.NANOSECONDS.toMinutes(System.nanoTime());
-            long timeLastFetch = TimeUnit.NANOSECONDS.toMinutes(prefs.getLong(KEY_STATE, 0));
-            if ((timeLastFetch != 0) && (timeLastFetch + fetchWaitMinutes) > timeCurrent) {
-                Log.i(TAG, "populateDatabase: Not enough time has elapsed to do another data populate. (L["+ timeLastFetch +"] + W["+ fetchWaitMinutes +"]) > C["+ timeCurrent +"]");
-                return;
-            }
-        }
-        else {
-            Log.i(TAG, "populateDatabase: Forcing a data populate; ignoring time elapsed since last time.");
-        }
-
         final Context appContext = context.getApplicationContext();
-        RedditDataManager.getRedditData(appContext, new RedditDataManager.Listener() {
-            private int counter;
-            private int size;
-            @Override
-            public void fetching(int size) {
-                Log.d(TAG, "fetching: Will receive [" + size + "] fetches! " + Thread.currentThread().getName());
-                this.size = size;
-            }
-            @Override
-            public void fetched(List<Pair<NewPostData,SubredditData>> listPairData) {
-                Log.d(TAG, "fetched: ["+ (counter+1) +"] of ["+ size +"] " + Thread.currentThread().getName());
-                counter++;
-                AppExecutors.$().diskIO().execute(() -> {
-                    Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] records");
-                    listPairData.forEach(pairData -> {
-                        // Pull the data out of the Pair ...
-                        NewPostData newPostData = pairData.first;
-                        SubredditData subredditData = pairData.second;
-                        // Create a NewPostEntity and populate with ...
-                        final NewPostEntity entity = new NewPostEntity();
-                        entity.setId(newPostData.getId());
-                        entity.setUrl(newPostData.getUrl());
-                        entity.setText(newPostData.getSelftext());
-                        entity.setTitle(newPostData.getTitle());
-                        entity.setSubreddit_icon(subredditData.getIconImg());
-                        entity.setSubreddit(newPostData.getSubreddit());
-                        entity.setSubreddit_pre(newPostData.getSubredditNamePrefixed());
-                        entity.setCreated( (long) newPostData.getCreatedUtc() ); // DOUBLE vs LONG ?
-                        entity.setAuthor(newPostData.getAuthor());
-                        // Write NewPostEntity to the database ...
-                        Log.d(TAG, "fetched: Adding: " +
-                                entity.getId() + "|" +
-                                entity.getSubreddit_pre() + "|" +
-                                entity.getAuthor() // + "|" +
-                                // entity.getTitle()
-                        );
-                        daoNewPost.insert(entity);
-                    });
-
-                    // Remember the time the successful populate was done ...
-                    SharedPreferences.Editor editor = prefs.edit();
-                    editor.putLong(KEY_STATE, System.nanoTime());
-                    editor.apply();
-
-                });
-            }
-            @Override
-            public void failed(final Throwable t) {
-                AppExecutors.$().mainUI().execute(() -> {
-                    AlertDialog.Builder adb = new AlertDialog.Builder(context); // NOT appContext !
-                    adb.setTitle(appContext.getString(R.string.fetch_error_title));
-                    adb.setMessage(appContext.getString(R.string.fetch_error_text));
-                    adb.setNegativeButton(
-                            appContext.getString(R.string.exit),
-                            (dialog, idBtn) -> {
-                                // if (DialogInterface.BUTTON_POSITIVE == idBtn) {
-                                dialog.dismiss();
-                                System.exit(t.hashCode() * -1);
-                            }
-                    );
-                    adb.show();
-                });
-            }
-        });
-
+        Intent intent = new Intent(context, RedditDataService.class);
+        intent.putExtra(RedditDataService.KEY_FORCE_POPULATE, forcePopulate);
+        appContext.startService(intent);
     }
 
     static class SubredditInfo implements Comparable<SubredditInfo> {

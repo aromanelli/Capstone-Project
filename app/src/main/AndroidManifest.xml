@@ -47,6 +47,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value="info.romanelli.udacity.capstone.reddit.view.NewPostListActivity" />
         </activity>
+
+        <service android:name=".reddit.data.net.RedditDataService" />
     </application>
 
 </manifest>
