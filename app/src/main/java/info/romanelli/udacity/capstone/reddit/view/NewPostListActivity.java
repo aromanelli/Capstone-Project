@@ -19,6 +19,9 @@ import android.support.v7.widget.RecyclerView;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.LayoutInflater;
+import android.view.Menu;
+import android.view.MenuInflater;
+import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ImageView;
@@ -66,7 +69,9 @@ public class NewPostListActivity extends AppCompatActivity {
     private NewPostsViewModel mNewPostsViewModel;
 
     private SwipeRefreshLayout mSwipeRefreshLayout;
-    private RecyclerView recyclerView;
+    private RecyclerView mRecyclerView;
+
+    private FloatingActionButton mFloatingActionButton;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -77,8 +82,8 @@ public class NewPostListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        final FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> refresh(fab));
+        mFloatingActionButton = findViewById(R.id.fab);
+        mFloatingActionButton.setOnClickListener(view -> refresh(true));
 
         if (findViewById(R.id.newpost_detail_container) != null) {
             // The detail container view will be present only in the
@@ -90,14 +95,14 @@ public class NewPostListActivity extends AppCompatActivity {
         mNewPostsViewModel = ViewModelProviders.of(this).get(NewPostsViewModel.class);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
-        mSwipeRefreshLayout.setOnRefreshListener(() -> refresh(fab));
+        mSwipeRefreshLayout.setOnRefreshListener(() -> refresh(true));
 
-        recyclerView = findViewById(R.id.newpost_list);
-        Assert.that(recyclerView != null);
-        setupRecyclerView(recyclerView);
+        mRecyclerView = findViewById(R.id.newpost_list);
+        Assert.that(mRecyclerView != null);
+        setupRecyclerView(mRecyclerView);
 
         mNewPostsViewModel.getNewPosts().observe(this, newPostEntities -> {
-            NewPostsListRecyclerViewAdapter adapter = (NewPostsListRecyclerViewAdapter) recyclerView.getAdapter();
+            NewPostsListRecyclerViewAdapter adapter = (NewPostsListRecyclerViewAdapter) mRecyclerView.getAdapter();
             if (adapter != null) {
                 adapter.setNewPosts(newPostEntities);
             } else {
@@ -128,14 +133,26 @@ public class NewPostListActivity extends AppCompatActivity {
             );
             adb.show();
         } else {
+            // App is authorized, so populate the database with data from Reddit ...
+            Log.d(TAG, "onCreate: Authorized");
             // Only populate db on start and auth'd, not on rotation ...
             if (savedInstanceState == null) {
-                // App is authorized, so populate the database with data from Reddit ...
-                Log.d(TAG, "onCreate: Authorized");
-                populateDatabase(false);
+                refresh(true);
             }
         }
 
+    }
+
+    @Override
+    protected void onResume() {
+        super.onResume();
+        registerReceiver(receiverRedditDataService, new IntentFilter(RedditDataService.KEY_NOTIFICATION));
+        showUI(!mNewPostsViewModel.isRefreshing());
+    }
+    @Override
+    protected void onPause() {
+        super.onPause();
+        unregisterReceiver(receiverRedditDataService);
     }
 
     @Override
@@ -175,21 +192,45 @@ public class NewPostListActivity extends AppCompatActivity {
                             );
                             adb.show();
                         } else {
-                            populateDatabase(true);
+                            refresh(true);
                         }
                     }
             );
         }
     }
 
-    private void refresh(final View view) {
-        Snackbar.make(view, getString(R.string.fetching_data), Snackbar.LENGTH_LONG).show();
-        populateDatabase(true);
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        MenuInflater inflater = getMenuInflater();
+        inflater.inflate(R.menu.menu_newpost_list, menu);
+        return true;
     }
 
-    private void populateDatabase(boolean force) {
-        showInfo(false);
-        DataRepository.$(this).populateDatabase(this, force);
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        // menu.getItem(0).setEnabled(!mNewPostsViewModel.isRefreshing());
+        menu.findItem(R.id.action_refresh).setEnabled(!mNewPostsViewModel.isRefreshing());
+        return true;
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case R.id.action_refresh:
+                refresh(true);
+                return true;
+            default:
+                return super.onOptionsItemSelected(item);
+        }
+    }
+
+    protected void refresh(boolean force) {
+        Log.d(TAG, "refresh() called with: force = [" + force + "] (["+ mNewPostsViewModel.isRefreshing() +"])");
+        if (!mNewPostsViewModel.isRefreshing()) {
+            showUI( false );
+            Snackbar.make(mRecyclerView, getString(R.string.fetching_data), Snackbar.LENGTH_LONG).show();
+            DataRepository.$(this).populateDatabase(this, force);
+        }
     }
 
     private BroadcastReceiver receiverRedditDataService = new BroadcastReceiver() {
@@ -215,19 +256,19 @@ public class NewPostListActivity extends AppCompatActivity {
                                 getString(R.string.close),
                                 (dialog, idBtn) -> {
                                     dialog.dismiss();
-                                    showInfo(true);
+                                    showUI(true);
                                 }
                         );
                         adb.show();
                     } else if (fetched == Activity.RESULT_OK) {
                         Snackbar.make(
-                                recyclerView,
+                                mRecyclerView,
                                 getString(R.string.fetching_data_completed),
                                 Snackbar.LENGTH_LONG
                         ).show();
-                        showInfo(true);
+                        showUI(true);
                     } else if (canceled == Activity.RESULT_CANCELED) {
-                        showInfo(true);
+                        showUI(true);
                     }
 
                 }
@@ -236,35 +277,32 @@ public class NewPostListActivity extends AppCompatActivity {
         }
     };
 
-    private void showInfo(final boolean visible) {
+    private void showUI(final boolean visible) {
+        Log.d(TAG, "showUI() called with: visible = [" + visible + "] (["+ mNewPostsViewModel.isRefreshing() +"])");
+        mNewPostsViewModel.setIsRefreshing(!visible);
         AppExecutors.$().mainUI().execute(() -> {
-            mSwipeRefreshLayout.setRefreshing(!visible);
-            int show = (!visible) ? View.INVISIBLE : View.VISIBLE;
-            recyclerView.setVisibility(show);
+            mSwipeRefreshLayout.setRefreshing(mNewPostsViewModel.isRefreshing());
+            // 'Refresh' menu handled in onPrepareOptionsMenu(Menu) method!
+            if (visible) {
+                mRecyclerView.setVisibility(View.VISIBLE);
+                mFloatingActionButton.show();
+            } else {
+                mRecyclerView.setVisibility(View.INVISIBLE);
+                mFloatingActionButton.hide();
+            }
         });
     }
 
-    @Override
-    protected void onResume() {
-        super.onResume();
-        registerReceiver(receiverRedditDataService, new IntentFilter(RedditDataService.KEY_NOTIFICATION));
-    }
-    @Override
-    protected void onPause() {
-        super.onPause();
-        unregisterReceiver(receiverRedditDataService);
-    }
-
-    private void setupRecyclerView(@NonNull RecyclerView recyclerView) {
+    private void setupRecyclerView(@NonNull RecyclerView mRecyclerView) {
         // .setLayoutManager done in xml
-        recyclerView.setAdapter(
+        mRecyclerView.setAdapter(
                 new NewPostsListRecyclerViewAdapter(
                         this,
                         mNewPostsViewModel.getNewPosts().getValue(),
                         mTwoPane
                 )
         );
-        recyclerView.addItemDecoration(
+        mRecyclerView.addItemDecoration(
                 new DividerItemDecoration(
                         this,
                         DividerItemDecoration.VERTICAL

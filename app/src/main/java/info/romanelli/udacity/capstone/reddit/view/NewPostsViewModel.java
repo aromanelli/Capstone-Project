@@ -14,15 +14,24 @@ class NewPostsViewModel extends AndroidViewModel {
 
     final static private String TAG = NewPostsViewModel.class.getSimpleName();
 
-    private LiveData<List<NewPostEntity>> ldNewPosts;
+    private LiveData<List<NewPostEntity>> mNewPosts;
+    private boolean mIsRefreshing = false;
 
     NewPostsViewModel(@NonNull Application application) {
         super(application);
-        ldNewPosts = DataRepository.$(application).getNewPosts();
+        mNewPosts = DataRepository.$(application).getNewPosts();
     }
 
     LiveData<List<NewPostEntity>> getNewPosts() {
-        return ldNewPosts;
+        return mNewPosts;
+    }
+    
+    boolean isRefreshing() {
+        return mIsRefreshing;
+    }
+
+    void setIsRefreshing(final boolean refreshing) {
+        this.mIsRefreshing = refreshing;
     }
 
 }

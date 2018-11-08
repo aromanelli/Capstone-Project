@@ -1,6 +1,5 @@
 package info.romanelli.udacity.capstone.reddit.view;
 
-import android.content.Intent;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
@@ -75,7 +74,9 @@ public class NewPostDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            navigateUpTo(new Intent(this, NewPostListActivity.class));
+            // navigateUpTo(new Intent(this, NewPostListActivity.class));
+            // NavUtils.navigateUpFromSameTask(this);
+            super.onBackPressed(); // We don't want to call parent Activities create method
             return true;
         }
         return super.onOptionsItemSelected(item);
