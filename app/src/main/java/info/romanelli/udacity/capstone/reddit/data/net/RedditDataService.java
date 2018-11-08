@@ -32,7 +32,7 @@ public class RedditDataService extends IntentService {
     public static final String KEY_RESULT_FAILED = KEY_NOTIFICATION + ":failed";
 
     private static final String KEY_STORE_NAME = DataRepository.class.getSimpleName();
-    public static final String KEY_STATE = "last_populate_time";
+    public static final String KEY_LAST_POP_TIME = "last_populate_time";
 
     private SharedPreferences prefs;
 
@@ -52,7 +52,7 @@ public class RedditDataService extends IntentService {
 
         if (!intent.getBooleanExtra(KEY_FORCE_POPULATE, true)) {
             long timeCurrent = TimeUnit.NANOSECONDS.toMinutes(System.nanoTime());
-            long timeLastFetch = TimeUnit.NANOSECONDS.toMinutes(prefs.getLong(KEY_STATE, 0));
+            long timeLastFetch = TimeUnit.NANOSECONDS.toMinutes(prefs.getLong(KEY_LAST_POP_TIME, 0));
             if ((timeLastFetch != 0) && (timeLastFetch + fetchWaitMinutes) > timeCurrent) {
                 Log.i(TAG, "populateDatabase: Not enough time has elapsed to do another data populate. (L["+ timeLastFetch +"] + W["+ fetchWaitMinutes +"]) > C["+ timeCurrent +"]");
                 // Notify ...
@@ -142,7 +142,7 @@ public class RedditDataService extends IntentService {
     public void setLastPopulateTime() {
         // Remember the time the successful populate was done ...
         SharedPreferences.Editor editor = prefs.edit();
-        editor.putLong(KEY_STATE, System.nanoTime());
+        editor.putLong(KEY_LAST_POP_TIME, System.nanoTime());
         editor.apply();
     }
 
