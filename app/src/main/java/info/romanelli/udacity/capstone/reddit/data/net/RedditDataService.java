@@ -8,7 +8,6 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Pair;
 
-import java.util.ArrayList;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -69,7 +68,7 @@ public class RedditDataService extends IntentService {
         RedditDataManager.getRedditData(
                 appContext,
                 new RedditDataManager.Listener() {
-                    private List<SubredditData> listSubredditData = new ArrayList<>(0);
+                    private int counter;
                     private int size;
                     @Override
                     public void fetching(int size) {
@@ -78,22 +77,11 @@ public class RedditDataService extends IntentService {
                     }
                     @Override
                     public void fetched(List<Pair<NewPostData,SubredditData>> listPairData) {
-                        // Track the subreddit that the new posts are being processed for ...
-                        listSubredditData.add(listPairData.get(0).second);
-
-                        Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] more records. ["+ listSubredditData.size() +"] of ["+ size +"] ["+ listPairData.get(0).second.getDisplayNamePrefixed() +"] " + Thread.currentThread().getName());
                         AppExecutors.$().diskIO().execute(() -> {
-                            Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] more records. ["+ listPairData.get(0).second.getDisplayNamePrefixed() +"] " + Thread.currentThread().getName());
+                            counter++; // Do this INSIDE of thread, not in method that calls thread!
+                            Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] more records. ["+ counter +"] of ["+ size +"] ["+ listPairData.get(0).second.getDisplayNamePrefixed() +"] " + Thread.currentThread().getName());
 
                             NewPostDao daoNewPost = NewPostDatabase.$(appContext).daoNewPost();
-
-                            // Keep track of which subreddit is having its new posts
-                            // fetched and written out to the db ...
-                            //
-                            // (For performance reasons, we assume that item 0 in list is always valid,
-                            // (per RedditDataManager), otherwise we'd have to do List.remove(Object) in
-                            // each forEach call of 'listPairData' below!)
-                            listSubredditData.remove(listPairData.get(0).second);
 
                             listPairData.forEach(pairData -> {
                                 // Pull the data out of the Pair ...
@@ -108,7 +96,8 @@ public class RedditDataService extends IntentService {
                                 entity.setSubreddit_icon(subredditData.getIconImg());
                                 entity.setSubreddit(newPostData.getSubreddit());
                                 entity.setSubreddit_pre(newPostData.getSubredditNamePrefixed());
-                                entity.setCreated( (long) newPostData.getCreatedUtc() ); // DOUBLE vs LONG ?
+                                // Unix timestamp values are in seconds, not millisecs!
+                                entity.setCreated( (long)newPostData.getCreatedUtc() * 1000 );
                                 entity.setAuthor(newPostData.getAuthor());
                                 // Write NewPostEntity to the database ...
                                 // Log.d(TAG, "fetched: Adding: " + entity.getId() + " | " + entity.getSubreddit_pre());
@@ -117,7 +106,7 @@ public class RedditDataService extends IntentService {
 
                             // If done fetching all new posts for all subreddits,
                             // update last fetched time, and do notification ...
-                            if (listSubredditData.size() == 0) { // All subreddits have been processed
+                            if (counter >= size) { // All subreddits have been processed
                                 setLastPopulateTime();
                                 // Notify ...
                                 final Intent intent = new Intent(KEY_NOTIFICATION);
