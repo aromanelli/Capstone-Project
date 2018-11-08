@@ -12,6 +12,7 @@ import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
 import android.support.v7.widget.RecyclerView;
@@ -64,6 +65,7 @@ public class NewPostListActivity extends AppCompatActivity {
 
     private NewPostsViewModel mNewPostsViewModel;
 
+    private SwipeRefreshLayout mSwipeRefreshLayout;
     private RecyclerView recyclerView;
 
     @Override
@@ -75,11 +77,8 @@ public class NewPostListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
-            Snackbar.make(view, getString(R.string.fetching_data), Snackbar.LENGTH_LONG).show();
-            populateDatabase(true);
-        });
+        final FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> refresh(fab));
 
         if (findViewById(R.id.newpost_detail_container) != null) {
             // The detail container view will be present only in the
@@ -89,6 +88,9 @@ public class NewPostListActivity extends AppCompatActivity {
         }
 
         mNewPostsViewModel = ViewModelProviders.of(this).get(NewPostsViewModel.class);
+
+        mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
+        mSwipeRefreshLayout.setOnRefreshListener(() -> refresh(fab));
 
         recyclerView = findViewById(R.id.newpost_list);
         Assert.that(recyclerView != null);
@@ -180,6 +182,11 @@ public class NewPostListActivity extends AppCompatActivity {
         }
     }
 
+    private void refresh(final View view) {
+        Snackbar.make(view, getString(R.string.fetching_data), Snackbar.LENGTH_LONG).show();
+        populateDatabase(true);
+    }
+
     private void populateDatabase(boolean force) {
         showInfo(false);
         DataRepository.$(this).populateDatabase(this, force);
@@ -231,6 +238,7 @@ public class NewPostListActivity extends AppCompatActivity {
 
     private void showInfo(final boolean visible) {
         AppExecutors.$().mainUI().execute(() -> {
+            mSwipeRefreshLayout.setRefreshing(!visible);
             int show = (!visible) ? View.INVISIBLE : View.VISIBLE;
             recyclerView.setVisibility(show);
         });

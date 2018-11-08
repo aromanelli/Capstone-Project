@@ -111,7 +111,7 @@ public class RedditDataService extends IntentService {
                                 entity.setCreated( (long) newPostData.getCreatedUtc() ); // DOUBLE vs LONG ?
                                 entity.setAuthor(newPostData.getAuthor());
                                 // Write NewPostEntity to the database ...
-                                Log.d(TAG, "fetched: Adding: " + entity.getId() + " | " + entity.getSubreddit_pre());
+                                // Log.d(TAG, "fetched: Adding: " + entity.getId() + " | " + entity.getSubreddit_pre());
                                 daoNewPost.insert(entity);
                             });
 
