@@ -84,10 +84,8 @@ public class NewPostDetailFragment extends Fragment {
                 appBarLayout.setTitle(mItem.getTitle());
             }
 
-            ((TextView) rootView.findViewById(R.id.newpost_detail)).setText(
-                    mItem.getTitle() + "\n" +
-                    mItem.getText()
-            );
+            ((TextView) rootView.findViewById(R.id.newpost_detail_title)).setText(mItem.getTitle());
+            ((TextView) rootView.findViewById(R.id.newpost_detail_text)).setText(mItem.getText());
 
         }
 
