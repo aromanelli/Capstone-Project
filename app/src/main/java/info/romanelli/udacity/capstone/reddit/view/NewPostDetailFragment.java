@@ -4,12 +4,13 @@ import android.app.Activity;
 import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.support.design.widget.CollapsingToolbarLayout;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.TextView;
+
+import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
 import java.util.List;
 import java.util.Optional;
@@ -64,24 +65,30 @@ public class NewPostDetailFragment extends Fragment {
             result.ifPresent(newPostEntity -> mItem = newPostEntity);
             Assert.that(mItem != null);
 
-            Activity activity = this.getActivity();
-            Assert.that(activity != null);
-
-            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
-            Assert.that(appBarLayout != null);
-            appBarLayout.setTitle(mItem.getTitle());
-
         }
     }
 
     @Override
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
+
         View rootView = inflater.inflate(R.layout.newpost_detail, container, false);
 
         // Show the dummy content as text in a TextView.
         if (mItem != null) {
-            ((TextView) rootView.findViewById(R.id.newpost_detail)).setText(mItem.getText());
+
+            Activity activity = this.getActivity();
+            Assert.that(activity != null);
+            CollapsingToolbarLayout appBarLayout = activity.findViewById(R.id.toolbar_layout);
+            if (appBarLayout != null) {
+                appBarLayout.setTitle(mItem.getTitle());
+            }
+
+            ((TextView) rootView.findViewById(R.id.newpost_detail)).setText(
+                    mItem.getTitle() + "\n" +
+                    mItem.getText()
+            );
+
         }
 
         return rootView;
