@@ -10,12 +10,16 @@ import android.view.MenuItem;
 import android.view.View;
 
 import info.romanelli.udacity.capstone.R;
+import info.romanelli.udacity.capstone.reddit.data.DataRepository;
+import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
+
+import static info.romanelli.udacity.capstone.reddit.view.NewPostDetailFragment.ARG_ITEM_ID;
 
 /**
  * An activity representing a single NewPost detail screen. This
  * activity is only used on narrow width devices. On tablet-size devices,
  * item details are presented side-by-side with a list of items
- * in a {@link NewPostListActivity}.
+ * in a {@link NewPostsListActivity}.
  */
 public class NewPostDetailActivity extends AppCompatActivity {
 
@@ -54,13 +58,16 @@ public class NewPostDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            arguments.putString(NewPostDetailFragment.ARG_ITEM_ID,
-                    getIntent().getStringExtra(NewPostDetailFragment.ARG_ITEM_ID));
+            String idNewPostEntity = getIntent().getStringExtra(ARG_ITEM_ID);
+            arguments.putString(ARG_ITEM_ID, idNewPostEntity);
             NewPostDetailFragment fragment = new NewPostDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.newpost_detail_container, fragment)
                     .commit();
+
+            NewPostEntity npe = DataRepository.$(this).getNewPostEntity(idNewPostEntity);
+            // TODO AOR Get new post url out of here and have FAB use it to launch intent!
         }
     }
 
@@ -74,7 +81,7 @@ public class NewPostDetailActivity extends AppCompatActivity {
             //
             // http://developer.android.com/design/patterns/navigation.html#up-vs-back
             //
-            // navigateUpTo(new Intent(this, NewPostListActivity.class));
+            // navigateUpTo(new Intent(this, NewPostsListActivity.class));
             // NavUtils.navigateUpFromSameTask(this);
             super.onBackPressed(); // We don't want to call parent Activities create method
             return true;

@@ -13,6 +13,7 @@ import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
+import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeSet;
@@ -22,6 +23,7 @@ import info.romanelli.udacity.capstone.reddit.data.db.NewPostDatabase;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
 import info.romanelli.udacity.capstone.reddit.data.net.RedditDataService;
 import info.romanelli.udacity.capstone.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.Assert;
 
 public class DataRepository {
 
@@ -81,6 +83,25 @@ public class DataRepository {
     public LiveData<List<NewPostEntity>> getNewPosts() {
         return ldNewPosts;
     }
+
+    public NewPostEntity getNewPostEntity(final String idToFind) {
+        if (idToFind == null || idToFind.trim().length() <= 0) {
+            throw new IllegalArgumentException("Expected a valid NewPostEntity id to search on!");
+        }
+        List<NewPostEntity> list = ldNewPosts.getValue();
+        Assert.that(list != null);
+        Optional<NewPostEntity> result =
+                list.stream().filter(
+                        newPostEntity -> idToFind.equals(newPostEntity.getId())
+                ).findFirst();
+        if (result.isPresent()) {
+            return result.get();
+        } else {
+            throw new AssertionError("Unable to find NewPostEntity with id of ["+ idToFind +"]!");
+        }
+    }
+
+
 
     public void clearDatabase() {
         AppExecutors.$().diskIO().execute(() -> daoNewPost.deleteAllNewPosts());

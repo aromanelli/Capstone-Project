@@ -6,7 +6,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:fitsSystemWindows="true"
-    tools:context=".reddit.view.NewPostListActivity">
+    tools:context=".reddit.view.NewPostsListActivity">
 
     <android.support.design.widget.AppBarLayout
         android:id="@+id/app_bar"
@@ -34,7 +34,7 @@
             android:layout_height="match_parent"
             app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-            <include layout="@layout/newpost_list" />
+            <include layout="@layout/newposts_list" />
         </FrameLayout>
 
     </android.support.v4.widget.SwipeRefreshLayout>

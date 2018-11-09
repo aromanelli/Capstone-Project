@@ -81,7 +81,7 @@ public class RedditDataService extends IntentService {
                     public void fetched(List<Pair<NewPostData,SubredditData>> listPairData) {
                         AppExecutors.$().diskIO().execute(() -> {
                             counter++; // Do this INSIDE of thread, not in method that calls thread!
-                            Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] more records. ["+ counter +"] of ["+ size +"] ["+ listPairData.get(0).second.getDisplayNamePrefixed() +"] " + Thread.currentThread().getName());
+                            Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] more records. ["+ counter +"] of ["+ size +"] ["+ ((listPairData.size() >= 1) ? listPairData.get(0).second.getDisplayNamePrefixed() : "N/A") +"] " + Thread.currentThread().getName());
 
                             NewPostDao daoNewPost = NewPostDatabase.$(appContext).daoNewPost();
 

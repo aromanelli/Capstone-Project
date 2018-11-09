@@ -12,7 +12,7 @@
     android:divider="?android:attr/dividerHorizontal"
     android:orientation="horizontal"
     android:showDividers="middle"
-    tools:context=".reddit.view.NewPostListActivity">
+    tools:context=".reddit.view.NewPostsListActivity">
 
     <!--
     This layout is a two-pane layout for the NewPosts
@@ -28,7 +28,7 @@
         android:layout_width="0dp"
         android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
-        tools:context="info.romanelli.udacity.capstone.reddit.view.NewPostListActivity"
+        tools:context="info.romanelli.udacity.capstone.reddit.view.NewPostsListActivity"
         tools:listitem="@layout/newpost_list_content" />
 
     <FrameLayout

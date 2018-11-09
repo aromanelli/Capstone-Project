@@ -1,7 +1,6 @@
 package info.romanelli.udacity.capstone.reddit.view;
 
 import android.app.Activity;
-import android.arch.lifecycle.ViewModelProviders;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.v4.app.Fragment;
@@ -12,16 +11,14 @@ import android.widget.TextView;
 
 import net.opacapp.multilinecollapsingtoolbar.CollapsingToolbarLayout;
 
-import java.util.List;
-import java.util.Optional;
-
 import info.romanelli.udacity.capstone.R;
+import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
 import info.romanelli.udacity.capstone.util.Assert;
 
 /**
  * A fragment representing a single NewPost detail screen.
- * This fragment is either contained in a {@link NewPostListActivity}
+ * This fragment is either contained in a {@link NewPostsListActivity}
  * in two-pane mode (on tablets) or a {@link NewPostDetailActivity}
  * on handsets.
  */
@@ -37,8 +34,6 @@ public class NewPostDetailFragment extends Fragment {
      */
     private NewPostEntity mItem;
 
-    private NewPostsViewModel mNewPostsViewModel;
-
     /**
      * Mandatory empty constructor for the fragment manager to instantiate the
      * fragment (e.g. upon screen orientation changes).
@@ -50,21 +45,9 @@ public class NewPostDetailFragment extends Fragment {
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
 
-        mNewPostsViewModel = ViewModelProviders.of(this).get(NewPostsViewModel.class);
-
         Assert.that(getArguments() != null);
         if (getArguments().containsKey(ARG_ITEM_ID)) {
-
-            mItem = null;
-            final String idToFind = getArguments().getString(ARG_ITEM_ID);
-            List<NewPostEntity> list = mNewPostsViewModel.getNewPosts().getValue();
-            Assert.that(list != null);
-            Optional<NewPostEntity> result =
-                    list.stream().filter(newPostEntity ->
-                            idToFind.equals(newPostEntity.getId())).findFirst();
-            result.ifPresent(newPostEntity -> mItem = newPostEntity);
-            Assert.that(mItem != null);
-
+            mItem = DataRepository.$(getActivity()).getNewPostEntity(getArguments().getString(ARG_ITEM_ID));
         }
     }
 

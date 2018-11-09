@@ -56,9 +56,9 @@ import static info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthMa
  * item details. On tablets, the activity presents the list of items and
  * item details side-by-side using two vertical panes.
  */
-public class NewPostListActivity extends AppCompatActivity {
+public class NewPostsListActivity extends AppCompatActivity {
 
-    final static private String TAG = NewPostListActivity.class.getSimpleName();
+    final static private String TAG = NewPostsListActivity.class.getSimpleName();
 
     /**
      * Whether or not the activity is in two-pane mode,
@@ -76,7 +76,7 @@ public class NewPostListActivity extends AppCompatActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_newpost_list);
+        setContentView(R.layout.activity_newposts_list);
 
         Toolbar toolbar = findViewById(R.id.toolbar);
         setSupportActionBar(toolbar);
@@ -101,7 +101,7 @@ public class NewPostListActivity extends AppCompatActivity {
         Assert.that(mRecyclerView != null);
         setupRecyclerView(mRecyclerView);
 
-        mNewPostsViewModel.getNewPosts().observe(this, newPostEntities -> {
+        DataRepository.$(this).getNewPosts().observe(this, newPostEntities -> {
             NewPostsListRecyclerViewAdapter adapter = (NewPostsListRecyclerViewAdapter) mRecyclerView.getAdapter();
             if (adapter != null) {
                 adapter.setNewPosts(newPostEntities);
@@ -249,7 +249,7 @@ public class NewPostListActivity extends AppCompatActivity {
 
                     if (throwable instanceof Throwable) {
                         Log.e(TAG, "onReceive: ", (Throwable) throwable);
-                        AlertDialog.Builder adb = new AlertDialog.Builder(NewPostListActivity.this); // NOT appContext !
+                        AlertDialog.Builder adb = new AlertDialog.Builder(NewPostsListActivity.this); // NOT appContext !
                         adb.setTitle(getString(R.string.fetch_error_title));
                         adb.setMessage(getString(R.string.fetch_error_text));
                         adb.setPositiveButton(
@@ -298,7 +298,7 @@ public class NewPostListActivity extends AppCompatActivity {
         mRecyclerView.setAdapter(
                 new NewPostsListRecyclerViewAdapter(
                         this,
-                        mNewPostsViewModel.getNewPosts().getValue(),
+                        DataRepository.$(this).getNewPosts().getValue(),
                         mTwoPane
                 )
         );
@@ -313,7 +313,7 @@ public class NewPostListActivity extends AppCompatActivity {
     public static class NewPostsListRecyclerViewAdapter
             extends RecyclerView.Adapter<NewPostsListRecyclerViewAdapter.ViewHolder> {
 
-        private final NewPostListActivity mParentActivity;
+        private final NewPostsListActivity mParentActivity;
         private final List<NewPostEntity> mValues = new ArrayList<>(0);
         private final boolean mTwoPane;
 
@@ -339,7 +339,7 @@ public class NewPostListActivity extends AppCompatActivity {
             }
         };
 
-        NewPostsListRecyclerViewAdapter(NewPostListActivity parent,
+        NewPostsListRecyclerViewAdapter(NewPostsListActivity parent,
                                       List<NewPostEntity> newPosts,
                                       boolean twoPane) {
             mParentActivity = parent;
