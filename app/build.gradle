@@ -43,6 +43,9 @@ android {
 
 dependencies {
     //////////////////////////////////////////////////////////////////////////////////////
+    // https://github.com/opacapp/multiline-collapsingtoolbar
+    implementation 'net.opacapp:multiline-collapsingtoolbar:27.1.1'
+    //////////////////////////////////////////////////////////////////////////////////////
     // https://github.com/openid/AppAuth-Android  https://bintray.com/openid/net.openid/appauth
     implementation 'net.openid:appauth:0.7.1'
     //////////////////////////////////////////////////////////////////////////////////////
@@ -79,5 +82,9 @@ dependencies {
     androidTestImplementation 'com.android.support.test:runner:1.0.2'
     // androidTestImplementation 'com.android.support.test:rules:1.0.2'
     androidTestImplementation 'com.android.support.test.espresso:espresso-core:3.0.2'
+    //////////////////////////////////////////////////////////////////////////////////////
+    // https://blog.jetbrains.com/idea/2013/10/better-control-flow-analysis-with-contract-annotations-and-intellij-idea-13/
+    // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    implementation 'org.jetbrains:annotations:16.0.3'
     //////////////////////////////////////////////////////////////////////////////////////
 }
