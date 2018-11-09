@@ -8,6 +8,8 @@ import android.content.SharedPreferences;
 import android.util.Log;
 import android.util.Pair;
 
+import java.util.Calendar;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
@@ -82,6 +84,14 @@ public class RedditDataService extends IntentService {
                             Log.d(TAG, "fetched: Adding ["+ listPairData.size() +"] more records. ["+ counter +"] of ["+ size +"] ["+ listPairData.get(0).second.getDisplayNamePrefixed() +"] " + Thread.currentThread().getName());
 
                             NewPostDao daoNewPost = NewPostDatabase.$(appContext).daoNewPost();
+
+                            if (counter == 1) {
+                                // One first call, first prune away old records first ...
+                                Calendar calendar = GregorianCalendar.getInstance();
+                                calendar.roll(Calendar.DAY_OF_MONTH, -1); // See also DataRepository.pruneDatabase()
+                                Log.d(TAG, "fetched: pruning to [" + calendar.getTime() + "]");
+                                daoNewPost.pruneNewPosts(calendar.getTime().getTime());
+                            }
 
                             listPairData.forEach(pairData -> {
                                 // Pull the data out of the Pair ...

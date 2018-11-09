@@ -7,7 +7,10 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.Calendar;
 import java.util.Collections;
+import java.util.Date;
+import java.util.GregorianCalendar;
 import java.util.List;
 import java.util.Objects;
 import java.util.Set;
@@ -80,11 +83,24 @@ public class DataRepository {
     }
 
     public void clearDatabase() {
-        AppExecutors.$().diskIO().execute(() -> daoNewPost.deleteNewPosts());
+        AppExecutors.$().diskIO().execute(() -> daoNewPost.deleteAllNewPosts());
     }
 
+    /**
+     * Gets rid of any new posts that are older than a day.
+     */
     public void pruneDatabase() {
-        AppExecutors.$().diskIO().execute(() -> daoNewPost.pruneNewPosts());
+        Calendar calendar = GregorianCalendar.getInstance();
+        calendar.roll(Calendar.DAY_OF_MONTH, -1); // See also RedditDataService
+        pruneDatabase(calendar.getTime());
+    }
+
+    public void pruneDatabase(Date pruneThresholdDate) {
+        pruneDatabase(pruneThresholdDate.getTime());
+    }
+
+    public void pruneDatabase(long pruneThresholdDate) {
+        AppExecutors.$().diskIO().execute(() -> daoNewPost.pruneNewPosts(pruneThresholdDate));
     }
 
     public void addNewPost(final NewPostEntity newPostEntity) {
@@ -92,10 +108,11 @@ public class DataRepository {
     }
 
     /**
-     * <p>Will move the network calls and database populating off to other threads for you.</p><br>
+     * <p>Calls the {@link RedditDataService}, which will fetch
+     * new Reddit posts, and store them in the local database.</p>
      *
-     * <p>Note that if two populate requests are done, one right after another, the latter call
-     * will be ignored, as not enough time has elapsed yet.</p>
+     * <p>Note that if two populate requests are done, one right after another,
+     * the latter call will be ignored, as not enough time has elapsed yet.</p>
      *
      * @param context
      */
@@ -104,12 +121,14 @@ public class DataRepository {
     }
 
     /**
-     * <p>Will move the network calls and database populating off to other threads for you.</p>
+     * <p>Calls the {@link RedditDataService}, which will fetch
+     * new Reddit posts, and store them in the local database.</p>
      *
      * @param context
      * @param forcePopulate if {@code true} then a fetch/insert will be done even if one was just done recently.
      */
     synchronized public void populateDatabase(final Context context, boolean forcePopulate) {
+        // Call the service to fetch new posts from Reddit and write them to the local db ...
         final Context appContext = context.getApplicationContext();
         Intent intent = new Intent(context, RedditDataService.class);
         intent.putExtra(RedditDataService.KEY_FORCE_POPULATE, forcePopulate);

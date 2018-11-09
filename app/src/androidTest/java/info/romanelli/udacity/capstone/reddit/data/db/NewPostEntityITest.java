@@ -11,6 +11,7 @@ import org.junit.Assert;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
+import java.util.Date;
 import java.util.List;
 import java.util.concurrent.atomic.AtomicBoolean;
 
@@ -39,7 +40,9 @@ import static org.junit.Assert.assertEquals;
         try {
 
             // Initial cleanup ...
-            DataRepository.$(appContext).clearDatabase();
+            DataRepository.$(appContext).pruneDatabase(new Date());
+            // Above same as below if app is not also running at same time as this test!
+            // DataRepository.$(appContext).clearDatabase();
 
             final LiveData<List<NewPostEntity>> newPosts1 = DataRepository.$(appContext).getNewPosts();
             final Observer<List<NewPostEntity>> obs1 = newPostEntities -> {

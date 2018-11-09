@@ -17,16 +17,10 @@ public interface NewPostDao {
     @Query("SELECT * from new_posts ORDER BY created DESC")
     LiveData<List<NewPostEntity>> getNewPosts();
 
-//    @Query("SELECT DISTINCT subreddit_name, count(*) " +
-//            "from new_posts " +
-//            "GROUP BY subreddit_name " +
-//            "ORDER BY subreddit_name ASC")
-//    LiveData<List<NewPostEntity>> getSubreddits();
-
     @Query("DELETE FROM new_posts")
-    void deleteNewPosts();
+    void deleteAllNewPosts();
 
-    @Query("DELETE FROM new_posts WHERE created < 0") // TODO CODE THIS REPLACE 0 WITH ?
-    void pruneNewPosts();
+    @Query("DELETE FROM new_posts WHERE created < :pruneThresholdDate")
+    void pruneNewPosts(long pruneThresholdDate);
 
 }
