@@ -35,4 +35,8 @@
 
     <string name="content_desc_subreddit_icon">The avatar/icon image that represents the Subreddit</string>
 
+    <string name="appwidget_newposts_counter_desc">Displays the number of new posts for all subscribed subreddits that are available to read.</string>
+    <string name="appwidget_newposts_list_desc">Displays a list of subreddits, and how many new posts each subreddit has available to read.</string>
+    <string name="add_widget">Add widget</string>
+
 </resources>

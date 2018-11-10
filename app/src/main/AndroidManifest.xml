@@ -49,6 +49,16 @@
         </activity>
 
         <service android:name=".reddit.data.net.RedditDataService" />
+
+        <receiver android:name=".RedditInfoWidget">
+            <intent-filter>
+                <action android:name="android.appwidget.action.APPWIDGET_UPDATE" />
+            </intent-filter>
+
+            <meta-data
+                android:name="android.appwidget.provider"
+                android:resource="@xml/reddit_info_widget_info" />
+        </receiver>
     </application>
 
 </manifest>
