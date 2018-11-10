@@ -9,6 +9,7 @@ import android.content.Intent;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
+import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.Collections;
 import java.util.Date;
@@ -17,7 +18,6 @@ import java.util.List;
 import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
-import java.util.Set;
 import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
@@ -49,7 +49,7 @@ public class DataRepository {
 
     private NewPostDao daoNewPost;
     private LiveData<List<NewPostEntity>> ldNewPosts;
-    private SortedSet<SubredditInfo> subredditsInfo = new TreeSet<>();
+    private List<SubredditInfo> subredditsInfo = new ArrayList<>();
 
     private DataRepository(final Context context) {
 
@@ -68,11 +68,14 @@ public class DataRepository {
         Log.d(TAG, "createSubredditsInfo() called");
         // Create the sorted Set of Subreddits ...
         if (ldNewPosts.getValue() != null) {
-            subredditsInfo.clear();
+
+            SortedSet<SubredditInfo> tempSet = new TreeSet<>();
+
+            tempSet.clear();
             final Map<String, Integer> map = new TreeMap<>();
             ldNewPosts.getValue().forEach(newPostEntity -> {
                 // Track how many new posts per subreddit ...
-                SubredditInfo si = subredditsInfo.stream()
+                SubredditInfo si = tempSet.stream()
                         .filter(subredditInfo ->
                                 subredditInfo.subreddit_pre.equals(newPostEntity.getSubreddit_pre()))
                         .findFirst().orElseGet(() ->
@@ -87,8 +90,12 @@ public class DataRepository {
                 // or the new/first time subreddit entry counter ...
                 si.setSizeNewposts(si.getSizeNewposts() + 1);
                 // Below only adds the first subreddit entry, n+1's are ignored!
-                subredditsInfo.add(si);
+                tempSet.add(si);
             });
+
+            // Because @#$@# Sets don't have a get(int) method ...
+            subredditsInfo.clear();
+            subredditsInfo.addAll(tempSet);
 
             // Let widgets know that the counts has (potentially) changed ...
             broadcastToWidgets(context);
@@ -110,8 +117,12 @@ public class DataRepository {
         context.getApplicationContext().sendBroadcast(intent);
     }
 
-    synchronized public Set<SubredditInfo> getSubredditsInfo() {
-        return Collections.unmodifiableSet(subredditsInfo);
+    /**
+     * Returns a sorted, unmodifiable {@link List} of {@link SubredditInfo}.
+     * @return List
+     */
+    synchronized public List<SubredditInfo> getSubredditsInfo() {
+        return Collections.unmodifiableList(subredditsInfo);
     }
 
     public LiveData<List<NewPostEntity>> getNewPosts() {
