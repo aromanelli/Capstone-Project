@@ -36,6 +36,13 @@ public class RedditInfoWidgetProvider extends AppWidgetProvider {
                 String.valueOf(FORMATTER.format(DataRepository.$(context).sizeNewPosts()))
         );
 
+        // This Intent is for when the user clicks on total posts count in the widget,
+        // to launch the main activity and pass that selection to it ...
+        Intent clickIntent = new Intent(context, NewPostsListActivity.class);
+        PendingIntent clickPI = PendingIntent
+                .getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setOnClickPendingIntent(R.id.appwidget_newposts_counter, clickPI);
+
         return views;
     }
 
@@ -48,6 +55,8 @@ public class RedditInfoWidgetProvider extends AppWidgetProvider {
 
         views.setRemoteAdapter(R.id.appwidget_newposts_list, svcIntent);
 
+        // This Intent is for when the user clicks on a subreddit info in the widget,
+        // to launch the main activity and pass that selection to it ...
         Intent clickIntent = new Intent(context, NewPostsListActivity.class);
         PendingIntent clickPI = PendingIntent
                 .getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);

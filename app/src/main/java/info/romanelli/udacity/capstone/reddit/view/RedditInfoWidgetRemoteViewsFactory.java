@@ -64,15 +64,13 @@ public class RedditInfoWidgetRemoteViewsFactory implements RemoteViewsService.Re
 
         row.setTextViewText(android.R.id.text1, builder.toString() );
 
-        // This Intent is for when the user clicks on a subreddit info in the widget,
-        // to launch the main activity and pass that selection to it ...
-        Intent i = new Intent();
+        Intent intent = new Intent();
         Bundle extras = new Bundle();
         extras.putString(
                 RedditInfoWidgetProvider.EXTRA_INFO_SUBREDDIT,
                 nameSubreddit );
-        i.putExtras(extras);
-        row.setOnClickFillInIntent(android.R.id.text1, i);
+        intent.putExtras(extras);
+        row.setOnClickFillInIntent(android.R.id.text1, intent);
 
         return(row);
     }
