@@ -4,7 +4,7 @@
     android:initialLayout="@layout/reddit_info_widget_small"
     android:minWidth="110dp"
     android:minHeight="40dp"
-    android:previewImage="@drawable/example_appwidget_preview"
+    android:previewImage="@drawable/reddit_new_posts_widget_preview"
     android:resizeMode="horizontal|vertical"
     android:updatePeriodMillis="86400000"
     android:widgetCategory="home_screen"></appwidget-provider>
