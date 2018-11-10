@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone;
+package info.romanelli.udacity.capstone.reddit.view;
 
 import android.appwidget.AppWidgetManager;
 import android.content.Context;
@@ -9,6 +9,7 @@ import android.widget.RemoteViewsService;
 
 import java.util.List;
 
+import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 
 public class RedditInfoWidgetRemoteViewsFactory implements RemoteViewsService.RemoteViewsFactory {

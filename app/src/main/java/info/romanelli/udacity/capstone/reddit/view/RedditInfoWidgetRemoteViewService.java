@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone;
+package info.romanelli.udacity.capstone.reddit.view;
 
 import android.content.Intent;
 import android.widget.RemoteViewsService;

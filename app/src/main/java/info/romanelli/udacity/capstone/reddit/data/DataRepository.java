@@ -20,11 +20,11 @@ import java.util.Optional;
 import java.util.SortedSet;
 import java.util.TreeSet;
 
-import info.romanelli.udacity.capstone.RedditInfoWidgetProvider;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDatabase;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
 import info.romanelli.udacity.capstone.reddit.data.net.RedditDataService;
+import info.romanelli.udacity.capstone.reddit.view.RedditInfoWidgetProvider;
 import info.romanelli.udacity.capstone.util.AppExecutors;
 import info.romanelli.udacity.capstone.util.Assert;
 

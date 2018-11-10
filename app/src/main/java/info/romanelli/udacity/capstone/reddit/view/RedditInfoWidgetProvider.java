@@ -1,4 +1,4 @@
-package info.romanelli.udacity.capstone;
+package info.romanelli.udacity.capstone.reddit.view;
 
 import android.annotation.TargetApi;
 import android.app.PendingIntent;
@@ -13,8 +13,8 @@ import android.widget.RemoteViews;
 
 import java.text.NumberFormat;
 
+import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
-import info.romanelli.udacity.capstone.reddit.view.NewPostsListActivity;
 
 /**
  * Implementation of App Widget functionality.
