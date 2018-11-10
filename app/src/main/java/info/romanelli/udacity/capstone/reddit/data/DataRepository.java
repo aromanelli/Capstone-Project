@@ -22,7 +22,7 @@ import java.util.SortedSet;
 import java.util.TreeMap;
 import java.util.TreeSet;
 
-import info.romanelli.udacity.capstone.RedditInfoWidget;
+import info.romanelli.udacity.capstone.RedditInfoWidgetProvider;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDatabase;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
@@ -103,15 +103,15 @@ public class DataRepository {
     }
 
     private void broadcastToWidgets(final Context context) {
-        Intent intent = new Intent(context.getApplicationContext(), RedditInfoWidget.class);
+        Intent intent = new Intent(context.getApplicationContext(), RedditInfoWidgetProvider.class);
         intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
-        intent.putExtra(RedditInfoWidget.class.getSimpleName(), new Date());
+        intent.putExtra(RedditInfoWidgetProvider.class.getSimpleName(), new Date());
 
         // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
         // since it seems the onUpdate() is only fired on that:
         AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
         int ids[] = appWidgetManager.getAppWidgetIds(
-                new ComponentName(context.getApplicationContext(), RedditInfoWidget.class)
+                new ComponentName(context.getApplicationContext(), RedditInfoWidgetProvider.class)
         );
         intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
         context.getApplicationContext().sendBroadcast(intent);

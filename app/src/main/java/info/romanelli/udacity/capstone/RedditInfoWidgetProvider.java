@@ -19,12 +19,12 @@ import info.romanelli.udacity.capstone.reddit.view.NewPostsListActivity;
 /**
  * Implementation of App Widget functionality.
  */
-public class RedditInfoWidget extends AppWidgetProvider {
+public class RedditInfoWidgetProvider extends AppWidgetProvider {
 
-    public static final String TAG = RedditInfoWidget.class.getSimpleName();
+    public static final String TAG = RedditInfoWidgetProvider.class.getSimpleName();
 
     public static final String EXTRA_INFO_SUBREDDIT =
-            RedditInfoWidget.class.getPackage().getName() + ":info:widget:subreddit";
+            RedditInfoWidgetProvider.class.getPackage().getName() + ":info:widget:subreddit";
 
     static final NumberFormat FORMATTER = NumberFormat.getIntegerInstance();
 

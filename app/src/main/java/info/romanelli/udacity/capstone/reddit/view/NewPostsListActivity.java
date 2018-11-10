@@ -142,7 +142,7 @@ public class NewPostsListActivity extends AppCompatActivity {
         }
 
         // If we wanted to do something with the subreddit selected on the large widget view ...
-        // String infoSubreddit = getIntent().getStringExtra(RedditInfoWidget.EXTRA_INFO_SUBREDDIT);
+        // String infoSubreddit = getIntent().getStringExtra(RedditInfoWidgetProvider.EXTRA_INFO_SUBREDDIT);
         // Log.d(TAG, "onCreate: infoSubreddit: " + infoSubreddit);
 
     }

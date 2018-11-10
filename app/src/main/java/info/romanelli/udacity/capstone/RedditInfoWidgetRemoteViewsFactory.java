@@ -55,7 +55,7 @@ public class RedditInfoWidgetRemoteViewsFactory implements RemoteViewsService.Re
         final StringBuilder builder = new StringBuilder();
         builder.append(nameSubreddit);
         builder.append(": ");
-        builder.append(RedditInfoWidget.FORMATTER.format(numberOfPosts));
+        builder.append(RedditInfoWidgetProvider.FORMATTER.format(numberOfPosts));
         builder.append(" post");
         if (numberOfPosts != 1) {
             builder.append('s');
@@ -68,7 +68,7 @@ public class RedditInfoWidgetRemoteViewsFactory implements RemoteViewsService.Re
         Intent i = new Intent();
         Bundle extras = new Bundle();
         extras.putString(
-                RedditInfoWidget.EXTRA_INFO_SUBREDDIT,
+                RedditInfoWidgetProvider.EXTRA_INFO_SUBREDDIT,
                 nameSubreddit );
         i.putExtras(extras);
         row.setOnClickFillInIntent(android.R.id.text1, i);
