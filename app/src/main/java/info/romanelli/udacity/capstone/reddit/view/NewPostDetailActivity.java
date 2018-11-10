@@ -1,17 +1,19 @@
 package info.romanelli.udacity.capstone.reddit.view;
 
+import android.content.Intent;
+import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.design.widget.Snackbar;
 import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
+import android.util.Log;
 import android.view.MenuItem;
-import android.view.View;
 
 import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
+import info.romanelli.udacity.capstone.util.Assert;
 
 import static info.romanelli.udacity.capstone.reddit.view.NewPostDetailFragment.ARG_ITEM_ID;
 
@@ -23,21 +25,29 @@ import static info.romanelli.udacity.capstone.reddit.view.NewPostDetailFragment.
  */
 public class NewPostDetailActivity extends AppCompatActivity {
 
+    public static final String TAG = NewPostDetailActivity.class.getSimpleName();
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newpost_detail);
-        Toolbar toolbar = (Toolbar) findViewById(R.id.detail_toolbar);
+        Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
-        FloatingActionButton fab = (FloatingActionButton) findViewById(R.id.fab);
-        fab.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-                Snackbar.make(view, "Replace with your own detail action", Snackbar.LENGTH_LONG)
-                        .setAction("Action", null).show();
-            }
-        });
+        String idNewPostEntity = getIntent().getStringExtra(ARG_ITEM_ID);
+        Assert.that(idNewPostEntity != null);
+        Assert.that(idNewPostEntity.trim().length() >= 1);
+
+        FloatingActionButton fab = findViewById(R.id.fab);
+        fab.setOnClickListener(view -> {
+            Log.d(TAG, "onCreate: idNewPostEntity: " + idNewPostEntity);
+            NewPostEntity npe = DataRepository.$(this).getNewPostEntity(idNewPostEntity);
+            final Uri uriNewPost = Uri.parse(npe.getUrl());
+            Log.d(TAG, "onCreate: uriNewPost: " + uriNewPost);
+            Intent i = new Intent(Intent.ACTION_VIEW);
+            i.setData(uriNewPost);
+            startActivity(i);
+        } );
 
         // Show the Up button in the action bar.
         ActionBar actionBar = getSupportActionBar();
@@ -58,16 +68,12 @@ public class NewPostDetailActivity extends AppCompatActivity {
             // Create the detail fragment and add it to the activity
             // using a fragment transaction.
             Bundle arguments = new Bundle();
-            String idNewPostEntity = getIntent().getStringExtra(ARG_ITEM_ID);
             arguments.putString(ARG_ITEM_ID, idNewPostEntity);
             NewPostDetailFragment fragment = new NewPostDetailFragment();
             fragment.setArguments(arguments);
             getSupportFragmentManager().beginTransaction()
                     .add(R.id.newpost_detail_container, fragment)
                     .commit();
-
-            NewPostEntity npe = DataRepository.$(this).getNewPostEntity(idNewPostEntity);
-            // TODO AOR Get new post url out of here and have FAB use it to launch intent!
         }
     }
 
