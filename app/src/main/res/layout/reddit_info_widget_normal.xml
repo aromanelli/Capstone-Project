@@ -4,17 +4,13 @@
     android:background="#09C"
     android:padding="@dimen/widget_margin">
 
-    <TextView
+    <ListView
         android:id="@+id/appwidget_newposts_list"
-        android:layout_width="wrap_content"
-        android:layout_height="wrap_content"
-        android:layout_centerHorizontal="false"
-        android:layout_centerVertical="false"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
         android:layout_margin="8dp"
         android:background="#09C"
         android:contentDescription="@string/appwidget_newposts_list_desc"
-        android:textColor="#ffffff"
-        android:textSize="24sp"
-        android:textStyle="bold|italic" />
+    />
 
 </RelativeLayout>

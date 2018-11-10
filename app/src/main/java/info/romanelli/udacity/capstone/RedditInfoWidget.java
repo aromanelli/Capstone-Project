@@ -1,18 +1,20 @@
 package info.romanelli.udacity.capstone;
 
 import android.annotation.TargetApi;
+import android.app.PendingIntent;
 import android.appwidget.AppWidgetManager;
 import android.appwidget.AppWidgetProvider;
 import android.content.Context;
 import android.content.Intent;
+import android.net.Uri;
 import android.os.Build;
 import android.os.Bundle;
 import android.widget.RemoteViews;
 
 import java.text.NumberFormat;
-import java.util.Set;
 
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
+import info.romanelli.udacity.capstone.reddit.view.NewPostsListActivity;
 
 /**
  * Implementation of App Widget functionality.
@@ -21,7 +23,10 @@ public class RedditInfoWidget extends AppWidgetProvider {
 
     public static final String TAG = RedditInfoWidget.class.getSimpleName();
 
-    private static final NumberFormat FORMATTER = NumberFormat.getIntegerInstance();
+    public static final String EXTRA_INFO_SUBREDDIT =
+            RedditInfoWidget.class.getPackage().getName() + ":info:widget:subreddit";
+
+    static final NumberFormat FORMATTER = NumberFormat.getIntegerInstance();
 
     private static RemoteViews getSmallRemoteView(final Context context) {
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.reddit_info_widget_small);
@@ -34,23 +39,19 @@ public class RedditInfoWidget extends AppWidgetProvider {
         return views;
     }
 
-    private static RemoteViews getNormalRemoteView(final Context context) {
+    private static RemoteViews getNormalRemoteView(final Context context, final int appWidgetId) {
         final RemoteViews views = new RemoteViews(context.getPackageName(), R.layout.reddit_info_widget_normal);
 
-        Set<DataRepository.SubredditInfo> setSubreddits =
-                DataRepository.$(context).getSubredditsInfo();
-        if (setSubreddits.size() >= 1) {
-            final StringBuilder builder = new StringBuilder();
-            setSubreddits.forEach(subredditInfo -> {
-                builder.append(subredditInfo.getPrefixedSubreddit());
-                builder.append(": ");
-                builder.append(FORMATTER.format(subredditInfo.getSizeNewposts()));
-                builder.append('\n');
-            });
-            views.setTextViewText(R.id.appwidget_newposts_list, builder.toString());
-        } else {
-            views.setTextViewText(R.id.appwidget_newposts_list, "");
-        }
+        Intent svcIntent = new Intent(context, RedditInfoWidgetRemoteViewService.class);
+        svcIntent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_ID, appWidgetId);
+        svcIntent.setData(Uri.parse(svcIntent.toUri(Intent.URI_INTENT_SCHEME)));
+
+        views.setRemoteAdapter(R.id.appwidget_newposts_list, svcIntent);
+
+        Intent clickIntent = new Intent(context, NewPostsListActivity.class);
+        PendingIntent clickPI = PendingIntent
+                .getActivity(context, 0, clickIntent, PendingIntent.FLAG_UPDATE_CURRENT);
+        views.setPendingIntentTemplate(R.id.appwidget_newposts_list, clickPI);
 
         return views;
     }
@@ -59,32 +60,29 @@ public class RedditInfoWidget extends AppWidgetProvider {
     public void onUpdate(Context context,
                          AppWidgetManager appWidgetManager,
                          int[] appWidgetIds) {
+
         // There may be multiple widgets active, so update all of them
         for (int appWidgetId : appWidgetIds) {
-            updateAppWidget(context, appWidgetManager, appWidgetId);
-        }
-    }
 
-    // Called by onUpdate(...), for each widget ...
-    static void updateAppWidget(Context context,
-                                AppWidgetManager appWidgetManager,
-                                int appWidgetId) {
+            Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
+            int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
+            int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
 
-        Bundle options = appWidgetManager.getAppWidgetOptions(appWidgetId);
-        int minWidth = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_WIDTH);
-        int minHeight = options.getInt(AppWidgetManager.OPTION_APPWIDGET_MIN_HEIGHT);
+            RemoteViews views;
+            // https://developer.android.com/guide/practices/ui_guidelines/widget_design#anatomy_determining_size
+            if (minHeight < 110 || minWidth < 180) {
+                views = getSmallRemoteView(context);
+            } else {
+                views = getNormalRemoteView(context, appWidgetId);
+            }
 
-        RemoteViews views;
-        // https://developer.android.com/guide/practices/ui_guidelines/widget_design#anatomy_determining_size
-        if (minHeight < 110 || minWidth < 180) {
-            views = getSmallRemoteView(context);
-        } else {
-            views = getNormalRemoteView(context);
+            /////////////////////////////////////////////////////
+            // Instruct the widget manager to update the widget
+            appWidgetManager.updateAppWidget(appWidgetId, views);
+
         }
 
-        /////////////////////////////////////////////////////
-        // Instruct the widget manager to update the widget
-        appWidgetManager.updateAppWidget(appWidgetId, views);
+        super.onUpdate(context, appWidgetManager, appWidgetIds);
     }
 
     // Receives the broadcast ...
@@ -101,7 +99,7 @@ public class RedditInfoWidget extends AppWidgetProvider {
                                           int appWidgetId, Bundle newOptions) {
         // Called in response to the AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED
         // broadcast when this widget has been layed out at a new size.
-        updateAppWidget(context, appWidgetManager, appWidgetId);
+        onUpdate(context, appWidgetManager, new int[] {appWidgetId}); // TODO Confirm need to do this?
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
 

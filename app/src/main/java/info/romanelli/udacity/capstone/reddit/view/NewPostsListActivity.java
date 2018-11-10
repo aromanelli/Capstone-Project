@@ -137,9 +137,13 @@ public class NewPostsListActivity extends AppCompatActivity {
             Log.d(TAG, "onCreate: Authorized");
             // Only populate db on start and auth'd, not on rotation ...
             if (savedInstanceState == null) {
-                refresh(true);
+                refresh(false);
             }
         }
+
+        // If we wanted to do something with the subreddit selected on the large widget view ...
+        // String infoSubreddit = getIntent().getStringExtra(RedditInfoWidget.EXTRA_INFO_SUBREDDIT);
+        // Log.d(TAG, "onCreate: infoSubreddit: " + infoSubreddit);
 
     }
 
