@@ -1,7 +1,9 @@
 package info.romanelli.udacity.capstone.reddit.data;
 
+import android.appwidget.AppWidgetManager;
 import android.arch.lifecycle.LiveData;
 import android.arch.lifecycle.Observer;
+import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
 import android.support.annotation.NonNull;
@@ -12,12 +14,15 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
+import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.Set;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
+import info.romanelli.udacity.capstone.RedditInfoWidget;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDao;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostDatabase;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
@@ -51,29 +56,58 @@ public class DataRepository {
         daoNewPost = NewPostDatabase.$(context.getApplicationContext()).daoNewPost();
         ldNewPosts = daoNewPost.getNewPosts();
 
-        createSubredditsInfo();
+        createSubredditsInfo(context);
         final Observer<List<NewPostEntity>> obs1 = newPostEntities -> {
             Log.d(TAG, "DataRepository: Observed changing new posts data");
-            createSubredditsInfo();
+            createSubredditsInfo(context);
         };
         ldNewPosts.observeForever(obs1); // TODO Need to removeObserver for a singleton class?
     }
 
-    synchronized private void createSubredditsInfo() {
+    synchronized private void createSubredditsInfo(final Context context) {
         Log.d(TAG, "createSubredditsInfo() called");
         // Create the sorted Set of Subreddits ...
         if (ldNewPosts.getValue() != null) {
             subredditsInfo.clear();
-            ldNewPosts.getValue().forEach(newPostEntity ->
-                    subredditsInfo.add(
-                            new SubredditInfo(
-                                    newPostEntity.getSubreddit_pre(),
-                                    newPostEntity.getSubreddit(),
-                                    newPostEntity.getSubreddit_icon()
-                            )
-                    )
-            );
+            final Map<String, Integer> map = new TreeMap<>();
+            ldNewPosts.getValue().forEach(newPostEntity -> {
+                // Track how many new posts per subreddit ...
+                SubredditInfo si = subredditsInfo.stream()
+                        .filter(subredditInfo ->
+                                subredditInfo.subreddit_pre.equals(newPostEntity.getSubreddit_pre()))
+                        .findFirst().orElseGet(() ->
+                                new SubredditInfo(
+                                        newPostEntity.getSubreddit_pre(),
+                                        newPostEntity.getSubreddit(),
+                                        newPostEntity.getSubreddit_icon(),
+                                        0
+                                )
+                        );
+                // Increment both the existing subreddit counter,
+                // or the new/first time subreddit entry counter ...
+                si.setSizeNewposts(si.getSizeNewposts() + 1);
+                // Below only adds the first subreddit entry, n+1's are ignored!
+                subredditsInfo.add(si);
+            });
+
+            // Let widgets know that the counts has (potentially) changed ...
+            broadcastToWidgets(context);
         }
+    }
+
+    private void broadcastToWidgets(final Context context) {
+        Intent intent = new Intent(context.getApplicationContext(), RedditInfoWidget.class);
+        intent.setAction(AppWidgetManager.ACTION_APPWIDGET_UPDATE);
+        intent.putExtra(RedditInfoWidget.class.getSimpleName(), new Date());
+
+        // Use an array and EXTRA_APPWIDGET_IDS instead of AppWidgetManager.EXTRA_APPWIDGET_ID,
+        // since it seems the onUpdate() is only fired on that:
+        AppWidgetManager appWidgetManager = AppWidgetManager.getInstance(context.getApplicationContext());
+        int ids[] = appWidgetManager.getAppWidgetIds(
+                new ComponentName(context.getApplicationContext(), RedditInfoWidget.class)
+        );
+        intent.putExtra(AppWidgetManager.EXTRA_APPWIDGET_IDS, ids);
+        context.getApplicationContext().sendBroadcast(intent);
     }
 
     synchronized public Set<SubredditInfo> getSubredditsInfo() {
@@ -82,6 +116,14 @@ public class DataRepository {
 
     public LiveData<List<NewPostEntity>> getNewPosts() {
         return ldNewPosts;
+    }
+
+    public int sizeNewPosts() {
+        if (ldNewPosts.getValue() != null) {
+            return ldNewPosts.getValue().size();
+        } else {
+            return 0;
+        }
     }
 
     public NewPostEntity getNewPostEntity(final String idToFind) {
@@ -156,18 +198,21 @@ public class DataRepository {
         appContext.startService(intent);
     }
 
-    static class SubredditInfo implements Comparable<SubredditInfo> {
+    public static class SubredditInfo implements Comparable<SubredditInfo> {
 
         private String subreddit_pre;
         private String subreddit;
         private String subreddit_icon;
+        private long sizeNewPosts;
 
         public SubredditInfo(@NonNull final String subreddit_pre,
                              @NonNull final String subreddit,
-                             final String subreddit_icon) {
+                             final String subreddit_icon,
+                             final long sizeNewPosts) {
             setPrefixedSubreddit(subreddit_pre);
             setSubreddit(subreddit);
             setSubredditIcon(subreddit_icon);
+            setSizeNewposts(sizeNewPosts);
         }
 
         public String getPrefixedSubreddit() {
@@ -194,6 +239,14 @@ public class DataRepository {
             this.subreddit_icon = subreddit_icon;
         }
 
+        public long getSizeNewposts() {
+            return sizeNewPosts;
+        }
+
+        public void setSizeNewposts(long sizeNewPosts) {
+            this.sizeNewPosts = sizeNewPosts;
+        }
+
         @Override
         public boolean equals(Object o) {
             if (this == o) return true;
@@ -209,17 +262,18 @@ public class DataRepository {
         }
 
         @Override
+        public int compareTo(SubredditInfo o) {
+            return this.subreddit_pre.compareTo(o.subreddit_pre);
+        }
+
+        @Override
         public String toString() {
             return "SubredditInfo{" +
                     "subreddit_pre='" + subreddit_pre + '\'' +
                     ", subreddit='" + subreddit + '\'' +
                     ", subreddit_icon='" + subreddit_icon + '\'' +
+                    ", sizeNewPosts=" + sizeNewPosts +
                     '}';
-        }
-
-        @Override
-        public int compareTo(SubredditInfo o) {
-            return this.subreddit_pre.compareTo(o.subreddit_pre);
         }
     }
 
