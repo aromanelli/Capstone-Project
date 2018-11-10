@@ -15,11 +15,9 @@ import java.util.Collections;
 import java.util.Date;
 import java.util.GregorianCalendar;
 import java.util.List;
-import java.util.Map;
 import java.util.Objects;
 import java.util.Optional;
 import java.util.SortedSet;
-import java.util.TreeMap;
 import java.util.TreeSet;
 
 import info.romanelli.udacity.capstone.RedditInfoWidgetProvider;
@@ -69,10 +67,11 @@ public class DataRepository {
         // Create the sorted Set of Subreddits ...
         if (ldNewPosts.getValue() != null) {
 
-            SortedSet<SubredditInfo> tempSet = new TreeSet<>();
+            SortedSet<SubredditInfo> tempSet = new TreeSet<>(
+                    (o1, o2) -> o1.subreddit_pre.compareToIgnoreCase(o2.subreddit_pre)
+            );
 
             tempSet.clear();
-            final Map<String, Integer> map = new TreeMap<>();
             ldNewPosts.getValue().forEach(newPostEntity -> {
                 // Track how many new posts per subreddit ...
                 SubredditInfo si = tempSet.stream()
