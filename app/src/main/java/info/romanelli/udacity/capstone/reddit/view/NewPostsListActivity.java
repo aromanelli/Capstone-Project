@@ -45,6 +45,7 @@ import info.romanelli.udacity.capstone.reddit.data.net.RedditDataService;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.util.AppExecutors;
 import info.romanelli.udacity.capstone.util.Assert;
+import info.romanelli.udacity.capstone.util.FirebaseAnalyticsManager;
 
 import static info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager.RC_AUTH;
 
@@ -84,6 +85,9 @@ public class NewPostsListActivity extends AppCompatActivity {
 
         mFloatingActionButton = findViewById(R.id.fab);
         mFloatingActionButton.setOnClickListener(view -> refresh(true));
+
+        // This is added for Firebase Crashlytics testing purposes only ...
+        FirebaseAnalyticsManager.$(this).addCrashButton(this);
 
         if (findViewById(R.id.newpost_detail_container) != null) {
             // The detail container view will be present only in the
@@ -172,6 +176,10 @@ public class NewPostsListActivity extends AppCompatActivity {
                     (accessToken, idToken, ex) -> {
                         if (ex != null) {
                             Log.e(TAG, "onActivityResult.performTokenRequest: ex", ex);
+
+                            FirebaseAnalyticsManager.$(NewPostsListActivity.this)
+                                    .logEventRedditAuthEnded(false);
+
                             // Notify the user that they will need to authorize this app ...
                             AlertDialog.Builder adb = new AlertDialog.Builder(this);
                             adb.setTitle(getString(R.string.auth_fail_req_title));
@@ -196,6 +204,8 @@ public class NewPostsListActivity extends AppCompatActivity {
                             );
                             adb.show();
                         } else {
+                            FirebaseAnalyticsManager.$(NewPostsListActivity.this)
+                                    .logEventRedditAuthEnded(true);
                             refresh(true);
                         }
                     }
@@ -325,6 +335,9 @@ public class NewPostsListActivity extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 NewPostEntity item = (NewPostEntity) view.getTag();
+
+                FirebaseAnalyticsManager.$(mParentActivity).logEventViewNewPost(item);
+
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(NewPostDetailFragment.ARG_ITEM_ID, item.getId());

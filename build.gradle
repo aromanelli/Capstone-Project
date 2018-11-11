@@ -5,13 +5,23 @@ buildscript {
     repositories {
         google()
         jcenter()
+
+        // For Firebase Crashlytics (https://firebase.google.com/docs/crashlytics/get-started#android)
+        maven { url 'https://maven.fabric.io/public' }
+
     }
     dependencies {
         classpath 'com.android.tools.build:gradle:3.2.1'
-        
+        classpath 'com.google.gms:google-services:4.2.0'
 
+        // For Firebase Crashlytics (https://firebase.google.com/docs/crashlytics/get-started#android)
+        // (https://docs.fabric.io/android/crashlytics/build-tools.html)
+        classpath 'io.fabric.tools:gradle:1.26.1'
+
+        /////////////////////////////////////////////////////////////////////
         // NOTE: Do not place your application dependencies here; they belong
         // in the individual module build.gradle files
+        /////////////////////////////////////////////////////////////////////
     }
 }
 
@@ -19,6 +29,7 @@ allprojects {
     repositories {
         google()
         jcenter()
+        maven { url "https://maven.google.com" } // For Firebase Analytics & Crashlytics
     }
 
     tasks.withType(JavaCompile) {

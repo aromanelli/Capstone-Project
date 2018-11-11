@@ -17,6 +17,7 @@
     <string name="exit">Exit</string>
     <string name="authorize">Authorize</string>
     <string name="refresh">Refresh</string>
+    <string name="crash">Crash App</string>
 
     <string name="auth_perform_req_title">Authorization Required</string>
     <string name="auth_perform_req_text">You will need to authorize Reddit to share your information with this app.\n\nA web browser will be opened for you, where you will be able to login to Reddit and enable the authorization.\n\nFailure to grant the authorization will prevent this app from working properly.</string>
@@ -37,6 +38,5 @@
 
     <string name="appwidget_newposts_counter_desc">Displays the number of new posts for all subscribed subreddits that are available to read.</string>
     <string name="appwidget_newposts_list_desc">Displays a list of subreddits, and how many new posts each subreddit has available to read.</string>
-    <string name="add_widget">Add widget</string>
 
 </resources>

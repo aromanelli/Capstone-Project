@@ -23,6 +23,7 @@ import java.util.stream.Stream;
 
 import info.romanelli.udacity.capstone.BuildConfig;
 import info.romanelli.udacity.capstone.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.FirebaseAnalyticsManager;
 
 public class RedditAuthManager {
 
@@ -76,6 +77,7 @@ public class RedditAuthManager {
                                                        final int requestCode) {
 
         AppExecutors.$().netIO().execute(() -> {
+            FirebaseAnalyticsManager.$(activity).logEventRedditAuthStarted();
             // https://github.com/openid/AppAuth-Android/blob/master/README.md
             final AuthorizationService authService =  new AuthorizationService(activity);
             final AuthorizationRequest authRequest = getAuthRequest(activity);

@@ -20,6 +20,7 @@ import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPostData;
 import info.romanelli.udacity.capstone.reddit.data.net.subreddits.model.SubredditData;
 import info.romanelli.udacity.capstone.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.FirebaseAnalyticsManager;
 
 public class RedditDataService extends IntentService {
 
@@ -122,6 +123,8 @@ public class RedditDataService extends IntentService {
                                 final Intent intent = new Intent(KEY_NOTIFICATION);
                                 intent.putExtra(KEY_RESULT_FETCHED, Activity.RESULT_OK);
                                 appContext.sendBroadcast(intent);
+
+                                FirebaseAnalyticsManager.$(appContext).logEventFetchedNewPosts(true);
                             }
 
                         });
@@ -133,6 +136,8 @@ public class RedditDataService extends IntentService {
                         final Intent intent = new Intent(KEY_NOTIFICATION);
                         intent.putExtra(KEY_RESULT_FAILED, t);
                         appContext.sendBroadcast(intent);
+
+                        FirebaseAnalyticsManager.$(appContext).logEventFetchedNewPosts(false);
                     }
                 }
         );
