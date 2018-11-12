@@ -1,17 +1,15 @@
 package info.romanelli.udacity.capstone.reddit.view;
 
-import android.app.Application;
-import android.arch.lifecycle.AndroidViewModel;
-import android.support.annotation.NonNull;
+import android.arch.lifecycle.ViewModel;
 
-class NewPostsViewModel extends AndroidViewModel {
+class NewPostsViewModel extends ViewModel {
 
     private static final String TAG = NewPostsViewModel.class.getSimpleName();
 
     private boolean mIsRefreshing = false;
 
-    NewPostsViewModel(@NonNull Application application) {
-        super(application);
+    public NewPostsViewModel() {
+        super();
     }
 
     boolean isRefreshing() {
