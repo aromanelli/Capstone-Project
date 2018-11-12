@@ -42,8 +42,8 @@ import static org.junit.Assert.assertEquals;
         try {
 
             // Initial cleanup ...
-            DataRepository.$(appContext).clearDatabase();
             Thread.sleep(5000); // Hacky, but works ok for testing purposes only
+            DataRepository.$(appContext).clearDatabase();
 
             final LiveData<List<NewPostEntity>> newPosts1 = DataRepository.$(appContext).getNewPosts();
             final Observer<List<NewPostEntity>> obs1 = newPostEntities -> {
