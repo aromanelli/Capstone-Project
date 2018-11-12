@@ -79,10 +79,10 @@ public class RedditInfoWidgetProvider extends AppWidgetProvider {
 
             RemoteViews views;
             // https://developer.android.com/guide/practices/ui_guidelines/widget_design#anatomy_determining_size
-            if (minWidth <= 137 && minHeight <= 58) {
-                views = getSmallRemoteView(context);
-            } else {
+            if ((minWidth >= 200) && (minHeight >= 130)) {
                 views = getNormalRemoteView(context, appWidgetId);
+            } else {
+                views = getSmallRemoteView(context);
             }
 
             /////////////////////////////////////////////////////
@@ -108,14 +108,9 @@ public class RedditInfoWidgetProvider extends AppWidgetProvider {
                                           int appWidgetId, Bundle newOptions) {
         // Called in response to the AppWidgetManager.ACTION_APPWIDGET_OPTIONS_CHANGED
         // broadcast when this widget has been layed out at a new size.
-        onUpdate(context, appWidgetManager, new int[] {appWidgetId}); // TODO Confirm need to do this?
+        onUpdate(context, appWidgetManager, new int[] {appWidgetId});
         super.onAppWidgetOptionsChanged(context, appWidgetManager, appWidgetId, newOptions);
     }
-
-//    @Override
-//    public void onDeleted(Context context, int[] appWidgetIds) {
-//        // Perform any action when one or more AppWidget instances have been deleted
-//    }
 
 //    @Override
 //    public void onEnabled(Context context) {
@@ -125,6 +120,11 @@ public class RedditInfoWidgetProvider extends AppWidgetProvider {
 //    @Override
 //    public void onDisabled(Context context) {
 //        // Enter relevant functionality for when the last widget is disabled
+//    }
+
+//    @Override
+//    public void onDeleted(Context context, int[] appWidgetIds) {
+//        // Perform any action when one or more AppWidget instances have been deleted
 //    }
 
 }
