@@ -242,7 +242,7 @@ public class NewPostsListActivity extends AppCompatActivity {
         Log.d(TAG, "refresh() called with: force = [" + force + "] (["+ mNewPostsViewModel.isRefreshing() +"])");
         if (!mNewPostsViewModel.isRefreshing()) {
             showUI( false );
-            Snackbar.make(mRecyclerView, getString(R.string.fetching_data), Snackbar.LENGTH_LONG).show();
+            Snackbar.make(mRecyclerView, getString(R.string.fetching_data), Snackbar.LENGTH_SHORT).show();
             DataRepository.$(this).populateDatabase(this, force);
         }
     }
@@ -282,6 +282,11 @@ public class NewPostsListActivity extends AppCompatActivity {
                         ).show();
                         showUI(true);
                     } else if (canceled == Activity.RESULT_CANCELED) {
+                        Snackbar.make(
+                                mRecyclerView,
+                                getString(R.string.fetching_data_cancelled),
+                                Snackbar.LENGTH_LONG
+                        ).show();
                         showUI(true);
                     }
 

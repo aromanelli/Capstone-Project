@@ -17,7 +17,7 @@
     <string name="exit">Exit</string>
     <string name="authorize">Authorize</string>
     <string name="refresh">Refresh</string>
-    <string name="crash">Crash App</string>
+    <string name="crash">Crash</string>
 
     <string name="auth_perform_req_title">Authorization Required</string>
     <string name="auth_perform_req_text">You will need to authorize Reddit to share your information with this app.\n\nA web browser will be opened for you, where you will be able to login to Reddit and enable the authorization.\n\nFailure to grant the authorization will prevent this app from working properly.</string>
@@ -27,6 +27,7 @@
 
     <string name="fetching_data">Fetching new posts, please wait …</string>
     <string name="fetching_data_completed">Completed fetching new posts</string>
+    <string name="fetching_data_cancelled">Fetching new posts cancelled</string>
 
     <string name="fetch_error_title">Error fetching data</string>
     <string name="fetch_error_text">An error prevented the fetching of new Reddit information.</string>
