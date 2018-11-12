@@ -10,6 +10,7 @@
     android:textIsSelectable="true"
     tools:context=".reddit.view.NewPostDetailFragment">
 
+    <!-- https://android-developers.googleblog.com/2009/02/android-layout-tricks-2-reusing-layouts.html -->
     <include android:id="@+id/newpost_header"
         layout="@layout/newpost_list_content"
         android:layout_width="0dp"
