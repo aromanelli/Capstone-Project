@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class NewPostsFetcherITest {
 
-    final static private String TAG = NewPostsFetcherITest.class.getSimpleName();
+    private static final String TAG = NewPostsFetcherITest.class.getSimpleName();
 
     @Test
     public void fetchNewPosts() {

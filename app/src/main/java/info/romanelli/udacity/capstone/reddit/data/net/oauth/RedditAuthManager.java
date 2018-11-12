@@ -27,15 +27,15 @@ import info.romanelli.udacity.capstone.util.FirebaseAnalyticsManager;
 
 public class RedditAuthManager {
 
-    final static private String TAG = RedditAuthManager.class.getSimpleName();
+    private static final String TAG = RedditAuthManager.class.getSimpleName();
 
-    final static public int RC_AUTH = 200;
+    public static final int RC_AUTH = 200;
 
-    final static public String STATE = "info.romanelli.udacity.capstone";
+    public static final String STATE = "info.romanelli.udacity.capstone";
 
-    final static private String URL_BASE = "https://www.reddit.com";
+    private static final String URL_BASE = "https://www.reddit.com";
 
-    static public boolean isAuthorized(final Context context) {
+    public static boolean isAuthorized(final Context context) {
         return AuthStateManager.$(context).getAuthState().isAuthorized();
     }
 
@@ -46,7 +46,7 @@ public class RedditAuthManager {
      * @param completedActivity
      * @param canceledActivity
      */
-    synchronized static public void performAuthRequest(final Context context,
+    public static synchronized void performAuthRequest(final Context context,
                                                        final Class<?> completedActivity,
                                                        final Class<?> canceledActivity) {
         AppExecutors.$().netIO().execute(() -> {
@@ -73,7 +73,7 @@ public class RedditAuthManager {
      * @param activity
      * @param requestCode
      */
-    synchronized static public void performAuthRequest(final Activity activity,
+    public static synchronized void performAuthRequest(final Activity activity,
                                                        final int requestCode) {
 
         AppExecutors.$().netIO().execute(() -> {
@@ -88,7 +88,7 @@ public class RedditAuthManager {
     }
 
     // Should not be called directly!
-    static private AuthorizationRequest getAuthRequest(final Context context) {
+    private static AuthorizationRequest getAuthRequest(final Context context) {
         // https://progur.com/2016/10/how-to-use-reddit-oauth2-in-android-apps.html
         // https://github.com/openid/AppAuth-Android/blob/master/README.md
 
@@ -147,7 +147,7 @@ public class RedditAuthManager {
      * @param resp
      * @param excp
      */
-    static public void performTokenRequest(final Context context,
+    public static void performTokenRequest(final Context context,
                                            final AuthorizationResponse resp,
                                            final AuthorizationException excp,
                                            final AuthState.AuthStateAction actionAuthState) {
@@ -206,7 +206,7 @@ public class RedditAuthManager {
      * @param actionAuthState Will have its {@link AuthState.AuthStateAction#execute(String, String, AuthorizationException)}
      *                        method called after attempting/succeeding to get a refresh token from the server.
      */
-    static public void performActionWithFreshTokens(final Context context,
+    public static void performActionWithFreshTokens(final Context context,
                                                     final AuthState.AuthStateAction actionAuthState) {
         AppExecutors.$().netIO().execute(() -> {
             Log.d(TAG, "performActionWithFreshTokens: isAuthorized? " + isAuthorized(context));

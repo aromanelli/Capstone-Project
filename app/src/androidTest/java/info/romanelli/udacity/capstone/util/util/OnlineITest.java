@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class OnlineITest {
 
-    final static private String TAG = OnlineITest.class.getSimpleName();
+    private static final String TAG = OnlineITest.class.getSimpleName();
 
     @Test
     public void isConnected() {

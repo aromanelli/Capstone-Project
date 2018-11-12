@@ -59,7 +59,7 @@ import static info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthMa
  */
 public class NewPostsListActivity extends AppCompatActivity {
 
-    final static private String TAG = NewPostsListActivity.class.getSimpleName();
+    private static final String TAG = NewPostsListActivity.class.getSimpleName();
 
     /**
      * Whether or not the activity is in two-pane mode,

@@ -13,21 +13,21 @@ import java.io.InputStreamReader;
 
 public class TestUtil {
 
-    final static private String TAG = TestUtil.class.getSimpleName();
+    private static final String TAG = TestUtil.class.getSimpleName();
 
-    static public void setNetworkAccess(final boolean enabled) {
+    public static void setNetworkAccess(final boolean enabled) {
         final String cmd = enabled ? "enable" : "disable";
         TestUtil.executeShellCommand("svc wifi " + cmd);
         TestUtil.executeShellCommand("svc data " + cmd);
     }
 
     @SuppressWarnings("WeakerAccess")
-    static public String executeShellCommand(final String cmd) {
+    public static String executeShellCommand(final String cmd) {
         return executeShellCommand(cmd, 2000);
     }
 
     @SuppressWarnings("WeakerAccess")
-    static public String executeShellCommand(final String cmd, final long delay) {
+    public static String executeShellCommand(final String cmd, final long delay) {
         Log.d(TAG, "executeShellCommand() called with: cmd = [" + cmd + "], delay = [" + delay + "]");
         // https://developer.android.com/reference/android/app/UiAutomation#executeShellCommand(java.lang.String)
         StringBuffer sb = new StringBuffer();

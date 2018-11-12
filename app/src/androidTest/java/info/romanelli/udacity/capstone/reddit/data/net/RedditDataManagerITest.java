@@ -21,7 +21,7 @@ import static org.junit.Assert.assertEquals;
 
 public class RedditDataManagerITest {
 
-    final static private String TAG = RedditDataManagerITest.class.getSimpleName();
+    private static final String TAG = RedditDataManagerITest.class.getSimpleName();
 
     @Test
     public void fetchData() {

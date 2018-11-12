@@ -15,7 +15,7 @@ import retrofit2.http.Query;
 
 public class SubredditsFetcher extends AbstractRedditFetcher {
 
-    static public void fetchSubscribed(final Context context,
+    public static void fetchSubscribed(final Context context,
                                        final SubredditsFetcher.Listener listener) {
 
         if (NetUtil.isConnected()) {

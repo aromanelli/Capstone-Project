@@ -17,14 +17,14 @@ import info.romanelli.udacity.capstone.R;
 @SuppressWarnings("unused")
 public class NetUtil {
 
-    final static private String TAG = NetUtil.class.getSimpleName();
+    private static final String TAG = NetUtil.class.getSimpleName();
 
-    final static public String INTENT_ACTION_CONNECTIVITY_CHANGE = "connectivity_change";
+    public static final String INTENT_ACTION_CONNECTIVITY_CHANGE = "connectivity_change";
 
-    static private boolean CONNECTED = false;
-    static private ConnectivityManager.NetworkCallback NETCALLBACK;
+    private static boolean CONNECTED = false;
+    private static ConnectivityManager.NetworkCallback NETCALLBACK;
 
-    static public boolean ifConnected(final View view, final int showDuration) throws IllegalStateException {
+    public static boolean ifConnected(final View view, final int showDuration) throws IllegalStateException {
         if (!isConnected()) {
             Snackbar.make(view, R.string.msg_offline, Snackbar.LENGTH_LONG).setDuration(showDuration).show();
             return false;
@@ -32,7 +32,7 @@ public class NetUtil {
         return true;
     }
 
-    static public boolean isConnected() throws IllegalStateException {
+    public static boolean isConnected() throws IllegalStateException {
         if (NETCALLBACK != null) {
             return CONNECTED;
         }
@@ -54,7 +54,7 @@ public class NetUtil {
      *      {@code null} (which it should not)
      */
     @RequiresApi(Build.VERSION_CODES.LOLLIPOP)
-    synchronized static public void registerForNetworkMonitoring(final Context context) throws IllegalStateException {
+    public static synchronized void registerForNetworkMonitoring(final Context context) throws IllegalStateException {
 
         if (NETCALLBACK == null) {
 

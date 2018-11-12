@@ -6,7 +6,7 @@ import android.support.annotation.NonNull;
 
 class NewPostsViewModel extends AndroidViewModel {
 
-    final static private String TAG = NewPostsViewModel.class.getSimpleName();
+    private static final String TAG = NewPostsViewModel.class.getSimpleName();
 
     private boolean mIsRefreshing = false;
 

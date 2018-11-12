@@ -27,7 +27,7 @@ import static org.junit.Assert.assertEquals;
 @RunWith(AndroidJUnit4.class)
 public class SubredditsFetcherITest {
 
-    final static private String TAG = SubredditsFetcherITest.class.getSimpleName();
+    private static final String TAG = SubredditsFetcherITest.class.getSimpleName();
 
     @Test
     public void fetchSubreddits() {

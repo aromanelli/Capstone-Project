@@ -16,7 +16,7 @@ import retrofit2.http.Query;
 
 public class NewPostsFetcher extends AbstractRedditFetcher {
 
-    static public void fetchNewPosts(final String subreddit,
+    public static void fetchNewPosts(final String subreddit,
                                      final Context context,
                                      final NewPostsFetcher.Listener listener) {
 

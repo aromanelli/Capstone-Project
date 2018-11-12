@@ -19,14 +19,14 @@ import info.romanelli.udacity.capstone.util.NetUtil;
 
 public class RedditDataManager {
 
-    final static private String TAG = RedditDataManager.class.getSimpleName();
+    private static final String TAG = RedditDataManager.class.getSimpleName();
 
     /**
      * <p>Will move the network calls off to another thread for you.</p>
      * @param context
      * @param listener See {@link RedditDataManager.Listener}
      */
-    static public void getRedditData(final Context context, final Listener listener) {
+    public static void getRedditData(final Context context, final Listener listener) {
         Log.d(TAG, "getRedditData:Thread: " + Thread.currentThread().getName());
 
         final Context appContext = context.getApplicationContext();
@@ -43,7 +43,7 @@ public class RedditDataManager {
         fetchSubreddits(appContext, listener);
     }
 
-    static private void fetchSubreddits(final Context appContext, final Listener listener) {
+    private static void fetchSubreddits(final Context appContext, final Listener listener) {
         AppExecutors.$().netIO().execute(() -> {
             Log.d(TAG, "fetchSubreddits:Thread: " + Thread.currentThread().getName());
             SubredditsFetcher.fetchSubscribed(
@@ -78,7 +78,7 @@ public class RedditDataManager {
         });
     }
 
-    static private void fetchNewPosts(final Context appContext,
+    private static void fetchNewPosts(final Context appContext,
                                       final List<SubredditData> subredditDataList,
                                       final Listener listener) {
         Log.d(TAG, "fetchNewPosts:Thread: " + Thread.currentThread().getName());

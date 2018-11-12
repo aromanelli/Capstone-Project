@@ -7,9 +7,9 @@ import retrofit2.converter.gson.GsonConverterFactory;
 
 abstract public class AbstractRedditFetcher {
 
-    final static public String URL_BASE = "https://oauth.reddit.com"; // 'oauth' NOT 'www' !
+    public static final String URL_BASE = "https://oauth.reddit.com"; // 'oauth' NOT 'www' !
 
-    final static public Retrofit RETROFIT = new Retrofit.Builder()
+    public static final Retrofit RETROFIT = new Retrofit.Builder()
             .baseUrl(URL_BASE)
             .addConverterFactory(
                     GsonConverterFactory.create(
@@ -32,7 +32,7 @@ abstract public class AbstractRedditFetcher {
             .build();
 
 
-    static public String getHeaderAuthorization(final String authToken) {
+    public static String getHeaderAuthorization(final String authToken) {
         // To embed token statically in header via Interceptor: https://stackoverflow.com/a/51793569/435519
         return "bearer " + authToken;
     }

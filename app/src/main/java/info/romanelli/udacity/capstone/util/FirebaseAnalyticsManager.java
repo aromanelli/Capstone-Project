@@ -20,11 +20,11 @@ import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 
 public class FirebaseAnalyticsManager {
 
-    final static private String TAG = FirebaseAnalyticsManager.class.getSimpleName();
+    private static final String TAG = FirebaseAnalyticsManager.class.getSimpleName();
 
-    static private volatile FirebaseAnalyticsManager INSTANCE;
+    private static volatile FirebaseAnalyticsManager INSTANCE;
 
-    static public FirebaseAnalyticsManager $(final Context context) {
+    public static FirebaseAnalyticsManager $(final Context context) {
         if (INSTANCE == null) {
             synchronized (FirebaseAnalyticsManager.class) {
                 if (INSTANCE == null) {
@@ -36,10 +36,10 @@ public class FirebaseAnalyticsManager {
         return INSTANCE;
     }
 
-    final static public String ANALYTICS_ITEM_ID_AUTH_STARTED = "AUTH_STARTED";
-    final static public String ANALYTICS_ITEM_ID_AUTH_ENDED = "AUTH_ENDED";
-    final static public String ANALYTICS_ITEM_ID_FETCHED_NEW_POSTS = "FETCHED_NEW_POSTS";
-    final static public String ANALYTICS_ITEM_ID_VIEW_NEW_POST = "VIEW_NEW_POST";
+    public static final String ANALYTICS_ITEM_ID_AUTH_STARTED = "AUTH_STARTED";
+    public static final String ANALYTICS_ITEM_ID_AUTH_ENDED = "AUTH_ENDED";
+    public static final String ANALYTICS_ITEM_ID_FETCHED_NEW_POSTS = "FETCHED_NEW_POSTS";
+    public static final String ANALYTICS_ITEM_ID_VIEW_NEW_POST = "VIEW_NEW_POST";
 
     private FirebaseAnalytics mFirebaseAnalytics;
 

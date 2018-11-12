@@ -10,11 +10,11 @@ import java.util.concurrent.Executors;
 
 public class AppExecutors {
 
-    final static private String TAG = AppExecutors.class.getSimpleName();
+    private static final String TAG = AppExecutors.class.getSimpleName();
 
-    static private volatile AppExecutors INSTANCE;
+    private static volatile AppExecutors INSTANCE;
 
-    static public AppExecutors $() {
+    public static AppExecutors $() {
         if (INSTANCE == null) {
             synchronized (AppExecutors.class) {
                 if (INSTANCE == null) {
@@ -30,7 +30,7 @@ public class AppExecutors {
         return INSTANCE;
     }
 
-    final private Executor diskIO;
+    private final Executor diskIO;
     private final Executor mainThread;
     private final Executor networkIO;
 

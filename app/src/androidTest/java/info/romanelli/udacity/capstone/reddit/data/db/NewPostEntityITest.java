@@ -16,6 +16,7 @@ import java.util.concurrent.atomic.AtomicBoolean;
 
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 import info.romanelli.udacity.capstone.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.FirebaseAnalyticsManager;
 
 import static org.junit.Assert.assertEquals;
 
@@ -26,13 +27,15 @@ import static org.junit.Assert.assertEquals;
  */
 @RunWith(AndroidJUnit4.class)public class NewPostEntityITest {
 
-    final static private String TAG = NewPostEntityITest.class.getSimpleName();
+    private static final String TAG = NewPostEntityITest.class.getSimpleName();
 
     @Test
     public void testNewPosts() throws InterruptedException {
 
         Context appContext = InstrumentationRegistry.getTargetContext();
         assertEquals("info.romanelli.udacity.capstone", appContext.getPackageName());
+
+        FirebaseAnalyticsManager.$(appContext);
 
         final AtomicBoolean flag = new AtomicBoolean(false);
 

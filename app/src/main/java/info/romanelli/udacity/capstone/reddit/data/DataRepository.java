@@ -30,7 +30,7 @@ import info.romanelli.udacity.capstone.util.Assert;
 
 public class DataRepository {
 
-    final static private String TAG = DataRepository.class.getSimpleName();
+    private static final String TAG = DataRepository.class.getSimpleName();
 
     private static volatile DataRepository INSTANCE;
 
@@ -62,7 +62,7 @@ public class DataRepository {
         ldNewPosts.observeForever(obs1); // TODO Need to removeObserver for a singleton class?
     }
 
-    synchronized private void createSubredditsInfo(final Context context) {
+    private synchronized void createSubredditsInfo(final Context context) {
         Log.d(TAG, "createSubredditsInfo() called");
         // Create the sorted Set of Subreddits ...
         if (ldNewPosts.getValue() != null) {
@@ -120,7 +120,7 @@ public class DataRepository {
      * Returns a sorted, unmodifiable {@link List} of {@link SubredditInfo}.
      * @return List
      */
-    synchronized public List<SubredditInfo> getSubredditsInfo() {
+    public synchronized List<SubredditInfo> getSubredditsInfo() {
         return Collections.unmodifiableList(subredditsInfo);
     }
 
@@ -200,7 +200,7 @@ public class DataRepository {
      * @param context
      * @param forcePopulate if {@code true} then a fetch/insert will be done even if one was just done recently.
      */
-    synchronized public void populateDatabase(final Context context, boolean forcePopulate) {
+    public synchronized void populateDatabase(final Context context, boolean forcePopulate) {
         // Call the service to fetch new posts from Reddit and write them to the local db ...
         final Context appContext = context.getApplicationContext();
         Intent intent = new Intent(context, RedditDataService.class);
