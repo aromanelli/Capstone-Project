@@ -57,11 +57,14 @@ public class RedditDataService extends IntentService {
             long timeLastFetch = TimeUnit.NANOSECONDS.toMinutes(prefs.getLong(KEY_LAST_POP_TIME, 0));
             if ((timeLastFetch != 0) && (timeLastFetch + fetchWaitMinutes) > timeCurrent) {
                 Log.i(TAG, "populateDatabase: Not enough time has elapsed to do another data populate. (L["+ timeLastFetch +"] + W["+ fetchWaitMinutes +"]) > C["+ timeCurrent +"]");
-                // Notify ...
-                final Intent intent2 = new Intent(KEY_NOTIFICATION);
-                intent2.putExtra(KEY_RESULT_CANCELLED, Activity.RESULT_CANCELED);
-                appContext.sendBroadcast(intent2);
-                return;
+                // If there are no records, fetch anyway even if elapsed time is not enough ...
+                if (DataRepository.$(appContext).sizeNewPosts() != 0) {
+                    // Notify ...
+                    final Intent intent2 = new Intent(KEY_NOTIFICATION);
+                    intent2.putExtra(KEY_RESULT_CANCELLED, Activity.RESULT_CANCELED);
+                    appContext.sendBroadcast(intent2);
+                    return;
+                } // 'else' is to continue and do data populate/fetch
             }
         }
         else {
