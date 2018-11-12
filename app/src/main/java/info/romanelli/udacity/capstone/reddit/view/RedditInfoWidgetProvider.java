@@ -79,7 +79,7 @@ public class RedditInfoWidgetProvider extends AppWidgetProvider {
 
             RemoteViews views;
             // https://developer.android.com/guide/practices/ui_guidelines/widget_design#anatomy_determining_size
-            if (minHeight < 110 || minWidth < 180) {
+            if (minWidth <= 137 && minHeight <= 58) {
                 views = getSmallRemoteView(context);
             } else {
                 views = getNormalRemoteView(context, appWidgetId);
