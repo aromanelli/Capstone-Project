@@ -130,7 +130,7 @@ public class FirebaseAnalyticsManager {
         // layout ...
         LinearLayout layout = new LinearLayout(activity.getApplicationContext());
         layout.setOrientation(LinearLayout.VERTICAL);
-        layout.setGravity(Gravity.BOTTOM|Gravity.CENTER);
+        layout.setGravity(Gravity.CENTER_VERTICAL|Gravity.END);
         LinearLayout.LayoutParams viewParams =
                 new LinearLayout.LayoutParams(
                         ViewGroup.LayoutParams.WRAP_CONTENT,
