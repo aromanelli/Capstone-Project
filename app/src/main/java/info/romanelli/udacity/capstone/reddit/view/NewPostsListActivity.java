@@ -371,7 +371,6 @@ public class NewPostsListActivity extends AppCompatActivity {
                 if (mTwoPane) {
                     Bundle arguments = new Bundle();
                     arguments.putString(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
-                    arguments.putInt(NewPostDetailFragment.ARG_FLAG_TWOPANE, Activity.RESULT_OK);
                     NewPostDetailFragment fragment = new NewPostDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()

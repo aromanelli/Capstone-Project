@@ -10,22 +10,12 @@
     android:textIsSelectable="true"
     tools:context=".reddit.view.NewPostDetailFragment">
 
-    <!-- https://android-developers.googleblog.com/2009/02/android-layout-tricks-2-reusing-layouts.html -->
-    <include android:id="@+id/newpost_header"
-        layout="@layout/newpost_list_content"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        app:layout_constraintTop_toTopOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent"
-        />
-
     <TextView
         android:id="@+id/newpost_detail_text"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:textAppearance="?android:attr/textAppearanceLarge"
-        app:layout_constraintTop_toBottomOf="@+id/newpost_header"
+        app:layout_constraintTop_toTopOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         tools:text="Now is the time for all good text to display itself." />
