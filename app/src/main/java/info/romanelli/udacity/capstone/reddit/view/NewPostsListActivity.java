@@ -83,7 +83,7 @@ public class NewPostsListActivity extends AppCompatActivity {
         setSupportActionBar(toolbar);
         toolbar.setTitle(getTitle());
 
-        mFloatingActionButton = findViewById(R.id.fab);
+        mFloatingActionButton = findViewById(R.id.fab_refresh);
         mFloatingActionButton.setOnClickListener(view -> refresh(true));
 
         // This is added for Firebase Crashlytics testing purposes only ...
@@ -312,8 +312,9 @@ public class NewPostsListActivity extends AppCompatActivity {
         Log.d(TAG, "showUI() called with: visible = [" + visible + "] (["+ mNewPostsViewModel.isRefreshing() +"])");
         mNewPostsViewModel.setIsRefreshing(!visible);
         AppExecutors.$().mainUI().execute(() -> {
+
             mSwipeRefreshLayout.setRefreshing(mNewPostsViewModel.isRefreshing());
-            // 'Refresh' menu handled in onPrepareOptionsMenu(Menu) method!
+            // (The 'Refresh' menu view is handled in the onPrepareOptionsMenu(Menu) method!)
             if (visible) {
                 mRecyclerView.setVisibility(View.VISIBLE);
                 mFloatingActionButton.show();
@@ -321,6 +322,19 @@ public class NewPostsListActivity extends AppCompatActivity {
                 mRecyclerView.setVisibility(View.INVISIBLE);
                 mFloatingActionButton.hide();
             }
+
+            final TextView tvNewPostDetailText = findViewById(R.id.newpost_detail_text);
+            // Handle show/hiding the new post text when in tablet mode ...
+            if (tvNewPostDetailText != null) {
+                if (visible) {
+                    tvNewPostDetailText.setVisibility(View.VISIBLE);
+                } else {
+                    tvNewPostDetailText.setVisibility(View.INVISIBLE);
+                    // Assuming invis because of refresh, so clear out prev select new post ...
+                    tvNewPostDetailText.setText("");
+                }
+            }
+
         });
     }
 
@@ -351,11 +365,19 @@ public class NewPostsListActivity extends AppCompatActivity {
         private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+
                 NewPostEntity item = (NewPostEntity) view.getTag();
 
                 FirebaseAnalyticsManager.$(mParentActivity).logEventViewNewPost(item);
 
                 if (mTwoPane) {
+
+
+
+                    // TODO Select entry in RecyclerView visually
+
+
+
                     Bundle arguments = new Bundle();
                     arguments.putString(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
                     NewPostDetailFragment fragment = new NewPostDetailFragment();
@@ -367,7 +389,6 @@ public class NewPostsListActivity extends AppCompatActivity {
                     Context context = view.getContext();
                     Intent intent = new Intent(context, NewPostDetailActivity.class);
                     intent.putExtra(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
-
                     context.startActivity(intent);
                 }
             }

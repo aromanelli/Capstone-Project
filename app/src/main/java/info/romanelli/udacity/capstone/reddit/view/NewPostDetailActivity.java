@@ -38,14 +38,12 @@ public class NewPostDetailActivity extends AppCompatActivity {
         Assert.that(idNewPostEntity != null);
         Assert.that(idNewPostEntity.trim().length() >= 1);
 
-        FloatingActionButton fab = findViewById(R.id.fab);
-        fab.setOnClickListener(view -> {
+        FloatingActionButton fab_details = findViewById(R.id.fab_details);
+        fab_details.setOnClickListener(view -> {
             Log.d(TAG, "onCreate: idNewPostEntity: " + idNewPostEntity);
             NewPostEntity npe = DataRepository.$(this).getNewPostEntity(idNewPostEntity);
-            final Uri uriNewPost = Uri.parse(npe.getUrl());
-            Log.d(TAG, "onCreate: uriNewPost: " + uriNewPost);
             Intent i = new Intent(Intent.ACTION_VIEW);
-            i.setData(uriNewPost);
+            i.setData(Uri.parse(npe.getUrl()));
             startActivity(i);
         } );
 
