@@ -371,15 +371,9 @@ public class NewPostsListActivity extends AppCompatActivity {
                 FirebaseAnalyticsManager.$(mParentActivity).logEventViewNewPost(item);
 
                 if (mTwoPane) {
-
-
-
-                    // TODO Select entry in RecyclerView visually
-
-
-
                     Bundle arguments = new Bundle();
                     arguments.putString(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
+                    arguments.putInt(NewPostDetailFragment.ARG_FLAG_TWOPANE, Activity.RESULT_OK);
                     NewPostDetailFragment fragment = new NewPostDetailFragment();
                     fragment.setArguments(arguments);
                     mParentActivity.getSupportFragmentManager().beginTransaction()
@@ -421,23 +415,8 @@ public class NewPostsListActivity extends AppCompatActivity {
         @Override
         public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
-            Object loadTarget;
             String url = mValues.get(position).getSubreddit_icon();
-            if (url == null || url.trim().length() <= 0) {
-                loadTarget = R.drawable.ic_reddit_default;
-            } else {
-                loadTarget = Uri.parse( mValues.get(position).getSubreddit_icon() );
-            }
-            // https://bumptech.github.io/glide/doc/getting-started.html#listview-and-recyclerview
-            Glide.with(mParentActivity)
-                    .load(loadTarget)
-                    .apply(new RequestOptions()
-                            .centerInside()
-                            .priority(Priority.HIGH)
-                            .placeholder(R.drawable.ic_reddit_default)
-                            .error(R.drawable.ic_reddit_default)
-                    )
-                    .into(holder.ivSubreddit);
+            setImageViewViaGlide(mParentActivity, url, holder.ivSubreddit);
 
             holder.tvSubreddit.setText(mValues.get(position).getSubreddit_pre());
             holder.tvPoster.setText(mValues.get(position).getAuthor());
@@ -445,6 +424,25 @@ public class NewPostsListActivity extends AppCompatActivity {
 
             holder.itemView.setTag(mValues.get(position));
             holder.itemView.setOnClickListener(mOnClickListener);
+        }
+
+        public static void setImageViewViaGlide(final Activity activity, final String url, final ImageView iv) {
+            Object loadTarget;
+            if (url == null || url.trim().length() <= 0) {
+                loadTarget = R.drawable.ic_reddit_default;
+            } else {
+                loadTarget = Uri.parse( url );
+            }
+            // https://bumptech.github.io/glide/doc/getting-started.html#listview-and-recyclerview
+            Glide.with(activity)
+                    .load(loadTarget)
+                    .apply(new RequestOptions()
+                            .centerInside()
+                            .priority(Priority.HIGH)
+                            .placeholder(R.drawable.ic_reddit_default)
+                            .error(R.drawable.ic_reddit_default)
+                    )
+                    .into(iv);
         }
 
         @Override
