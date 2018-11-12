@@ -33,7 +33,7 @@ public class NewPostsFetcher extends AbstractRedditFetcher {
                                             getHeaderAuthorization(accessToken),
                                             subreddit,
                                             "all",
-                                            100
+                                            10
                                     );
 
                     call.enqueue(new Callback<NewPosts>() {
