@@ -323,15 +323,13 @@ public class NewPostsListActivity extends AppCompatActivity {
                 mFloatingActionButton.hide();
             }
 
-            final TextView tvNewPostDetailText = findViewById(R.id.newpost_detail_text);
+            final View detail_container = findViewById(R.id.newpost_detail_container);
             // Handle show/hiding the new post text when in tablet mode ...
-            if (tvNewPostDetailText != null) {
+            if (detail_container != null) {
                 if (visible) {
-                    tvNewPostDetailText.setVisibility(View.VISIBLE);
+                    detail_container.setVisibility(View.VISIBLE);
                 } else {
-                    tvNewPostDetailText.setVisibility(View.INVISIBLE);
-                    // Assuming invis because of refresh, so clear out prev select new post ...
-                    tvNewPostDetailText.setText("");
+                    detail_container.setVisibility(View.INVISIBLE);
                 }
             }
 
@@ -426,7 +424,7 @@ public class NewPostsListActivity extends AppCompatActivity {
             holder.itemView.setOnClickListener(mOnClickListener);
         }
 
-        public static void setImageViewViaGlide(final Activity activity, final String url, final ImageView iv) {
+        static void setImageViewViaGlide(final Activity activity, final String url, final ImageView iv) {
             Object loadTarget;
             if (url == null || url.trim().length() <= 0) {
                 loadTarget = R.drawable.ic_reddit_default;
