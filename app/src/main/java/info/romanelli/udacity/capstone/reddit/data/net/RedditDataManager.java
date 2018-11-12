@@ -100,7 +100,6 @@ public class RedditDataManager {
                                         // also adding to the collection the subreddit data for the new post ...
                                         newposts.getNewPostsData().getNewPosts().forEach(newpost -> {
                                             if (newpost.getNewPostData() != null) {
-                                                Log.d(TAG, "fetchNewPosts|NewPostData: [" + newpost.getNewPostData().getSubreddit() + "][" + newpost.getNewPostData().getTitle() + "]");
                                                 listNewPostsData.add(
                                                         new Pair<>(
                                                                 newpost.getNewPostData(),
