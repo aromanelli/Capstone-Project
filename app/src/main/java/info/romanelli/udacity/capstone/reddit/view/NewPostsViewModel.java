@@ -2,7 +2,7 @@ package info.romanelli.udacity.capstone.reddit.view;
 
 import android.arch.lifecycle.ViewModel;
 
-class NewPostsViewModel extends ViewModel {
+public class NewPostsViewModel extends ViewModel {
 
     private static final String TAG = NewPostsViewModel.class.getSimpleName();
 
