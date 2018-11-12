@@ -154,13 +154,25 @@ public class NewPostsListActivity extends AppCompatActivity {
     @Override
     protected void onResume() {
         super.onResume();
-        registerReceiver(receiverRedditDataService, new IntentFilter(RedditDataService.KEY_NOTIFICATION));
+        registerReceiver(
+                receiverRedditDataService,
+                new IntentFilter(RedditDataService.KEY_NOTIFICATION)
+        );
         showUI(!mNewPostsViewModel.isRefreshing());
     }
     @Override
     protected void onPause() {
-        super.onPause();
         unregisterReceiver(receiverRedditDataService);
+        super.onPause();
+    }
+
+    @Override
+    protected void onStop() {
+        // Fix for user backing out of main activity while a refresh is in progress.
+        // This will force a new refresh when the app/activity is restarted by the user.
+        mNewPostsViewModel.setIsRefreshing(false);
+
+        super.onStop();
     }
 
     @Override
