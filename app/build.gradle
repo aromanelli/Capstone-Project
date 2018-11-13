@@ -2,6 +2,15 @@ apply plugin: 'com.android.application'
 apply plugin: 'com.google.gms.google-services'
 apply plugin: 'io.fabric' // For Firebase Crashlytics
 
+// https://developer.android.com/studio/publish/app-signing#secure-shared-keystore
+// Create a variable called keystorePropertiesFile, and initialize it
+// to your keystore.properties file, in the rootProject folder ...
+def keystorePropertiesFile = rootProject.file("keystore.properties")
+// Initialize a new Properties() object called keystoreProperties ...
+def keystoreProperties = new Properties()
+// Load your keystore.properties file into the keystoreProperties object ...
+keystoreProperties.load(new FileInputStream(keystorePropertiesFile))
+
 android {
     compileSdkVersion 28
     defaultConfig {
@@ -18,13 +27,21 @@ android {
             }
         }
     }
+    signingConfigs {
+        config {
+            keyAlias keystoreProperties['keyAlias']
+            keyPassword keystoreProperties['keyPassword']
+            storeFile file(keystoreProperties['storeFile'])
+            storePassword keystoreProperties['storePassword']
+            v2SigningEnabled false
+        }
+    }
     buildTypes {
         debug {
             shrinkResources false
             minifyEnabled false
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             // Reddit Client Id ...
             buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
             resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
@@ -37,13 +54,13 @@ android {
             minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
-
             // Reddit Client Id ...
             buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
             resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
             // Reddit Client Secret ...
             buildConfigField 'String', "Reddit_Client_Secret_Capstone", Reddit_Client_Secret_Capstone
             resValue 'string', "reddit_client_secret_capstone", Reddit_Client_Secret_Capstone
+            signingConfig signingConfigs.config
         }
     }
     compileOptions {
@@ -76,14 +93,13 @@ dependencies {
     //////////////////////////////////////////////////////////////////////////////////////
     implementation 'android.arch.persistence.room:runtime:1.1.1'
     annotationProcessor "android.arch.persistence.room:compiler:1.1.1"
-    androidTestImplementation "android.arch.persistence.room:testing:1.1.1"
+    androidTestImplementation 'android.arch.persistence.room:testing:1.1.1'
     //////////////////////////////////////////////////////////////////////////////////////
-    implementation "android.arch.lifecycle:extensions:1.1.1"
+    implementation 'android.arch.lifecycle:extensions:1.1.1'
     annotationProcessor "android.arch.lifecycle:compiler:1.1.1"
     //////////////////////////////////////////////////////////////////////////////////////
     implementation 'com.android.support:customtabs:28.0.0' // Overrides 'net.openid:appauth:0.7.1'
-    implementation 'com.android.support:animated-vector-drawable:28.0.0'
-    // Overrides 'net.openid:appauth:0.7.1'
+    implementation 'com.android.support:animated-vector-drawable:28.0.0' // Overrides 'net.openid:appauth:0.7.1'
     //////////////////////////////////////////////////////////////////////////////////////
     implementation 'com.android.support:appcompat-v7:28.0.0'
     implementation 'com.android.support:design:28.0.0'
@@ -96,6 +112,7 @@ dependencies {
     //////////////////////////////////////////////////////////////////////////////////////
     // https://blog.jetbrains.com/idea/2013/10/better-control-flow-analysis-with-contract-annotations-and-intellij-idea-13/
     // https://mvnrepository.com/artifact/org.jetbrains/annotations
+    // Used by info.romanelli.udacity.capstone.util.Assert for @Contract annotation
     implementation 'org.jetbrains:annotations:16.0.3'
     //////////////////////////////////////////////////////////////////////////////////////
     implementation 'com.google.firebase:firebase-core:16.0.5'
