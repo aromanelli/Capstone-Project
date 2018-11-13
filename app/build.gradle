@@ -43,11 +43,13 @@ android {
             useProguard false
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // Reddit Client Id ...
-            buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
-            resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
+            // NOTE! Entry in file needs to INCLUDE the double-quotes on either end of the value!
+            buildConfigField 'String', "Reddit_Client_Id_Capstone", keystoreProperties['Reddit_Client_Id_Capstone']
+            resValue 'string', "reddit_client_id_capstone", keystoreProperties['Reddit_Client_Id_Capstone']
             // Reddit Client Secret ...
-            buildConfigField 'String', "Reddit_Client_Secret_Capstone", Reddit_Client_Secret_Capstone
-            resValue 'string', "reddit_client_secret_capstone", Reddit_Client_Secret_Capstone
+            // NOTE! Entry in file needs to INCLUDE the double-quotes on either end of the value!
+            buildConfigField 'String', "Reddit_Client_Secret_Capstone", keystoreProperties['Reddit_Client_Secret_Capstone']
+            resValue 'string', "reddit_client_secret_capstone", keystoreProperties['Reddit_Client_Secret_Capstone']
         }
         release {
             shrinkResources true
@@ -55,11 +57,13 @@ android {
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
             // Reddit Client Id ...
-            buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
-            resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
+            // NOTE! Entry in file needs to INCLUDE the double-quotes on either end of the value!
+            buildConfigField 'String', "Reddit_Client_Id_Capstone", keystoreProperties['Reddit_Client_Id_Capstone']
+            resValue 'string', "reddit_client_id_capstone", keystoreProperties['Reddit_Client_Id_Capstone']
             // Reddit Client Secret ...
-            buildConfigField 'String', "Reddit_Client_Secret_Capstone", Reddit_Client_Secret_Capstone
-            resValue 'string', "reddit_client_secret_capstone", Reddit_Client_Secret_Capstone
+            // NOTE! Entry in file needs to INCLUDE the double-quotes on either end of the value!
+            buildConfigField 'String', "Reddit_Client_Secret_Capstone", keystoreProperties['Reddit_Client_Secret_Capstone']
+            resValue 'string', "reddit_client_secret_capstone", keystoreProperties['Reddit_Client_Secret_Capstone']
             signingConfig signingConfigs.config
         }
     }
