@@ -20,10 +20,12 @@ android {
     }
     buildTypes {
         debug {
+            shrinkResources false
             minifyEnabled false
             useProguard false
+            proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            // Reddit Client Id ...  TODO REMOVE
+            // Reddit Client Id ...
             buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
             resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
             // Reddit Client Secret ...
@@ -31,11 +33,12 @@ android {
             resValue 'string', "reddit_client_secret_capstone", Reddit_Client_Secret_Capstone
         }
         release {
+            shrinkResources true
             minifyEnabled true
             useProguard true
             proguardFiles getDefaultProguardFile('proguard-android.txt'), 'proguard-rules.pro'
 
-            // Reddit Client Id ...  TODO REMOVE
+            // Reddit Client Id ...
             buildConfigField 'String', "Reddit_Client_Id_Capstone", Reddit_Client_Id_Capstone
             resValue 'string', "reddit_client_id_capstone", Reddit_Client_Id_Capstone
             // Reddit Client Secret ...
