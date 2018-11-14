@@ -98,6 +98,8 @@ public class NewPostDetailActivity extends AppCompatActivity {
             //
             // navigateUpTo(new Intent(this, NewPostsListActivity.class));
             // NavUtils.navigateUpFromSameTask(this);
+            //
+            // REVIEWER: Keeping this method because below call to onBackPressed is not the same as navigateUpTo
             super.onBackPressed(); // We don't want to call parent Activities create method
             return true;
         }
