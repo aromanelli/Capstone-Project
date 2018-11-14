@@ -1,17 +1,18 @@
 package info.romanelli.udacity.capstone.reddit.view;
 
 import android.app.Activity;
+import android.app.ActivityOptions;
 import android.app.AlertDialog;
 import android.arch.lifecycle.ViewModelProviders;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.content.IntentFilter;
-import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
 import android.support.design.widget.FloatingActionButton;
 import android.support.design.widget.Snackbar;
+import android.support.v4.view.ViewCompat;
 import android.support.v4.widget.SwipeRefreshLayout;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.DividerItemDecoration;
@@ -28,10 +29,6 @@ import android.view.ViewGroup;
 import android.widget.ImageView;
 import android.widget.TextView;
 
-import com.bumptech.glide.Glide;
-import com.bumptech.glide.Priority;
-import com.bumptech.glide.request.RequestOptions;
-
 import net.openid.appauth.AuthorizationException;
 import net.openid.appauth.AuthorizationResponse;
 
@@ -45,6 +42,7 @@ import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
 import info.romanelli.udacity.capstone.reddit.data.net.RedditDataService;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;
 import info.romanelli.udacity.capstone.util.AppExecutors;
+import info.romanelli.udacity.capstone.util.AppUtil;
 import info.romanelli.udacity.capstone.util.Assert;
 import info.romanelli.udacity.capstone.util.FirebaseAnalyticsManager;
 
@@ -373,31 +371,6 @@ public class NewPostsListActivity extends AppCompatActivity {
         private final List<NewPostEntity> mValues = new ArrayList<>(0);
         private final boolean mTwoPane;
 
-        private final View.OnClickListener mOnClickListener = new View.OnClickListener() {
-            @Override
-            public void onClick(View view) {
-
-                NewPostEntity item = (NewPostEntity) view.getTag();
-
-                FirebaseAnalyticsManager.$(mParentActivity).logEventViewNewPost(item);
-
-                if (mTwoPane) {
-                    Bundle arguments = new Bundle();
-                    arguments.putString(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
-                    NewPostDetailFragment fragment = new NewPostDetailFragment();
-                    fragment.setArguments(arguments);
-                    mParentActivity.getSupportFragmentManager().beginTransaction()
-                            .replace(R.id.newpost_detail_container, fragment)
-                            .commit();
-                } else {
-                    Context context = view.getContext();
-                    Intent intent = new Intent(context, NewPostDetailActivity.class);
-                    intent.putExtra(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
-                    context.startActivity(intent);
-                }
-            }
-        };
-
         NewPostsListRecyclerViewAdapter(NewPostsListActivity parent,
                                       List<NewPostEntity> newPosts,
                                       boolean twoPane) {
@@ -426,33 +399,13 @@ public class NewPostsListActivity extends AppCompatActivity {
         public void onBindViewHolder(@NonNull final ViewHolder holder, int position) {
 
             String url = mValues.get(position).getSubreddit_icon();
-            setImageViewViaGlide(mParentActivity, url, holder.ivSubreddit);
+            AppUtil.setImageViewViaGlide(mParentActivity, url, holder.ivSubreddit, url);
 
             holder.tvSubreddit.setText(mValues.get(position).getSubreddit_pre());
             holder.tvPoster.setText(mValues.get(position).getAuthor());
             holder.tvPostTitle.setText(mValues.get(position).getTitle());
 
             holder.itemView.setTag(mValues.get(position));
-            holder.itemView.setOnClickListener(mOnClickListener);
-        }
-
-        static void setImageViewViaGlide(final Activity activity, final String url, final ImageView iv) {
-            Object loadTarget;
-            if (url == null || url.trim().length() <= 0) {
-                loadTarget = R.drawable.ic_reddit_default;
-            } else {
-                loadTarget = Uri.parse( url );
-            }
-            // https://bumptech.github.io/glide/doc/getting-started.html#listview-and-recyclerview
-            Glide.with(activity)
-                    .load(loadTarget)
-                    .apply(new RequestOptions()
-                            .centerInside()
-                            .priority(Priority.HIGH)
-                            .placeholder(R.drawable.ic_reddit_default)
-                            .error(R.drawable.ic_reddit_default)
-                    )
-                    .into(iv);
         }
 
         @Override
@@ -460,7 +413,7 @@ public class NewPostsListActivity extends AppCompatActivity {
             return mValues.size();
         }
 
-        class ViewHolder extends RecyclerView.ViewHolder {
+        class ViewHolder extends RecyclerView.ViewHolder implements View.OnClickListener {
             final ImageView ivSubreddit;
             final TextView tvSubreddit;
             final TextView tvPoster;
@@ -468,11 +421,46 @@ public class NewPostsListActivity extends AppCompatActivity {
 
             ViewHolder(View view) {
                 super(view);
+
                 ivSubreddit = view.findViewById(R.id.ivSubreddit);
                 tvSubreddit = view.findViewById(R.id.tvSubreddit);
                 tvPoster = view.findViewById(R.id.tvPoster);
                 tvPostTitle = view.findViewById(R.id.tvPostTitle);
+
+                itemView.setOnClickListener(this);
             }
+
+            @Override
+            public void onClick(View view) {
+
+                NewPostEntity item = (NewPostEntity) view.getTag();
+
+                FirebaseAnalyticsManager.$(mParentActivity).logEventViewNewPost(item);
+
+                if (mTwoPane) {
+                    Bundle arguments = new Bundle();
+                    arguments.putString(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
+                    NewPostDetailFragment fragment = new NewPostDetailFragment();
+                    fragment.setArguments(arguments);
+                    mParentActivity.getSupportFragmentManager().beginTransaction()
+                            .replace(R.id.newpost_detail_container, fragment)
+                            .commit();
+                } else {
+                    Context context = view.getContext();
+                    Intent intent = new Intent(context, NewPostDetailActivity.class);
+                    intent.putExtra(NewPostDetailFragment.ARG_ITEM_ID, item.getId());
+
+                    // Start detail activity with a transition ...
+                    Bundle bundle = ActivityOptions.makeSceneTransitionAnimation(
+                            mParentActivity,
+                            ivSubreddit,
+                            // Set in NewPostDetailActivity ...
+                            ViewCompat.getTransitionName(ivSubreddit)
+                    ).toBundle();
+                    context.startActivity(intent, bundle);
+                }
+            }
+
         }
 
     }

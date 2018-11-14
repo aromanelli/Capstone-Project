@@ -4,15 +4,16 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.design.widget.FloatingActionButton;
-import android.support.v7.app.ActionBar;
 import android.support.v7.app.AppCompatActivity;
 import android.support.v7.widget.Toolbar;
 import android.util.Log;
 import android.view.MenuItem;
+import android.widget.ImageView;
 
 import info.romanelli.udacity.capstone.R;
 import info.romanelli.udacity.capstone.reddit.data.DataRepository;
 import info.romanelli.udacity.capstone.reddit.data.db.NewPostEntity;
+import info.romanelli.udacity.capstone.util.AppUtil;
 import info.romanelli.udacity.capstone.util.Assert;
 
 import static info.romanelli.udacity.capstone.reddit.view.NewPostDetailFragment.ARG_ITEM_ID;
@@ -31,6 +32,11 @@ public class NewPostDetailActivity extends AppCompatActivity {
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_newpost_detail);
+
+        // Postpone activity shown transition until after subreddit icon is loaded
+        // (see method MoviesInfoFetcher.setPosterToView to restarting transition).
+        supportPostponeEnterTransition();
+
         Toolbar toolbar = findViewById(R.id.detail_toolbar);
         setSupportActionBar(toolbar);
 
@@ -38,20 +44,25 @@ public class NewPostDetailActivity extends AppCompatActivity {
         Assert.that(idNewPostEntity != null);
         Assert.that(idNewPostEntity.trim().length() >= 1);
 
+        // Show the Up button in the action bar.
+        Assert.that(getSupportActionBar() != null);
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
+
+        Log.d(TAG, "onCreate: idNewPostEntity: " + idNewPostEntity);
+        final NewPostEntity npe = DataRepository.$(this).getNewPostEntity(idNewPostEntity);
+
+        final ImageView ivAppBarLayout = this.findViewById(R.id.app_bar_image);
+        if (ivAppBarLayout != null) {
+            // ivAppBarLayout.setImageDrawable(null);  Seems smoother WITH this line being called
+            AppUtil.setImageViewViaGlide(this, npe.getSubreddit_icon(), ivAppBarLayout, npe.getSubreddit_icon());
+        }
+
         FloatingActionButton fab_details = findViewById(R.id.fab_details);
         fab_details.setOnClickListener(view -> {
-            Log.d(TAG, "onCreate: idNewPostEntity: " + idNewPostEntity);
-            NewPostEntity npe = DataRepository.$(this).getNewPostEntity(idNewPostEntity);
             Intent i = new Intent(Intent.ACTION_VIEW);
             i.setData(Uri.parse(npe.getUrl()));
             startActivity(i);
         } );
-
-        // Show the Up button in the action bar.
-        ActionBar actionBar = getSupportActionBar();
-        if (actionBar != null) {
-            actionBar.setDisplayHomeAsUpEnabled(true);
-        }
 
         // savedInstanceState is non-null when there is fragment state
         // saved from previous configurations of this activity
