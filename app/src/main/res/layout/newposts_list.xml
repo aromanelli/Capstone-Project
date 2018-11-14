@@ -12,4 +12,5 @@
     android:layout_marginBottom="8dp"
     app:layoutManager="android.support.v7.widget.LinearLayoutManager"
     tools:context=".reddit.view.NewPostsListActivity"
-    tools:listitem="@layout/newpost_list_content" />
+    tools:listitem="@layout/newpost_list_content"
+    android:contentDescription="@string/newpost_list_desc"/>

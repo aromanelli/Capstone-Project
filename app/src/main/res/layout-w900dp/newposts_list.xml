@@ -29,7 +29,8 @@
         android:layout_height="match_parent"
         app:layoutManager="android.support.v7.widget.LinearLayoutManager"
         tools:context="info.romanelli.udacity.capstone.reddit.view.NewPostsListActivity"
-        tools:listitem="@layout/newpost_list_content" />
+        tools:listitem="@layout/newpost_list_content"
+        android:contentDescription="@string/newpost_list_desc" />
 
     <FrameLayout
         android:id="@+id/newpost_detail_container"

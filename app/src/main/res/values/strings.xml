@@ -40,4 +40,9 @@
     <string name="appwidget_newposts_counter_desc">Displays the number of new posts for all subscribed subreddits that are available to read.</string>
     <string name="appwidget_newposts_list_desc">Displays a list of subreddits, and how many new posts each subreddit has available to read.</string>
 
+    <string name="newposts_list_refresh_fab_desc">Pressing this button will tell the app to go fetch from Reddit the latest new posts.</string>
+    <string name="newpost_detail_activity_app_bar_image_desc">The subreddit icon image for the new post you are viewing</string>
+    <string name="newpost_detail_activity_view_url_fab_desc">Pressing this button will tell the app to open a browser, where you can view the new post\'s additional information.</string>
+    <string name="newpost_list_desc">The listing of subreddit new posts</string>
+
 </resources>
