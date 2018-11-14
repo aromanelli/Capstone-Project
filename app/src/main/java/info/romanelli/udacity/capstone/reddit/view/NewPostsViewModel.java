@@ -8,6 +8,8 @@ public class NewPostsViewModel extends ViewModel {
 
     private boolean mIsRefreshing = false;
 
+    private int mIndexVisiblePos = Integer.MIN_VALUE;
+
     public NewPostsViewModel() {
         super();
     }
@@ -18,6 +20,14 @@ public class NewPostsViewModel extends ViewModel {
 
     void setIsRefreshing(final boolean refreshing) {
         this.mIsRefreshing = refreshing;
+    }
+
+    public int getIndexVisiblePos() {
+        return mIndexVisiblePos;
+    }
+
+    public void setIndexVisiblePos(int indexVisiblePos) {
+        this.mIndexVisiblePos = indexVisiblePos;
     }
 
 }
