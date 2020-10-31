@@ -1,7 +1,8 @@
 package info.romanelli.udacity.capstone.reddit.data.net.newposts;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import info.romanelli.udacity.capstone.reddit.data.net.AbstractRedditFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.newposts.model.NewPosts;

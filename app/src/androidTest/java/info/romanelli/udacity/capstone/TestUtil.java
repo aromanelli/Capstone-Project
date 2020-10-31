@@ -1,8 +1,9 @@
 package info.romanelli.udacity.capstone;
 
 import android.os.ParcelFileDescriptor;
-import android.support.test.InstrumentationRegistry;
 import android.util.Log;
+
+import androidx.test.platform.app.InstrumentationRegistry;
 
 import org.junit.Assert;
 

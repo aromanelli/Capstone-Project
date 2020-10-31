@@ -20,14 +20,14 @@
     
     -->
 
-    <android.support.v7.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
+    <androidx.recyclerview.widget.RecyclerView xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:id="@+id/newpost_list"
         android:name="info.romanelli.udacity.capstone.reddit.view.NewPostListFragment"
         android:layout_weight="0.3"
         android:layout_width="0dp"
         android:layout_height="match_parent"
-        app:layoutManager="android.support.v7.widget.LinearLayoutManager"
+        app:layoutManager="androidx.recyclerview.widget.LinearLayoutManager"
         tools:context="info.romanelli.udacity.capstone.reddit.view.NewPostsListActivity"
         tools:listitem="@layout/newpost_list_content"
         android:contentDescription="@string/newpost_list_desc" />

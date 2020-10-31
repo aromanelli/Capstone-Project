@@ -1,9 +1,10 @@
 package info.romanelli.udacity.capstone.reddit.data.net;
 
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
+
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
 
 import org.junit.Assert;
 import org.junit.Test;
@@ -34,7 +35,7 @@ public class SubredditsFetcherITest {
 
         TestUtil.setNetworkAccess(true);
 
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("info.romanelli.udacity.capstone", appContext.getPackageName());
 
         NetUtil.registerForNetworkMonitoring(appContext);

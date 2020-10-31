@@ -19,12 +19,14 @@ REVIEWER: This class in its entirety was taken from the appauth library example 
 (https://github.com/openid/AppAuth-Android/blob/master/app/java/net/openid/appauthdemo/AuthStateManager.java)
 Didn't want to reinvent the wheel, and the copyright allows me to use it.
  */
+
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.support.annotation.AnyThread;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
 import android.util.Log;
+
+import androidx.annotation.AnyThread;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import net.openid.appauth.AuthState;
 import net.openid.appauth.AuthorizationException;

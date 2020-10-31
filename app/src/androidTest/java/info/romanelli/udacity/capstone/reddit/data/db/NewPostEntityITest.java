@@ -1,13 +1,16 @@
 package info.romanelli.udacity.capstone.reddit.data.db;
 
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.content.Context;
-import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
 import android.util.Log;
 
+import androidx.arch.core.executor.testing.InstantTaskExecutorRule;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
+import androidx.test.platform.app.InstrumentationRegistry;
+import androidx.test.runner.AndroidJUnit4;
+
 import org.junit.Assert;
+import org.junit.Rule;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -25,14 +28,18 @@ import static org.junit.Assert.assertEquals;
  *
  * @see <a href="http://d.android.com/tools/testing">Testing documentation</a>
  */
-@RunWith(AndroidJUnit4.class)public class NewPostEntityITest {
+@RunWith(AndroidJUnit4.class)
+public class NewPostEntityITest {
 
     private static final String TAG = NewPostEntityITest.class.getSimpleName();
+
+    @Rule // https://stackoverflow.com/questions/52274924/cannot-invoke-observeforever-on-a-background-thread
+    public InstantTaskExecutorRule instantTaskExecutorRule = new InstantTaskExecutorRule();
 
     @Test
     public void testNewPosts() throws InterruptedException {
 
-        Context appContext = InstrumentationRegistry.getTargetContext();
+        Context appContext = InstrumentationRegistry.getInstrumentation().getTargetContext();
         assertEquals("info.romanelli.udacity.capstone", appContext.getPackageName());
 
         FirebaseAnalyticsManager.$(appContext);

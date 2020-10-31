@@ -1,7 +1,8 @@
 package info.romanelli.udacity.capstone.reddit.data.net.subreddits;
 
 import android.content.Context;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import info.romanelli.udacity.capstone.reddit.data.net.AbstractRedditFetcher;
 import info.romanelli.udacity.capstone.reddit.data.net.oauth.RedditAuthManager;

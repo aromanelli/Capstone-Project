@@ -1,13 +1,14 @@
 package info.romanelli.udacity.capstone.reddit.data;
 
 import android.appwidget.AppWidgetManager;
-import android.arch.lifecycle.LiveData;
-import android.arch.lifecycle.Observer;
 import android.content.ComponentName;
 import android.content.Context;
 import android.content.Intent;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
+import androidx.lifecycle.LiveData;
+import androidx.lifecycle.Observer;
 
 import java.util.ArrayList;
 import java.util.Calendar;

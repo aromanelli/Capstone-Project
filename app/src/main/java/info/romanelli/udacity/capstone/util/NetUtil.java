@@ -7,10 +7,12 @@ import android.net.Network;
 import android.net.NetworkInfo;
 import android.net.NetworkRequest;
 import android.os.Build;
-import android.support.annotation.RequiresApi;
-import android.support.design.widget.Snackbar;
 import android.util.Log;
 import android.view.View;
+
+import androidx.annotation.RequiresApi;
+
+import com.google.android.material.snackbar.Snackbar;
 
 import info.romanelli.udacity.capstone.R;
 

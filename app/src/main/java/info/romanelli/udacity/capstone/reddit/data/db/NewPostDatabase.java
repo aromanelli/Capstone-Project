@@ -1,9 +1,10 @@
 package info.romanelli.udacity.capstone.reddit.data.db;
 
-import android.arch.persistence.room.Database;
-import android.arch.persistence.room.Room;
-import android.arch.persistence.room.RoomDatabase;
 import android.content.Context;
+
+import androidx.room.Database;
+import androidx.room.Room;
+import androidx.room.RoomDatabase;
 
 @Database(entities = {NewPostEntity.class}, version = 1)
 public abstract class NewPostDatabase extends RoomDatabase {
