@@ -9,8 +9,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.LinearLayout;
 
-import com.crashlytics.android.Crashlytics;
 import com.google.firebase.analytics.FirebaseAnalytics;
+import com.google.firebase.crashlytics.FirebaseCrashlytics;
 
 import info.romanelli.udacity.capstone.BuildConfig;
 import info.romanelli.udacity.capstone.R;
@@ -41,11 +41,13 @@ public class FirebaseAnalyticsManager {
     public static final String ANALYTICS_ITEM_ID_FETCHED_NEW_POSTS = "FETCHED_NEW_POSTS";
     public static final String ANALYTICS_ITEM_ID_VIEW_NEW_POST = "VIEW_NEW_POST";
 
-    private FirebaseAnalytics mFirebaseAnalytics;
+    // https://firebase.google.com/docs/crashlytics/upgrade-sdk?platform=android
+    private final FirebaseAnalytics mFirebaseAnalytics;
+    private final FirebaseCrashlytics mFirebaseCrashlytics;
 
     private FirebaseAnalyticsManager(final Context context) {
-        // Obtain the FirebaseAnalytics instance.
         mFirebaseAnalytics = FirebaseAnalytics.getInstance(context.getApplicationContext());
+        mFirebaseCrashlytics = FirebaseCrashlytics.getInstance();
     }
 
     public void logEventRedditAuthStarted() {
@@ -125,7 +127,10 @@ public class FirebaseAnalyticsManager {
                         R.color.colorErrorText, activity.getTheme()));
         crashButton.setText(activity.getString(R.string.crash));
         crashButton.setOnClickListener(view -> {
-            Crashlytics.getInstance().crash(); // Force a crash
+            // mFirebaseCrashlytics.getInstance().crash(); // Force a crash NO LONGER EXISTS!
+            // https://firebase.google.com/docs/crashlytics/upgrade-sdk?platform=android
+            throw new UnsupportedOperationException(
+                    "Crashing on purpose because the crash button was pressed!");
         });
         // layout ...
         LinearLayout layout = new LinearLayout(activity.getApplicationContext());
