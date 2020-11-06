@@ -22,7 +22,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.widget.Toolbar;
 import androidx.core.view.ViewCompat;
-import androidx.lifecycle.ViewModelProviders;
+import androidx.lifecycle.ViewModelProvider;
 import androidx.recyclerview.widget.DividerItemDecoration;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
@@ -97,7 +97,7 @@ public class NewPostsListActivity extends AppCompatActivity {
             mTwoPane = true;
         }
 
-        mNewPostsViewModel = ViewModelProviders.of(this).get(NewPostsViewModel.class);
+        mNewPostsViewModel = new ViewModelProvider(this).get(NewPostsViewModel.class);
 
         mSwipeRefreshLayout = findViewById(R.id.swipe_refresh_layout);
         mSwipeRefreshLayout.setOnRefreshListener(() -> refresh(true));
@@ -214,7 +214,7 @@ public class NewPostsListActivity extends AppCompatActivity {
                                     errExtra = "";
                                 }
                             }
-                            errExtra += " ["+ ex.code +"]";
+                            errExtra += " [" + ex.code + "]";
                             adb.setMessage(
                                     getString(R.string.auth_fail_req_text) + errExtra
                             );
@@ -234,6 +234,9 @@ public class NewPostsListActivity extends AppCompatActivity {
                         }
                     }
             );
+        } else {
+            // TODO AOR Confirm below works code positionally!
+            super.onActivityResult(requestCode, resultCode, intent);
         }
     }
 

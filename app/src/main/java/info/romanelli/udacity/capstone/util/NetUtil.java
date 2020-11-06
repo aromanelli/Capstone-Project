@@ -70,8 +70,16 @@ public class NetUtil {
                 throw new IllegalStateException("Unable to obtain the CONNECTIVITY_SERVICE system service!");
             }
 
-            NetworkInfo netInfo = cm.getActiveNetworkInfo();
-            CONNECTED = (netInfo != null) && netInfo.isConnected();
+            // Set the initial connection state ...
+            // https://stackoverflow.com/questions/53532406/activenetworkinfo-type-is-deprecated-in-api-level-28
+            Network actnet = cm.getActiveNetwork();
+            if (actnet != null) {
+                NetworkInfo netInfo = cm.getNetworkInfo(actnet);
+                CONNECTED = (netInfo != null) && netInfo.isConnected();
+            } else {
+                CONNECTED = false;
+            }
+            Log.d(TAG, "registerForNetworkMonitoring: Initial connection state: " + CONNECTED);
 
             // Configure callback/listener for network state changes ...
             NETCALLBACK = new ConnectivityManager.NetworkCallback() {
